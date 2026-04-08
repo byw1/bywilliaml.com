@@ -89,7 +89,7 @@ export default function LinksPage() {
 
           <GlassButton href="https://bywilliaml.substack.com/archive">
             <div className="text-lg text-white whitespace-nowrap">
-              Substack Archive
+              Blog
             </div>
           </GlassButton>
         </div>

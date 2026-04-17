@@ -2,6 +2,7 @@
 
 import { GlassFilter } from '@/components/ui/liquid-glass'
 import MacOSDock, { type DockApp } from '@/components/ui/mac-os-dock'
+import ProfileCard from '@/components/ui/profile-card'
 import {
   GithubAppIcon,
   TwitterAppIcon,
@@ -76,6 +77,17 @@ export default function LinksPage() {
     <main className="relative min-h-screen w-full select-none bg-black">
       <GlassFilter />
       <VerticalImageStack cards={linkCards} />
+
+      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-xl px-4">
+        <ProfileCard
+          name="William L"
+          role="Developer & Creator"
+          email="hello@bywilliaml.com"
+          avatarSrc="https://avatars.githubusercontent.com/byw1"
+          statusText="Available for work"
+          glowText="Currently High on Creativity"
+        />
+      </div>
 
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
         <MacOSDock apps={socialApps} onAppClick={handleAppClick} />

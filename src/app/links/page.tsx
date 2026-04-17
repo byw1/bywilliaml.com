@@ -9,7 +9,6 @@ import {
   InstagramAppIcon,
   LinkedinAppIcon,
   YoutubeAppIcon,
-  MailAppIcon,
 } from '@/components/ui/social-app-icons'
 import { VerticalImageStack, type CardItem } from '@/components/ui/vertical-image-stack'
 
@@ -50,7 +49,6 @@ const socialApps: DockApp[] = [
   { id: "instagram", name: "Instagram", icon: <InstagramAppIcon /> },
   { id: "linkedin", name: "LinkedIn", icon: <LinkedinAppIcon /> },
   { id: "youtube", name: "YouTube", icon: <YoutubeAppIcon /> },
-  { id: "email", name: "Email", icon: <MailAppIcon /> },
 ]
 
 const socialHrefs: Record<string, string> = {
@@ -59,7 +57,6 @@ const socialHrefs: Record<string, string> = {
   instagram: "https://instagram.com",
   linkedin: "https://linkedin.com",
   youtube: "https://youtube.com",
-  email: "mailto:hello@bywilliaml.com",
 }
 
 export default function LinksPage() {

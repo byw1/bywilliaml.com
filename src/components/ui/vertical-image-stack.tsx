@@ -196,7 +196,7 @@ export function VerticalImageStack({ cards }: VerticalImageStackProps) {
       </div>
 
       <motion.div
-        className="absolute bottom-12 left-1/2 -translate-x-1/2"
+        className="fixed bottom-24 left-1/2 -translate-x-1/2 z-40 pointer-events-none"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1, duration: 0.6 }}

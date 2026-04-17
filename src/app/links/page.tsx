@@ -82,10 +82,8 @@ export default function LinksPage() {
         <ProfileCard
           name="William Lee"
           role="@bywilliaml"
-          email="william@bywilliaml.com"
           avatarSrc="https://avatars.githubusercontent.com/byw1"
           statusText="Available for work"
-          glowText="Currently High on Creativity"
         />
       </div>
 

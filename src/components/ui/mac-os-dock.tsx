@@ -132,11 +132,12 @@ const MacOSDock: React.FC<MacOSDockProps> = ({
   const animateToTarget = useCallback(() => {
     const targetScales = calculateTargetMagnification(mouseX);
     const targetPositions = calculatePositions(targetScales);
-    const lerpFactor = mouseX !== null ? 0.2 : 0.12;
+    const lerpFactor = mouseX !== null ? 0.2 : 0.22;
 
     setCurrentScales((prevScales) => {
       return prevScales.map((currentScale, index) => {
         const diff = targetScales[index] - currentScale;
+        if (Math.abs(diff) < 0.005) return targetScales[index];
         return currentScale + diff * lerpFactor;
       });
     });
@@ -144,15 +145,16 @@ const MacOSDock: React.FC<MacOSDockProps> = ({
     setCurrentPositions((prevPositions) => {
       return prevPositions.map((currentPos, index) => {
         const diff = targetPositions[index] - currentPos;
+        if (Math.abs(diff) < 0.5) return targetPositions[index];
         return currentPos + diff * lerpFactor;
       });
     });
 
     const scalesNeedUpdate = currentScales.some(
-      (scale, index) => Math.abs(scale - targetScales[index]) > 0.002,
+      (scale, index) => Math.abs(scale - targetScales[index]) > 0.005,
     );
     const positionsNeedUpdate = currentPositions.some(
-      (pos, index) => Math.abs(pos - targetPositions[index]) > 0.1,
+      (pos, index) => Math.abs(pos - targetPositions[index]) > 0.5,
     );
 
     if (scalesNeedUpdate || positionsNeedUpdate || mouseX !== null) {

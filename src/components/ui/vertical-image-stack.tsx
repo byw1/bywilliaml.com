@@ -4,37 +4,22 @@ import { useState, useCallback, useEffect, useRef } from "react"
 import { motion, type PanInfo } from "framer-motion"
 import Image from "next/image"
 
-const images = [
-  {
-    id: 1,
-    src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1600&auto=format&fit=crop",
-    alt: "Mountain peaks at sunrise",
-  },
-  {
-    id: 2,
-    src: "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?q=80&w=1600&auto=format&fit=crop",
-    alt: "Golden hour landscape",
-  },
-  {
-    id: 3,
-    src: "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1600&auto=format&fit=crop",
-    alt: "Mountains under starry sky",
-  },
-  {
-    id: 4,
-    src: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=1600&auto=format&fit=crop",
-    alt: "Forest path in autumn light",
-  },
-  {
-    id: 5,
-    src: "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=80&w=1600&auto=format&fit=crop",
-    alt: "Forest canopy from below",
-  },
-]
+export interface CardItem {
+  id: number
+  src: string
+  alt: string
+  label: string
+  href: string
+}
 
-export function VerticalImageStack() {
+interface VerticalImageStackProps {
+  cards: CardItem[]
+}
+
+export function VerticalImageStack({ cards }: VerticalImageStackProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const lastNavigationTime = useRef(0)
+  const isDragging = useRef(false)
   const navigationCooldown = 400
 
   const navigate = useCallback((newDirection: number) => {
@@ -44,11 +29,15 @@ export function VerticalImageStack() {
 
     setCurrentIndex((prev) => {
       if (newDirection > 0) {
-        return prev === images.length - 1 ? 0 : prev + 1
+        return prev === cards.length - 1 ? 0 : prev + 1
       }
-      return prev === 0 ? images.length - 1 : prev - 1
+      return prev === 0 ? cards.length - 1 : prev - 1
     })
-  }, [])
+  }, [cards.length])
+
+  const handleDragStart = () => {
+    isDragging.current = true
+  }
 
   const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const threshold = 50
@@ -56,6 +45,16 @@ export function VerticalImageStack() {
       navigate(1)
     } else if (info.offset.y > threshold) {
       navigate(-1)
+    }
+    setTimeout(() => { isDragging.current = false }, 50)
+  }
+
+  const handleCardClick = (href: string) => {
+    if (isDragging.current) return
+    if (href.startsWith("http")) {
+      window.open(href, "_blank", "noopener,noreferrer")
+    } else {
+      window.location.href = href
     }
   }
 
@@ -78,7 +77,7 @@ export function VerticalImageStack() {
   }, [handleWheel])
 
   const getCardStyle = (index: number) => {
-    const total = images.length
+    const total = cards.length
     let diff = index - currentIndex
     if (diff > total / 2) diff -= total
     if (diff < -total / 2) diff += total
@@ -99,7 +98,7 @@ export function VerticalImageStack() {
   }
 
   const isVisible = (index: number) => {
-    const total = images.length
+    const total = cards.length
     let diff = index - currentIndex
     if (diff > total / 2) diff -= total
     if (diff < -total / 2) diff += total
@@ -113,14 +112,14 @@ export function VerticalImageStack() {
       </div>
 
       <div className="relative flex h-[500px] w-[320px] items-center justify-center" style={{ perspective: "1200px" }}>
-        {images.map((image, index) => {
+        {cards.map((card, index) => {
           if (!isVisible(index)) return null
           const style = getCardStyle(index)
           const isCurrent = index === currentIndex
 
           return (
             <motion.div
-              key={image.id}
+              key={card.id}
               className="absolute cursor-grab active:cursor-grabbing"
               animate={{
                 y: style.y,
@@ -138,7 +137,9 @@ export function VerticalImageStack() {
               drag={isCurrent ? "y" : false}
               dragConstraints={{ top: 0, bottom: 0 }}
               dragElastic={0.2}
+              onDragStart={handleDragStart}
               onDragEnd={handleDragEnd}
+              onClick={() => isCurrent && handleCardClick(card.href)}
               style={{
                 transformStyle: "preserve-3d",
                 zIndex: style.zIndex,
@@ -155,8 +156,8 @@ export function VerticalImageStack() {
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/10 via-transparent to-transparent z-10 pointer-events-none" />
 
                 <Image
-                  src={image.src}
-                  alt={image.alt}
+                  src={card.src}
+                  alt={card.alt}
                   fill
                   sizes="280px"
                   className="object-cover"
@@ -164,7 +165,13 @@ export function VerticalImageStack() {
                   priority={isCurrent}
                 />
 
-                <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/60 to-transparent z-10 pointer-events-none" />
+                <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10 pointer-events-none" />
+
+                <div className="absolute inset-x-0 bottom-0 z-20 p-6 pointer-events-none">
+                  <span className="text-xl font-medium text-white tracking-wide">
+                    {card.label}
+                  </span>
+                </div>
               </div>
             </motion.div>
           )
@@ -172,7 +179,7 @@ export function VerticalImageStack() {
       </div>
 
       <div className="absolute right-8 top-1/2 flex -translate-y-1/2 flex-col gap-2">
-        {images.map((_, index) => (
+        {cards.map((_, index) => (
           <button
             key={index}
             onClick={() => {
@@ -183,10 +190,37 @@ export function VerticalImageStack() {
             className={`h-2 w-2 rounded-full transition-all duration-300 ${
               index === currentIndex ? "h-6 bg-white" : "bg-white/30 hover:bg-white/50"
             }`}
-            aria-label={`Go to image ${index + 1}`}
+            aria-label={`Go to card ${index + 1}`}
           />
         ))}
       </div>
+
+      <motion.div
+        className="absolute bottom-12 left-1/2 -translate-x-1/2"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1, duration: 0.6 }}
+      >
+        <div className="flex flex-col items-center gap-2 text-white/40">
+          <motion.div
+            animate={{ y: [0, -8, 0] }}
+            transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.5, ease: "easeInOut" }}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 5v14M5 12l7-7 7 7" />
+            </svg>
+          </motion.div>
+          <span className="text-xs font-medium tracking-widest uppercase">Scroll or drag</span>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.5, ease: "easeInOut" }}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 5v14M19 12l-7 7-7-7" />
+            </svg>
+          </motion.div>
+        </div>
+      </motion.div>
 
       <div className="absolute left-8 top-1/2 -translate-y-1/2">
         <div className="flex flex-col items-center">
@@ -194,7 +228,7 @@ export function VerticalImageStack() {
             {String(currentIndex + 1).padStart(2, "0")}
           </span>
           <div className="my-2 h-px w-8 bg-white/20" />
-          <span className="text-sm text-white/50 tabular-nums">{String(images.length).padStart(2, "0")}</span>
+          <span className="text-sm text-white/50 tabular-nums">{String(cards.length).padStart(2, "0")}</span>
         </div>
       </div>
     </div>

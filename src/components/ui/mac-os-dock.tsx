@@ -21,17 +21,9 @@ const MacOSDock: React.FC<MacOSDockProps> = ({
   openApps = [],
   className = '',
 }) => {
-  const [mouseX, setMouseX] = useState<number | null>(null);
-  const [currentScales, setCurrentScales] = useState<number[]>(apps.map(() => 1));
-  const [currentPositions, setCurrentPositions] = useState<number[]>([]);
-  const dockRef = useRef<HTMLDivElement>(null);
-  const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const animationFrameRef = useRef<number | undefined>(undefined);
-  const lastMouseMoveTime = useRef<number>(0);
-
   const getResponsiveConfig = useCallback(() => {
     if (typeof window === 'undefined') {
-      return { baseIconSize: 64, maxScale: 1.6, effectWidth: 240 };
+      return { baseIconSize: 50, maxScale: 1.7, effectWidth: 240 };
     }
 
     const smallerDimension = Math.min(window.innerWidth, window.innerHeight);
@@ -67,6 +59,20 @@ const MacOSDock: React.FC<MacOSDockProps> = ({
   const { baseIconSize, maxScale, effectWidth } = config;
   const minScale = 1.0;
   const baseSpacing = Math.max(4, baseIconSize * 0.08);
+
+  const computeRestPositions = (size: number, spacing: number, count: number) => {
+    return Array.from({ length: count }, (_, i) => i * (size + spacing) + size / 2);
+  };
+
+  const [mouseX, setMouseX] = useState<number | null>(null);
+  const [currentScales, setCurrentScales] = useState<number[]>(() => apps.map(() => 1));
+  const [currentPositions, setCurrentPositions] = useState<number[]>(() =>
+    computeRestPositions(baseIconSize, baseSpacing, apps.length),
+  );
+  const dockRef = useRef<HTMLDivElement>(null);
+  const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const animationFrameRef = useRef<number | undefined>(undefined);
+  const lastMouseMoveTime = useRef<number>(0);
 
   useEffect(() => {
     const handleResize = () => {

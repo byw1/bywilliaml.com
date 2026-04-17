@@ -19,7 +19,7 @@ interface AppIconTileProps {
 const AppIconTile: React.FC<AppIconTileProps> = ({
   background,
   children,
-  iconScale = 0.55,
+  iconScale = 0.62,
 }) => (
   <div
     className="relative w-full h-full flex items-center justify-center overflow-hidden"
@@ -46,7 +46,7 @@ export const GithubAppIcon = () => (
 )
 
 export const TwitterAppIcon = () => (
-  <AppIconTile background="#000000" iconScale={0.5}>
+  <AppIconTile background="#000000" iconScale={0.55}>
     <TwitterIcon />
   </AppIconTile>
 )
@@ -66,7 +66,7 @@ export const LinkedinAppIcon = () => (
 )
 
 export const YoutubeAppIcon = () => (
-  <AppIconTile background="#ffffff" iconScale={0.7}>
+  <AppIconTile background="#ffffff" iconScale={0.78}>
     <div className="text-[#FF0000] w-full h-full flex items-center justify-center [&_svg]:w-full [&_svg]:h-full">
       <YoutubeIcon />
     </div>

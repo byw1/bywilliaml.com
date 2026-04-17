@@ -1,7 +1,7 @@
 'use client'
 
 import { GlassFilter } from '@/components/ui/liquid-glass'
-import { MacOSDock, type DockItem } from '@/components/ui/mac-os-dock'
+import MacOSDock, { type DockApp } from '@/components/ui/mac-os-dock'
 import {
   GithubAppIcon,
   TwitterAppIcon,
@@ -43,23 +43,42 @@ const linkCards: CardItem[] = [
   },
 ]
 
-const socialDockItems: DockItem[] = [
-  { id: "github", name: "GitHub", href: "https://github.com/byw1", icon: <GithubAppIcon /> },
-  { id: "twitter", name: "X", href: "https://twitter.com", icon: <TwitterAppIcon /> },
-  { id: "instagram", name: "Instagram", href: "https://instagram.com", icon: <InstagramAppIcon /> },
-  { id: "linkedin", name: "LinkedIn", href: "https://linkedin.com", icon: <LinkedinAppIcon /> },
-  { id: "youtube", name: "YouTube", href: "https://youtube.com", icon: <YoutubeAppIcon /> },
-  { id: "email", name: "Email", href: "mailto:hello@bywilliaml.com", icon: <MailAppIcon /> },
+const socialApps: DockApp[] = [
+  { id: "github", name: "GitHub", icon: <GithubAppIcon /> },
+  { id: "twitter", name: "X", icon: <TwitterAppIcon /> },
+  { id: "instagram", name: "Instagram", icon: <InstagramAppIcon /> },
+  { id: "linkedin", name: "LinkedIn", icon: <LinkedinAppIcon /> },
+  { id: "youtube", name: "YouTube", icon: <YoutubeAppIcon /> },
+  { id: "email", name: "Email", icon: <MailAppIcon /> },
 ]
 
+const socialHrefs: Record<string, string> = {
+  github: "https://github.com/byw1",
+  twitter: "https://twitter.com",
+  instagram: "https://instagram.com",
+  linkedin: "https://linkedin.com",
+  youtube: "https://youtube.com",
+  email: "mailto:hello@bywilliaml.com",
+}
+
 export default function LinksPage() {
+  const handleAppClick = (appId: string) => {
+    const href = socialHrefs[appId]
+    if (!href) return
+    if (href.startsWith('http') || href.startsWith('mailto:')) {
+      window.open(href, '_blank', 'noopener,noreferrer')
+    } else {
+      window.location.href = href
+    }
+  }
+
   return (
     <main className="relative min-h-screen w-full select-none bg-black">
       <GlassFilter />
       <VerticalImageStack cards={linkCards} />
 
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
-        <MacOSDock items={socialDockItems} />
+        <MacOSDock apps={socialApps} onAppClick={handleAppClick} />
       </div>
     </main>
   )

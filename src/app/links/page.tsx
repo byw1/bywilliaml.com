@@ -78,11 +78,11 @@ export default function LinksPage() {
       <GlassFilter />
       <VerticalImageStack cards={linkCards} />
 
-      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-xl px-4">
+      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[340px]">
         <ProfileCard
-          name="William L"
-          role="Developer & Creator"
-          email="hello@bywilliaml.com"
+          name="William Lee"
+          role="@bywilliaml"
+          email="william@bywilliaml.com"
           avatarSrc="https://avatars.githubusercontent.com/byw1"
           statusText="Available for work"
           glowText="Currently High on Creativity"

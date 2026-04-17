@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Clock, Plus, Copy, Zap } from "lucide-react";
+import { Clock, Copy, Zap } from "lucide-react";
 
 interface ComponentProps {
   name?: string;
@@ -63,53 +63,44 @@ export default function Component({
         </div>
       </div>
 
-      <Card className="relative z-10 mx-auto w-full max-w-3xl overflow-visible rounded-[28px] border-0 bg-[radial-gradient(120%_120%_at_30%_10%,#1a1a1a_0%,#0f0f10_60%,#0b0b0c_100%)] text-white shadow-2xl">
-        <CardContent className="p-6 sm:p-8">
-          <div className="mb-6 flex items-center justify-between text-sm text-neutral-300">
+      <Card className="relative z-10 mx-auto w-full overflow-visible rounded-[24px] border-0 bg-[radial-gradient(120%_120%_at_30%_10%,#1a1a1a_0%,#0f0f10_60%,#0b0b0c_100%)] text-white shadow-2xl">
+        <CardContent className="p-5">
+          <div className="mb-4 flex items-center justify-between text-xs text-neutral-300">
             <div className="flex items-center gap-2">
-              <span className={cn("inline-block h-2.5 w-2.5 rounded-full animate-pulse", statusColor)} />
+              <span className={cn("inline-block h-2 w-2 rounded-full animate-pulse", statusColor)} />
               <span className="select-none">{statusText}</span>
             </div>
-            <div className="flex items-center gap-2 opacity-80">
-              <Clock className="h-4 w-4" />
+            <div className="flex items-center gap-1.5 opacity-80">
+              <Clock className="h-3.5 w-3.5" />
               <span className="tabular-nums">{timeText}</span>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-5">
-            <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full ring-2 ring-white/10">
+          <div className="flex items-center gap-4">
+            <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full ring-2 ring-white/10">
               <Image
                 src={avatarSrc}
                 alt={`${name} avatar`}
                 fill
-                sizes="56px"
+                sizes="48px"
                 className="object-cover"
               />
             </div>
             <div className="min-w-0">
-              <h3 className="truncate text-xl font-semibold tracking-tight sm:text-2xl">
+              <h3 className="truncate text-lg font-semibold tracking-tight">
                 {name}
               </h3>
-              <p className="mt-0.5 text-sm text-neutral-400">{role}</p>
+              <p className="text-sm text-neutral-400">{role}</p>
             </div>
           </div>
 
-          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Button
-              variant="secondary"
-              className="h-12 justify-start gap-3 rounded-2xl bg-white/10 text-white hover:bg-white/15"
-            >
-              <Plus className="h-4 w-4" /> Hire Me
-            </Button>
-
-            <Button
-              variant="secondary"
-              onClick={handleCopy}
-              className="h-12 justify-start gap-3 rounded-2xl bg-white/10 text-white hover:bg-white/15"
-            >
-              <Copy className="h-4 w-4" /> {copied ? "Copied" : "Copy Email"}
-            </Button>
-          </div>
+          <Button
+            variant="secondary"
+            onClick={handleCopy}
+            className="mt-4 h-11 w-full justify-center gap-2 rounded-xl bg-white/10 text-white hover:bg-white/15"
+          >
+            <Copy className="h-4 w-4" /> {copied ? "Copied" : "Copy Email"}
+          </Button>
         </CardContent>
       </Card>
     </motion.div>

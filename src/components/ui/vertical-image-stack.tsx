@@ -111,6 +111,9 @@ export function VerticalImageStack({ cards }: VerticalImageStackProps) {
         <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.02] blur-3xl" />
       </div>
 
+      <div className="pointer-events-none fixed inset-x-0 top-0 z-30 h-32 bg-gradient-to-b from-black to-transparent" />
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 h-40 bg-gradient-to-t from-black to-transparent" />
+
       <div className="relative flex h-[500px] w-[320px] items-center justify-center" style={{ perspective: "1200px" }}>
         {cards.map((card, index) => {
           if (!isVisible(index)) return null
@@ -202,23 +205,25 @@ export function VerticalImageStack({ cards }: VerticalImageStackProps) {
         transition={{ delay: 1, duration: 0.6 }}
       >
         <div className="flex flex-col items-center gap-2 text-white/40">
-          <motion.div
-            animate={{ y: [0, -8, 0] }}
-            transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.5, ease: "easeInOut" }}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 5v14M5 12l7-7 7 7" />
-            </svg>
-          </motion.div>
+          <div className="flex items-center gap-3">
+            <motion.div
+              animate={{ y: [0, -4, 0] }}
+              transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.5, ease: "easeInOut" }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 5v14M5 12l7-7 7 7" />
+              </svg>
+            </motion.div>
+            <motion.div
+              animate={{ y: [0, 4, 0] }}
+              transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.5, ease: "easeInOut" }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 5v14M19 12l-7 7-7-7" />
+              </svg>
+            </motion.div>
+          </div>
           <span className="text-xs font-medium tracking-widest uppercase">Scroll or drag</span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.5, ease: "easeInOut" }}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 5v14M19 12l-7 7-7-7" />
-            </svg>
-          </motion.div>
         </div>
       </motion.div>
 

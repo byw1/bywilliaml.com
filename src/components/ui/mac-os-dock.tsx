@@ -21,44 +21,11 @@ const MacOSDock: React.FC<MacOSDockProps> = ({
   openApps = [],
   className = '',
 }) => {
-  const getResponsiveConfig = useCallback(() => {
-    if (typeof window === 'undefined') {
-      return { baseIconSize: 50, maxScale: 1.7, effectWidth: 240 };
-    }
-
-    const smallerDimension = Math.min(window.innerWidth, window.innerHeight);
-
-    if (smallerDimension < 480) {
-      return {
-        baseIconSize: 36,
-        maxScale: 1.4,
-        effectWidth: 160,
-      };
-    } else if (smallerDimension < 768) {
-      return {
-        baseIconSize: 40,
-        maxScale: 1.5,
-        effectWidth: 180,
-      };
-    } else if (smallerDimension < 1024) {
-      return {
-        baseIconSize: 44,
-        maxScale: 1.6,
-        effectWidth: 200,
-      };
-    } else {
-      return {
-        baseIconSize: 50,
-        maxScale: 1.7,
-        effectWidth: 240,
-      };
-    }
-  }, []);
-
-  const [config, setConfig] = useState(getResponsiveConfig);
-  const { baseIconSize, maxScale, effectWidth } = config;
+  const baseIconSize = 50;
+  const maxScale = 1.7;
+  const effectWidth = 240;
   const minScale = 1.0;
-  const baseSpacing = Math.max(4, baseIconSize * 0.08);
+  const baseSpacing = 4;
 
   const computeRestPositions = (size: number, spacing: number, count: number) => {
     return Array.from({ length: count }, (_, i) => i * (size + spacing) + size / 2);
@@ -73,15 +40,6 @@ const MacOSDock: React.FC<MacOSDockProps> = ({
   const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
   const animationFrameRef = useRef<number | undefined>(undefined);
   const lastMouseMoveTime = useRef<number>(0);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setConfig(getResponsiveConfig());
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [getResponsiveConfig]);
 
   const calculateTargetMagnification = useCallback(
     (mousePosition: number | null) => {
@@ -121,13 +79,6 @@ const MacOSDock: React.FC<MacOSDockProps> = ({
     },
     [baseIconSize, baseSpacing],
   );
-
-  useEffect(() => {
-    const initialScales = apps.map(() => minScale);
-    const initialPositions = calculatePositions(initialScales);
-    setCurrentScales(initialScales);
-    setCurrentPositions(initialPositions);
-  }, [apps, calculatePositions, minScale, config]);
 
   const animateToTarget = useCallback(() => {
     const targetScales = calculateTargetMagnification(mouseX);

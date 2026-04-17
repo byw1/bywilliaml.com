@@ -40,7 +40,8 @@ const MacOSDock: React.FC<MacOSDockProps> = ({ items, className = '' }) => {
   const [config, setConfig] = useState(getResponsiveConfig)
   const { baseIconSize, maxScale, effectWidth } = config
   const minScale = 1.0
-  const baseSpacing = Math.max(4, baseIconSize * 0.1)
+  const baseSpacing = 3
+  const dockPadding = 6
 
   useEffect(() => {
     setConfig(getResponsiveConfig())
@@ -122,11 +123,10 @@ const MacOSDock: React.FC<MacOSDockProps> = ({ items, className = '' }) => {
       lastMouseMoveTime.current = now
       if (dockRef.current) {
         const rect = dockRef.current.getBoundingClientRect()
-        const padding = Math.max(8, baseIconSize * 0.15)
-        setMouseX(e.clientX - rect.left - padding)
+        setMouseX(e.clientX - rect.left - dockPadding)
       }
     },
-    [baseIconSize],
+    [dockPadding],
   )
 
   const handleMouseLeave = useCallback(() => setMouseX(null), [])
@@ -157,16 +157,16 @@ const MacOSDock: React.FC<MacOSDockProps> = ({ items, className = '' }) => {
         )
       : items.length * (baseIconSize + baseSpacing) - baseSpacing
 
-  const padding = Math.max(10, baseIconSize * 0.2)
+  const dockHeight = baseIconSize + dockPadding * 2
 
   return (
     <div
       ref={dockRef}
       className={`backdrop-blur-xl ${className}`}
       style={{
-        width: `${contentWidth + padding * 2}px`,
+        width: `${contentWidth + dockPadding * 2}px`,
         background: 'rgba(30, 30, 30, 0.7)',
-        borderRadius: `${Math.max(16, baseIconSize * 0.45)}px`,
+        borderRadius: `${dockHeight / 2}px`,
         border: '1px solid rgba(255, 255, 255, 0.12)',
         boxShadow: `
           0 8px 32px rgba(0, 0, 0, 0.4),
@@ -174,7 +174,7 @@ const MacOSDock: React.FC<MacOSDockProps> = ({ items, className = '' }) => {
           inset 0 1px 0 rgba(255, 255, 255, 0.1),
           inset 0 -1px 0 rgba(0, 0, 0, 0.15)
         `,
-        padding: `${padding}px`,
+        padding: `${dockPadding}px`,
       }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}

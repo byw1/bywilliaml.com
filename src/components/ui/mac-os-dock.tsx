@@ -38,27 +38,27 @@ const MacOSDock: React.FC<MacOSDockProps> = ({
 
     if (smallerDimension < 480) {
       return {
-        baseIconSize: Math.max(40, smallerDimension * 0.08),
+        baseIconSize: 36,
         maxScale: 1.4,
-        effectWidth: smallerDimension * 0.4,
+        effectWidth: 160,
       };
     } else if (smallerDimension < 768) {
       return {
-        baseIconSize: Math.max(48, smallerDimension * 0.07),
+        baseIconSize: 40,
         maxScale: 1.5,
-        effectWidth: smallerDimension * 0.35,
+        effectWidth: 180,
       };
     } else if (smallerDimension < 1024) {
       return {
-        baseIconSize: Math.max(56, smallerDimension * 0.06),
+        baseIconSize: 44,
         maxScale: 1.6,
-        effectWidth: smallerDimension * 0.3,
+        effectWidth: 200,
       };
     } else {
       return {
-        baseIconSize: Math.max(64, Math.min(80, smallerDimension * 0.05)),
-        maxScale: 1.8,
-        effectWidth: 300,
+        baseIconSize: 50,
+        maxScale: 1.7,
+        effectWidth: 240,
       };
     }
   }, []);

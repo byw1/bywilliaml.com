@@ -3,13 +3,13 @@
 import { GlassFilter } from '@/components/ui/liquid-glass'
 import { MacOSDock, type DockItem } from '@/components/ui/mac-os-dock'
 import {
-  GithubIcon,
-  TwitterIcon,
-  InstagramIcon,
-  LinkedinIcon,
-  YoutubeIcon,
-  MailIcon,
-} from '@/components/ui/social-icons'
+  GithubAppIcon,
+  TwitterAppIcon,
+  InstagramAppIcon,
+  LinkedinAppIcon,
+  YoutubeAppIcon,
+  MailAppIcon,
+} from '@/components/ui/social-app-icons'
 import { VerticalImageStack, type CardItem } from '@/components/ui/vertical-image-stack'
 
 const linkCards: CardItem[] = [
@@ -44,12 +44,12 @@ const linkCards: CardItem[] = [
 ]
 
 const socialDockItems: DockItem[] = [
-  { id: "github", name: "GitHub", href: "https://github.com/byw1", icon: <GithubIcon /> },
-  { id: "twitter", name: "Twitter", href: "https://twitter.com", icon: <TwitterIcon /> },
-  { id: "instagram", name: "Instagram", href: "https://instagram.com", icon: <InstagramIcon /> },
-  { id: "linkedin", name: "LinkedIn", href: "https://linkedin.com", icon: <LinkedinIcon /> },
-  { id: "youtube", name: "YouTube", href: "https://youtube.com", icon: <YoutubeIcon /> },
-  { id: "email", name: "Email", href: "mailto:hello@bywilliaml.com", icon: <MailIcon /> },
+  { id: "github", name: "GitHub", href: "https://github.com/byw1", icon: <GithubAppIcon /> },
+  { id: "twitter", name: "X", href: "https://twitter.com", icon: <TwitterAppIcon /> },
+  { id: "instagram", name: "Instagram", href: "https://instagram.com", icon: <InstagramAppIcon /> },
+  { id: "linkedin", name: "LinkedIn", href: "https://linkedin.com", icon: <LinkedinAppIcon /> },
+  { id: "youtube", name: "YouTube", href: "https://youtube.com", icon: <YoutubeAppIcon /> },
+  { id: "email", name: "Email", href: "mailto:hello@bywilliaml.com", icon: <MailAppIcon /> },
 ]
 
 export default function LinksPage() {

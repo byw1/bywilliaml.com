@@ -199,16 +199,10 @@ const MacOSDock: React.FC<MacOSDockProps> = ({ items, className = '' }) => {
                 height: `${scaledSize}px`,
                 transformOrigin: 'bottom center',
                 zIndex: Math.round(scale * 10),
-                color: 'rgba(255, 255, 255, 0.85)',
-                filter: `drop-shadow(0 ${scale > 1.2 ? 3 : 1}px ${scale > 1.2 ? 6 : 3}px rgba(0,0,0,${0.2 + (scale - 1) * 0.2}))`,
+                filter: `drop-shadow(0 ${scale > 1.2 ? 4 : 2}px ${scale > 1.2 ? 8 : 4}px rgba(0,0,0,${0.25 + (scale - 1) * 0.2}))`,
               }}
             >
-              <div
-                className="flex items-center justify-center [&_svg]:w-full [&_svg]:h-full"
-                style={{ width: `${scaledSize * 0.6}px`, height: `${scaledSize * 0.6}px` }}
-              >
-                {item.icon}
-              </div>
+              <div className="w-full h-full">{item.icon}</div>
             </div>
           )
         })}

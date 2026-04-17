@@ -1,7 +1,7 @@
 'use client'
 
-import { GlassDock, GlassFilter } from '@/components/ui/liquid-glass'
-import type { DockIcon } from '@/components/ui/liquid-glass'
+import { GlassFilter } from '@/components/ui/liquid-glass'
+import { MacOSDock, type DockItem } from '@/components/ui/mac-os-dock'
 import {
   GithubIcon,
   TwitterIcon,
@@ -43,23 +43,23 @@ const linkCards: CardItem[] = [
   },
 ]
 
-export default function LinksPage() {
-  const socialIcons: DockIcon[] = [
-    { alt: "GitHub", href: "https://github.com/byw1", icon: <GithubIcon /> },
-    { alt: "Twitter", href: "https://twitter.com", icon: <TwitterIcon /> },
-    { alt: "Instagram", href: "https://instagram.com", icon: <InstagramIcon /> },
-    { alt: "LinkedIn", href: "https://linkedin.com", icon: <LinkedinIcon /> },
-    { alt: "YouTube", href: "https://youtube.com", icon: <YoutubeIcon /> },
-    { alt: "Email", href: "mailto:hello@bywilliaml.com", icon: <MailIcon /> },
-  ]
+const socialDockItems: DockItem[] = [
+  { id: "github", name: "GitHub", href: "https://github.com/byw1", icon: <GithubIcon /> },
+  { id: "twitter", name: "Twitter", href: "https://twitter.com", icon: <TwitterIcon /> },
+  { id: "instagram", name: "Instagram", href: "https://instagram.com", icon: <InstagramIcon /> },
+  { id: "linkedin", name: "LinkedIn", href: "https://linkedin.com", icon: <LinkedinIcon /> },
+  { id: "youtube", name: "YouTube", href: "https://youtube.com", icon: <YoutubeIcon /> },
+  { id: "email", name: "Email", href: "mailto:hello@bywilliaml.com", icon: <MailIcon /> },
+]
 
+export default function LinksPage() {
   return (
     <main className="relative min-h-screen w-full select-none bg-black">
       <GlassFilter />
       <VerticalImageStack cards={linkCards} />
 
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
-        <GlassDock icons={socialIcons} />
+        <MacOSDock items={socialDockItems} />
       </div>
     </main>
   )

@@ -40,8 +40,8 @@ const MacOSDock: React.FC<MacOSDockProps> = ({ items, className = '' }) => {
   const [config, setConfig] = useState(getResponsiveConfig)
   const { baseIconSize, maxScale, effectWidth } = config
   const minScale = 1.0
-  const baseSpacing = 0
-  const dockPadding = 4
+  const baseSpacing = 6
+  const dockPadding = 8
 
   useEffect(() => {
     setConfig(getResponsiveConfig())

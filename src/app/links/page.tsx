@@ -80,7 +80,7 @@ export default function LinksPage() {
           name="William Lee"
           role="@bywilliaml"
           avatarSrc="https://avatars.githubusercontent.com/byw1"
-          statusText="Available for work"
+          statusText="currently gooning"
         />
       </div>
 

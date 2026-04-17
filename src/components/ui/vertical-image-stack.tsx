@@ -1,22 +1,23 @@
 "use client"
 
-import { useState, useCallback, useEffect, useRef } from "react"
+import { useState, useCallback, useEffect, useRef, type ReactNode } from "react"
 import { motion, type PanInfo } from "framer-motion"
-import Image from "next/image"
+import { PerspectiveBook, BookTitle, BookDescription } from "@/components/ui/perspective-book"
 
 export interface CardItem {
   id: number
-  src: string
-  alt: string
   label: string
   href: string
+  description?: string
+  bookClassName?: string
+  icon?: ReactNode
 }
 
-interface VerticalImageStackProps {
+interface VerticalBookStackProps {
   cards: CardItem[]
 }
 
-export function VerticalImageStack({ cards }: VerticalImageStackProps) {
+export function VerticalImageStack({ cards }: VerticalBookStackProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const lastNavigationTime = useRef(0)
   const isDragging = useRef(false)
@@ -148,34 +149,17 @@ export function VerticalImageStack({ cards }: VerticalImageStackProps) {
                 zIndex: style.zIndex,
               }}
             >
-              <div
-                className="relative h-[420px] w-[280px] overflow-hidden rounded-3xl bg-neutral-900 ring-1 ring-white/10"
-                style={{
-                  boxShadow: isCurrent
-                    ? "0 25px 50px -12px rgba(255,255,255,0.15), 0 0 0 1px rgba(255,255,255,0.05)"
-                    : "0 10px 30px -10px rgba(255,255,255,0.1)",
-                }}
-              >
-                <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/10 via-transparent to-transparent z-10 pointer-events-none" />
-
-                <Image
-                  src={card.src}
-                  alt={card.alt}
-                  fill
-                  sizes="280px"
-                  className="object-cover"
-                  draggable={false}
-                  priority={isCurrent}
-                />
-
-                <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10 pointer-events-none" />
-
-                <div className="absolute inset-x-0 bottom-0 z-20 p-6 pointer-events-none">
-                  <span className="text-xl font-medium text-white tracking-wide">
-                    {card.label}
-                  </span>
+              <PerspectiveBook size="default" className={card.bookClassName}>
+                <div className="flex flex-col h-full justify-between">
+                  <div>{card.icon}</div>
+                  <div>
+                    <BookTitle className="text-sm">{card.label}</BookTitle>
+                    {card.description && (
+                      <BookDescription>{card.description}</BookDescription>
+                    )}
+                  </div>
                 </div>
-              </div>
+              </PerspectiveBook>
             </motion.div>
           )
         })}

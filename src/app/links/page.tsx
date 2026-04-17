@@ -11,35 +11,40 @@ import {
   YoutubeAppIcon,
 } from '@/components/ui/social-app-icons'
 import { VerticalImageStack, type CardItem } from '@/components/ui/vertical-image-stack'
+import { User, Code, Play, PenLine } from 'lucide-react'
 
 const linkCards: CardItem[] = [
   {
     id: 1,
-    src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1600&auto=format&fit=crop",
-    alt: "Mountain peaks at sunrise",
     label: "About Me",
     href: "/about",
+    description: "who i am and what i do",
+    bookClassName: "bg-gradient-to-br from-[#1a1a2e] to-[#16213e] text-white",
+    icon: <User className="size-5 text-white/60" />,
   },
   {
     id: 2,
-    src: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1600&auto=format&fit=crop",
-    alt: "Laptop with code on screen",
     label: "Projects",
     href: "https://github.com/byw1",
+    description: "things i've built",
+    bookClassName: "bg-gradient-to-br from-[#0d1117] to-[#161b22] text-white",
+    icon: <Code className="size-5 text-white/60" />,
   },
   {
     id: 3,
-    src: "https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=1600&auto=format&fit=crop",
-    alt: "Cinema camera filming",
     label: "YouTube",
     href: "https://youtube.com",
+    description: "videos and content",
+    bookClassName: "bg-gradient-to-br from-[#1a0000] to-[#330000] text-white",
+    icon: <Play className="size-5 text-white/60" />,
   },
   {
     id: 4,
-    src: "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1600&auto=format&fit=crop",
-    alt: "Mountains under starry sky",
     label: "Blog",
     href: "https://bywilliaml.substack.com/archive",
+    description: "thoughts and writing",
+    bookClassName: "bg-gradient-to-br from-[#0a1a0a] to-[#1a2f1a] text-white",
+    icon: <PenLine className="size-5 text-white/60" />,
   },
 ]
 

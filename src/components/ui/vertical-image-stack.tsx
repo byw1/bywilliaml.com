@@ -204,38 +204,8 @@ export function VerticalImageStack({ cards }: VerticalImageStackProps) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1, duration: 0.6 }}
       >
-        <div className="flex flex-col items-center gap-2 text-white/40">
-          <div className="flex items-center gap-3">
-            <motion.div
-              animate={{ y: [0, -4, 0] }}
-              transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.5, ease: "easeInOut" }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 5v14M5 12l7-7 7 7" />
-              </svg>
-            </motion.div>
-            <motion.div
-              animate={{ y: [0, 4, 0] }}
-              transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.5, ease: "easeInOut" }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 5v14M19 12l-7 7-7-7" />
-              </svg>
-            </motion.div>
-          </div>
-          <span className="text-xs font-medium tracking-widest uppercase">Scroll or drag</span>
-        </div>
+        <span className="text-xs font-medium tracking-widest text-white/40">scroll or drag</span>
       </motion.div>
-
-      <div className="absolute left-8 top-1/2 -translate-y-1/2">
-        <div className="flex flex-col items-center">
-          <span className="text-4xl font-light text-white tabular-nums">
-            {String(currentIndex + 1).padStart(2, "0")}
-          </span>
-          <div className="my-2 h-px w-8 bg-white/20" />
-          <span className="text-sm text-white/50 tabular-nums">{String(cards.length).padStart(2, "0")}</span>
-        </div>
-      </div>
     </div>
   )
 }

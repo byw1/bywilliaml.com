@@ -21,6 +21,7 @@ export function VerticalImageStack({ cards }: VerticalBookStackProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const lastNavigationTime = useRef(0)
   const isDragging = useRef(false)
+  const touchStartY = useRef<number | null>(null)
   const navigationCooldown = 400
 
   const navigate = useCallback((newDirection: number) => {
@@ -38,6 +39,7 @@ export function VerticalImageStack({ cards }: VerticalBookStackProps) {
 
   const handleDragStart = () => {
     isDragging.current = true
+    touchStartY.current = null
   }
 
   const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
@@ -77,6 +79,25 @@ export function VerticalImageStack({ cards }: VerticalBookStackProps) {
     return () => window.removeEventListener("wheel", handleWheel)
   }, [handleWheel])
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (isDragging.current) return
+    touchStartY.current = e.touches[0].clientY
+  }
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartY.current === null || isDragging.current) {
+      touchStartY.current = null
+      return
+    }
+    const endY = e.changedTouches[0].clientY
+    const diff = touchStartY.current - endY
+    const threshold = 50
+    if (Math.abs(diff) > threshold) {
+      navigate(diff > 0 ? 1 : -1)
+    }
+    touchStartY.current = null
+  }
+
   const getCardStyle = (index: number) => {
     const total = cards.length
     let diff = index - currentIndex
@@ -107,7 +128,11 @@ export function VerticalImageStack({ cards }: VerticalBookStackProps) {
   }
 
   return (
-    <div className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-black">
+    <div
+      className="relative flex h-[100dvh] w-full items-center justify-center overflow-hidden bg-black touch-none"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.02] blur-3xl" />
       </div>

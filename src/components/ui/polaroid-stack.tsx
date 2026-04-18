@@ -134,8 +134,8 @@ export default function PolaroidStack({ items, className = '' }: PolaroidStackPr
                 className="text-neutral-700 leading-tight text-center"
                 style={{
                   fontFamily: "'Fuzzy Bubbles', cursive",
-                  fontSize: '22px',
-                  fontWeight: 500,
+                  fontSize: '20px',
+                  fontWeight: 700,
                   transform: `rotate(${captionTilt}deg)`,
                 }}
               >

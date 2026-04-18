@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useRef, useEffect, useCallback } from 'react'
-import { motion, useAnimation, AnimatePresence, type PanInfo } from 'framer-motion'
+import { useState, useEffect, useCallback } from 'react'
+import { motion, useAnimation, AnimatePresence } from 'framer-motion'
+import { Coins } from 'lucide-react'
 import Link from 'next/link'
 
 const SYMBOLS = ['🍒', '🍋', '🍊', '🍇', '💎', '7️⃣', '🍀', '⭐']
@@ -144,117 +145,41 @@ function Reel({
   )
 }
 
-function Lever({
-  onPull,
+function SpinButton({
+  onPress,
   disabled,
   spinning,
 }: {
-  onPull: () => void
+  onPress: () => void
   disabled: boolean
   spinning: boolean
 }) {
-  const controls = useAnimation()
-  const [pulling, setPulling] = useState(false)
-
-  const animatePull = useCallback(async () => {
-    if (disabled || spinning || pulling) return
-    setPulling(true)
-    await controls.start({
-      rotate: 75,
-      transition: { duration: 0.15, ease: 'easeIn' },
-    })
-    onPull()
-    await controls.start({
-      rotate: 0,
-      transition: { type: 'spring', stiffness: 180, damping: 12 },
-    })
-    setPulling(false)
-  }, [controls, disabled, spinning, pulling, onPull])
-
-  const handleDragEnd = async (_: unknown, info: PanInfo) => {
-    if (disabled || spinning || pulling) return
-    if (info.offset.y > 40) {
-      setPulling(true)
-      onPull()
-      await controls.start({
-        rotate: 0,
-        transition: { type: 'spring', stiffness: 180, damping: 12 },
-      })
-      setPulling(false)
-    }
-  }
+  const isActive = !disabled && !spinning
 
   return (
-    <div
-      className="absolute -right-[52px] bottom-6 select-none"
-      style={{ width: 36, height: 170 }}
+    <motion.button
+      onClick={onPress}
+      disabled={!isActive}
+      whileHover={isActive ? { scale: 1.03 } : {}}
+      whileTap={isActive ? { scale: 0.92, y: 3 } : {}}
+      transition={{ type: 'spring', stiffness: 400, damping: 18 }}
+      className="relative mx-auto rounded-full font-bold text-white tracking-widest text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 disabled:cursor-not-allowed"
+      style={{
+        width: 96,
+        height: 96,
+        background: isActive
+          ? 'radial-gradient(circle at 35% 30%, #ff7070 0%, #e03030 45%, #a00f0f 100%)'
+          : 'radial-gradient(circle at 35% 30%, #555 0%, #333 50%, #222 100%)',
+        boxShadow: isActive
+          ? '0 8px 20px rgba(224,48,48,0.5), 0 2px 4px rgba(0,0,0,0.4), inset 0 -4px 8px rgba(0,0,0,0.35), inset 0 3px 6px rgba(255,255,255,0.35)'
+          : '0 2px 6px rgba(0,0,0,0.4), inset 0 -2px 4px rgba(0,0,0,0.35), inset 0 2px 4px rgba(255,255,255,0.08)',
+        opacity: disabled && !spinning ? 0.5 : 1,
+      }}
     >
-      {/* Base/mount bracket */}
-      <div
-        className="absolute bottom-0 left-1/2 -translate-x-1/2"
-        style={{
-          width: 36,
-          height: 14,
-          background: 'linear-gradient(180deg, #3a3a3a 0%, #1a1a1a 100%)',
-          borderRadius: '4px 4px 2px 2px',
-          boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.15), 0 2px 4px rgba(0,0,0,0.5)',
-        }}
-      />
-      {/* Pivot bolt */}
-      <div
-        className="absolute bottom-[7px] left-1/2 -translate-x-1/2 rounded-full"
-        style={{
-          width: 8,
-          height: 8,
-          background: 'radial-gradient(circle at 30% 30%, #888, #222)',
-          boxShadow: '0 0 0 1px rgba(0,0,0,0.8)',
-          zIndex: 3,
-        }}
-      />
-      {/* Lever arm, rotates from bottom pivot */}
-      <motion.div
-        className="absolute left-1/2 bottom-[7px] cursor-grab active:cursor-grabbing"
-        style={{
-          width: 10,
-          height: 140,
-          x: '-50%',
-          transformOrigin: '50% 100%',
-          touchAction: 'none',
-        }}
-        animate={controls}
-        initial={{ rotate: 0 }}
-        drag={disabled || spinning ? false : 'y'}
-        dragConstraints={{ top: 0, bottom: 80 }}
-        dragElastic={0.1}
-        dragSnapToOrigin
-        onDragEnd={handleDragEnd}
-        onClick={animatePull}
-        whileHover={!disabled && !spinning ? { scale: 1.03 } : {}}
-      >
-        {/* Shaft */}
-        <div
-          className="absolute inset-0 rounded-full"
-          style={{
-            background:
-              'linear-gradient(90deg, #5a5a5a 0%, #d0d0d0 40%, #f5f5f5 50%, #d0d0d0 60%, #5a5a5a 100%)',
-            boxShadow: '0 1px 2px rgba(0,0,0,0.5)',
-          }}
-        />
-        {/* Knob (ball) */}
-        <div
-          className="absolute left-1/2 -translate-x-1/2 rounded-full"
-          style={{
-            top: -14,
-            width: 30,
-            height: 30,
-            background:
-              'radial-gradient(circle at 30% 25%, #ff8080 0%, #e63939 40%, #8a0f0f 100%)',
-            boxShadow:
-              '0 2px 6px rgba(0,0,0,0.6), inset -2px -3px 6px rgba(0,0,0,0.35), inset 2px 3px 4px rgba(255,255,255,0.4)',
-          }}
-        />
-      </motion.div>
-    </div>
+      <span className="relative z-10 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
+        {spinning ? '...' : 'SPIN'}
+      </span>
+    </motion.button>
   )
 }
 
@@ -363,9 +288,10 @@ export default function NotFound() {
           <motion.span
             animate={{ scale: justWon ? [1, 1.2, 1] : 1 }}
             transition={{ duration: 0.5 }}
-            className="text-yellow-400 text-sm font-medium"
+            className="text-yellow-400 text-sm font-medium flex items-center gap-1.5"
           >
-            🪙 <CoinCounter value={coins} />
+            <Coins className="h-4 w-4" />
+            <CoinCounter value={coins} />
           </motion.span>
           <span className="text-white/30 text-xs uppercase tracking-widest">slots</span>
         </div>
@@ -394,8 +320,9 @@ export default function NotFound() {
         <div className="mb-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-white/50 text-xs uppercase tracking-widest">bet</span>
-            <span className="text-yellow-400 text-xs font-medium tabular-nums">
-              🪙 {bet} · {bet}x payout
+            <span className="text-yellow-400 text-xs font-medium tabular-nums flex items-center gap-1">
+              <Coins className="h-3 w-3" />
+              {bet} · {bet}x payout
             </span>
           </div>
           <input
@@ -417,19 +344,16 @@ export default function NotFound() {
           </div>
         </div>
 
-        <div className="text-center text-[10px] uppercase tracking-widest text-white/30 mt-2">
-          {spinning
-            ? 'spinning...'
-            : coins >= bet
-              ? 'pull or click the lever →'
-              : 'out of coins'}
+        <div className="flex flex-col items-center gap-2 mt-1">
+          <SpinButton
+            onPress={spin}
+            disabled={coins < bet}
+            spinning={spinning}
+          />
+          <span className="text-white/30 text-[10px] uppercase tracking-widest min-h-[14px]">
+            {spinning ? 'spinning...' : coins >= bet ? `tap to spin · ${bet} coin${bet > 1 ? 's' : ''}` : 'out of coins'}
+          </span>
         </div>
-
-        <Lever
-          onPull={spin}
-          disabled={coins < bet}
-          spinning={spinning}
-        />
       </motion.div>
 
       <Link

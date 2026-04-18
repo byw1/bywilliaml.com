@@ -133,7 +133,7 @@ export default function PolaroidStack({ items, className = '' }: PolaroidStackPr
               <span
                 className="text-neutral-700 leading-tight text-center"
                 style={{
-                  fontFamily: "'Caveat', cursive",
+                  fontFamily: "'Fuzzy Bubbles', cursive",
                   fontSize: '22px',
                   fontWeight: 500,
                   transform: `rotate(${captionTilt}deg)`,

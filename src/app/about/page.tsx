@@ -8,7 +8,7 @@ import PolaroidStack, { type PolaroidItem } from '@/components/ui/polaroid-stack
 const polaroids: PolaroidItem[] = [
   {
     src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop',
-    caption: 'somewhere up high ⛰️',
+    caption: 'somewhere up high',
   },
   {
     src: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop',
@@ -16,7 +16,7 @@ const polaroids: PolaroidItem[] = [
   },
   {
     src: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?q=80&w=1200&auto=format&fit=crop',
-    caption: 'golden hour :)',
+    caption: 'golden hour',
   },
   {
     src: 'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=80&w=1200&auto=format&fit=crop',
@@ -53,9 +53,11 @@ export default function AboutPage() {
           visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
       >
-        <div className="w-24 h-24 rounded-full bg-white/10 border border-white/20 mb-6 flex items-center justify-center">
-          <span className="text-3xl font-bold text-white">W</span>
-        </div>
+        <PolaroidStack items={polaroids} />
+
+        <p className="text-white/40 text-xs tracking-widest uppercase mt-2 mb-10">
+          drag to flip through
+        </p>
 
         <h1 className="text-4xl font-bold text-white mb-4 tracking-tight">About Me</h1>
 
@@ -78,14 +80,6 @@ export default function AboutPage() {
             , exploring new ideas, and working on projects that push boundaries.
           </p>
         </div>
-
-        <div className="w-16 h-px bg-white/20 my-10" />
-
-        <p className="text-white/40 text-xs tracking-widest uppercase mb-6">
-          drag the top polaroid to flip through
-        </p>
-
-        <PolaroidStack items={polaroids} />
 
         <div className="w-16 h-px bg-white/20 my-10" />
 

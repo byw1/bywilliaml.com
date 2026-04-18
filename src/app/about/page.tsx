@@ -3,6 +3,30 @@
 import { useState, useEffect } from 'react'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import PolaroidStack, { type PolaroidItem } from '@/components/ui/polaroid-stack'
+
+const polaroids: PolaroidItem[] = [
+  {
+    src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop',
+    caption: 'somewhere up high ⛰️',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop',
+    caption: 'under the stars',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?q=80&w=1200&auto=format&fit=crop',
+    caption: 'golden hour :)',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=80&w=1200&auto=format&fit=crop',
+    caption: 'lost in the woods',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=1200&auto=format&fit=crop',
+    caption: 'sunday walks',
+  },
+]
 
 export default function AboutPage() {
   const [visible, setVisible] = useState(false)
@@ -13,10 +37,7 @@ export default function AboutPage() {
   }, [])
 
   return (
-    <div
-      className="min-h-screen h-full flex flex-col items-center font-light relative overflow-hidden w-full bg-black"
-    >
-      {/* Back Button */}
+    <div className="min-h-screen h-full flex flex-col items-center font-light relative overflow-hidden w-full bg-black">
       <div className="absolute top-6 left-6 z-10">
         <Link
           href="/links"
@@ -32,22 +53,17 @@ export default function AboutPage() {
           visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
       >
-        {/* Profile Section */}
         <div className="w-24 h-24 rounded-full bg-white/10 border border-white/20 mb-6 flex items-center justify-center">
           <span className="text-3xl font-bold text-white">W</span>
         </div>
 
-        <h1 className="text-4xl font-bold text-white mb-4 tracking-tight">
-          About Me
-        </h1>
+        <h1 className="text-4xl font-bold text-white mb-4 tracking-tight">About Me</h1>
 
         <div className="space-y-6 text-white/80 text-lg leading-relaxed text-center">
+          <p>Hey, I&apos;m William. Welcome to my corner of the internet.</p>
           <p>
-            Hey, I&apos;m William. Welcome to my corner of the internet.
-          </p>
-          <p>
-            I&apos;m a developer and creator passionate about building things
-            that live at the intersection of technology and design.
+            I&apos;m a developer and creator passionate about building things that live at the
+            intersection of technology and design.
           </p>
           <p>
             When I&apos;m not coding, you can find me writing on{' '}
@@ -63,12 +79,17 @@ export default function AboutPage() {
           </p>
         </div>
 
-        {/* Divider */}
         <div className="w-16 h-px bg-white/20 my-10" />
 
-        <p className="text-white/40 text-sm tracking-widest uppercase">
-          More coming soon
+        <p className="text-white/40 text-xs tracking-widest uppercase mb-6">
+          drag the top polaroid to flip through
         </p>
+
+        <PolaroidStack items={polaroids} />
+
+        <div className="w-16 h-px bg-white/20 my-10" />
+
+        <p className="text-white/40 text-sm tracking-widest uppercase">More coming soon</p>
       </div>
     </div>
   )

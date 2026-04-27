@@ -97,14 +97,14 @@ export default function AboutPage() {
 
         <div className="w-16 h-px bg-white/20 my-10" />
 
-        <div className="w-full max-w-md space-y-4">
+        <div className="w-full max-w-lg grid grid-cols-2 gap-3">
 
           {/* Numerology — big glowing number */}
           <TiltCard className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5 text-center">
             <p className="text-white/40 text-xs uppercase tracking-widest mb-3">numerology</p>
             <div className="relative inline-block">
               <span
-                className="text-7xl font-bold tracking-tight"
+                className="text-6xl font-bold tracking-tight"
                 style={{
                   background: 'linear-gradient(180deg, #c084fc 0%, #7c3aed 100%)',
                   WebkitBackgroundClip: 'text',
@@ -170,8 +170,8 @@ export default function AboutPage() {
             </div>
           </TiltCard>
 
-          {/* Political Compass — actual graph */}
-          <TiltCard className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5">
+          {/* Political Compass — actual graph (full width) */}
+          <TiltCard className="col-span-2 rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5">
             <p className="text-white/40 text-xs uppercase tracking-widest mb-4">political compass</p>
             <div className="relative w-48 h-48 mx-auto">
               <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-[#7c3aed]/10 rounded-tl-lg" />

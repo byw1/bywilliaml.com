@@ -6,6 +6,7 @@ import Link from 'next/link'
 import PolaroidStack, { type PolaroidItem } from '@/components/ui/polaroid-stack'
 import { TiltCard } from '@/components/ui/tilt-card'
 import { PerspectiveBook, BookTitle } from '@/components/ui/perspective-book'
+import { AnimatedFolder } from '@/components/ui/animated-folder'
 
 const BOOKS = [
   { title: '48 Laws of Power', color: 'bg-gradient-to-br from-[#1a1a1a] to-[#2d1a1a] text-red-300' },
@@ -319,6 +320,49 @@ export default function AboutPage() {
         {/* Favorite Books */}
         <h2 className="text-2xl font-bold text-white mb-6 tracking-tight">Favorite Books</h2>
         <BookCarousel />
+
+        <div className="w-16 h-px bg-white/20 my-10" />
+
+        {/* Random */}
+        <h2 className="text-2xl font-bold text-white mb-6 tracking-tight">Random</h2>
+        <div className="grid grid-cols-2 gap-3 w-full max-w-lg">
+          <AnimatedFolder
+            title="Podcasts"
+            folderColor="#8b5cf6"
+            items={[
+              { id: 'p1', title: 'Joe Rogan', color: 'linear-gradient(135deg, #1a1a2e, #2d1a3e)' },
+              { id: 'p2', title: 'Lex Fridman', color: 'linear-gradient(135deg, #0d1117, #1a1a2e)' },
+              { id: 'p3', title: 'My First Million', color: 'linear-gradient(135deg, #1a2e1a, #2d3a1a)' },
+            ]}
+          />
+          <AnimatedFolder
+            title="Movies & Shows"
+            folderColor="#ef4444"
+            items={[
+              { id: 'm1', title: 'Breaking Bad', color: 'linear-gradient(135deg, #1a2e1a, #0d1a0d)' },
+              { id: 'm2', title: 'Interstellar', color: 'linear-gradient(135deg, #0d1117, #1a1a2e)' },
+              { id: 'm3', title: 'The Social Network', color: 'linear-gradient(135deg, #1a1a2e, #16213e)' },
+            ]}
+          />
+          <AnimatedFolder
+            title="Videogames"
+            folderColor="#3b82f6"
+            items={[
+              { id: 'g1', title: 'Minecraft', color: 'linear-gradient(135deg, #1a2e1a, #2d4a1a)' },
+              { id: 'g2', title: 'Valorant', color: 'linear-gradient(135deg, #2d1a1a, #3e1a2a)' },
+              { id: 'g3', title: 'GTA V', color: 'linear-gradient(135deg, #1a2e2e, #0d1a1a)' },
+            ]}
+          />
+          <AnimatedFolder
+            title="Music"
+            folderColor="#22c55e"
+            items={[
+              { id: 'mu1', title: 'Drake', color: 'linear-gradient(135deg, #1a1a1a, #2d2a1a)' },
+              { id: 'mu2', title: 'Travis Scott', color: 'linear-gradient(135deg, #2d1a1a, #1a0d0d)' },
+              { id: 'mu3', title: 'The Weeknd', color: 'linear-gradient(135deg, #1a1a2e, #2d1a3e)' },
+            ]}
+          />
+        </div>
 
         <div className="w-16 h-px bg-white/20 my-10" />
 

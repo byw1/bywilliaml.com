@@ -25,7 +25,7 @@ const linkCards: CardItem[] = [
   {
     id: 2,
     label: "Projects",
-    href: "https://github.com/byw1",
+    href: "/coming-soon",
     description: "things i've built",
     bookClassName: "bg-gradient-to-br from-[#0d1117] to-[#161b22] text-white",
     icon: <Code className="size-5 text-white/60" />,
@@ -33,7 +33,7 @@ const linkCards: CardItem[] = [
   {
     id: 3,
     label: "YouTube",
-    href: "https://youtube.com",
+    href: "https://youtube.com/@bywilliaml",
     description: "videos and content",
     bookClassName: "bg-gradient-to-br from-[#1a0000] to-[#330000] text-white",
     icon: <Play className="size-5 text-white/60" />,
@@ -58,10 +58,10 @@ const socialApps: DockApp[] = [
 
 const socialHrefs: Record<string, string> = {
   github: "https://github.com/byw1",
-  twitter: "https://twitter.com",
-  instagram: "https://instagram.com",
-  linkedin: "https://linkedin.com",
-  youtube: "https://youtube.com",
+  twitter: "https://x.com/bywilliaml",
+  instagram: "https://instagram.com/bywilliaml",
+  linkedin: "https://linkedin.com/in/bywilliaml",
+  youtube: "https://youtube.com/@bywilliaml",
 }
 
 export default function LinksPage() {

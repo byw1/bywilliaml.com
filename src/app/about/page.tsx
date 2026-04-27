@@ -96,6 +96,38 @@ export default function AboutPage() {
 
         <div className="w-16 h-px bg-white/20 my-10" />
 
+        <div className="w-full max-w-md space-y-3">
+          {[
+            { label: 'Numerology', value: '33', color: 'from-purple-500 to-violet-600' },
+            { label: 'Myers-Briggs', value: 'INTJ-A', sub: 'Assertive Architect', color: 'from-blue-500 to-cyan-600' },
+            { label: 'Principles You', value: 'The Shaper', color: 'from-amber-500 to-orange-600' },
+            { label: 'Political Compass', value: '+0.63 / -1.74', sub: 'Right-Libertarian', color: 'from-emerald-500 to-green-600' },
+            { label: 'Hogwarts House', value: 'Slytherin', sub: 'though I know nothing about Harry Potter', color: 'from-green-600 to-emerald-800' },
+          ].map((item) => (
+            <div
+              key={item.label}
+              className="flex items-center gap-4 rounded-2xl bg-white/[0.04] border border-white/[0.06] p-4"
+            >
+              <div
+                className={`shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center`}
+              >
+                <span className="text-white font-bold text-xs text-center leading-tight px-1">
+                  {item.value.length <= 5 ? item.value : item.value.split(' ')[0]}
+                </span>
+              </div>
+              <div className="min-w-0">
+                <p className="text-white/40 text-xs uppercase tracking-widest">{item.label}</p>
+                <p className="text-white font-medium text-sm">{item.value}</p>
+                {item.sub && (
+                  <p className="text-white/50 text-xs mt-0.5">{item.sub}</p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="w-16 h-px bg-white/20 my-10" />
+
         <p className="text-white/40 text-sm tracking-widest uppercase">More coming soon</p>
       </div>
     </div>

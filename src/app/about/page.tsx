@@ -5,6 +5,7 @@ import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import PolaroidStack, { type PolaroidItem } from '@/components/ui/polaroid-stack'
 import { TiltCard } from '@/components/ui/tilt-card'
+import { PerspectiveBook, BookTitle } from '@/components/ui/perspective-book'
 
 const polaroids: PolaroidItem[] = [
   {
@@ -224,6 +225,32 @@ export default function AboutPage() {
             </div>
           </TiltCard>
 
+        </div>
+
+        <div className="w-16 h-px bg-white/20 my-10" />
+
+        {/* Favorite Books */}
+        <h2 className="text-2xl font-bold text-white mb-6 tracking-tight">Favorite Books</h2>
+        <div className="w-full max-w-2xl overflow-x-auto pb-4 -mx-8 px-8" style={{ scrollbarWidth: 'none' }}>
+          <div className="flex gap-6 w-max">
+            {[
+              { title: '48 Laws of Power', color: 'bg-gradient-to-br from-[#1a1a1a] to-[#2d1a1a] text-red-300' },
+              { title: 'Principles', color: 'bg-gradient-to-br from-[#0d1117] to-[#1a2332] text-blue-300' },
+              { title: 'Zero to One', color: 'bg-gradient-to-br from-[#1a2e1a] to-[#0d1a0d] text-emerald-300' },
+              { title: 'The Almanack of Naval Ravikant', color: 'bg-gradient-to-br from-[#2d2a1a] to-[#1a1700] text-amber-300' },
+              { title: 'Thinking, Fast and Slow', color: 'bg-gradient-to-br from-[#1a1a2e] to-[#0d0d1a] text-violet-300' },
+              { title: 'The Art of War', color: 'bg-gradient-to-br from-[#2d1a1a] to-[#1a0d0d] text-orange-300' },
+              { title: 'Atomic Habits', color: 'bg-gradient-to-br from-[#1a2d2d] to-[#0d1a1a] text-cyan-300' },
+            ].map((book) => (
+              <div key={book.title} className="flex-shrink-0">
+                <PerspectiveBook size="sm" className={book.color}>
+                  <div className="flex flex-col h-full justify-end">
+                    <BookTitle className="text-[11px] leading-tight">{book.title}</BookTitle>
+                  </div>
+                </PerspectiveBook>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="w-16 h-px bg-white/20 my-10" />

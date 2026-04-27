@@ -170,6 +170,29 @@ export default function AboutPage() {
             </div>
           </TiltCard>
 
+          {/* Hogwarts House — Slytherin */}
+          <TiltCard
+            className="rounded-2xl border p-5 text-center"
+            style={{
+              background: 'linear-gradient(135deg, rgba(21,71,52,0.3) 0%, rgba(10,35,25,0.3) 100%)',
+              borderColor: 'rgba(34,197,94,0.15)',
+            }}
+          >
+            <p className="text-white/40 text-xs uppercase tracking-widest mb-2">hogwarts house</p>
+            <p className="text-3xl mb-1">🐍</p>
+            <p
+              className="text-2xl font-bold"
+              style={{
+                background: 'linear-gradient(180deg, #86efac 0%, #166534 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              Slytherin
+            </p>
+            <p className="text-white/40 text-xs mt-2 italic">though I know nothing about Harry Potter</p>
+          </TiltCard>
+
           {/* Political Compass — actual graph (full width) */}
           <TiltCard className="col-span-2 rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5">
             <p className="text-white/40 text-xs uppercase tracking-widest mb-4">political compass</p>
@@ -199,29 +222,6 @@ export default function AboutPage() {
               <span className="text-white/20">·</span>
               <span className="text-white/50 text-xs">Social <span className="text-emerald-400">-1.74</span></span>
             </div>
-          </TiltCard>
-
-          {/* Hogwarts House — Slytherin */}
-          <TiltCard
-            className="rounded-2xl border p-5 text-center"
-            style={{
-              background: 'linear-gradient(135deg, rgba(21,71,52,0.3) 0%, rgba(10,35,25,0.3) 100%)',
-              borderColor: 'rgba(34,197,94,0.15)',
-            }}
-          >
-            <p className="text-white/40 text-xs uppercase tracking-widest mb-2">hogwarts house</p>
-            <p className="text-3xl mb-1">🐍</p>
-            <p
-              className="text-2xl font-bold"
-              style={{
-                background: 'linear-gradient(180deg, #86efac 0%, #166534 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
-              Slytherin
-            </p>
-            <p className="text-white/40 text-xs mt-2 italic">though I know nothing about Harry Potter</p>
           </TiltCard>
 
         </div>

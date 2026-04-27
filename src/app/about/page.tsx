@@ -62,22 +62,35 @@ export default function AboutPage() {
         <h1 className="text-4xl font-bold text-white mb-4 tracking-tight">About Me</h1>
 
         <div className="space-y-6 text-white/80 text-lg leading-relaxed text-center">
-          <p>Hey, I&apos;m William. Welcome to my corner of the internet.</p>
           <p>
-            I&apos;m a developer and creator passionate about building things that live at the
-            intersection of technology and design.
+            I was born in 2000, and honestly, I&apos;m still figuring out my life. I&apos;ve had a
+            lot of unique experiences that shaped who I am — and it&apos;s honestly a pretty
+            wild ride.
           </p>
           <p>
-            When I&apos;m not coding, you can find me writing on{' '}
+            It&apos;s everything from being 13 years old and running the largest Skyblock server,
+            to something as rough as getting expelled from middle school, to leaving high school
+            and graduating a year early.
+          </p>
+          <p>
+            I ran a business networking club that interviewed leaders at companies like
+            Dave&apos;s Hot Chicken and grew to over 100,000 members on Clubhouse. I launched my
+            first real successful business at 19 years old, surpassing $100,000 in the first 16
+            days. I&apos;ve helped a multitude of friends in varying capacities launch multi-six
+            and even a few multi-seven figure businesses.
+          </p>
+          <p>
+            To get a better understanding of who I am, I&apos;d definitely recommend reading
+            my{' '}
             <a
               href="https://bywilliaml.substack.com/archive"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white underline underline-offset-4 hover:text-white/60 transition-colors"
             >
-              Substack
+              blog
             </a>
-            , exploring new ideas, and working on projects that push boundaries.
+            . But here&apos;s some more things about me.
           </p>
         </div>
 

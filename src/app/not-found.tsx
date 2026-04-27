@@ -357,7 +357,7 @@ export default function NotFound() {
       </motion.div>
 
       <Link
-        href="/links"
+        href="/"
         className="text-white/40 text-xs hover:text-white/70 transition-colors tracking-wide"
       >
         ← back home

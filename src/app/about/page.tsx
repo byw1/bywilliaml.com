@@ -40,7 +40,7 @@ export default function AboutPage() {
     <div className="min-h-screen h-full flex flex-col items-center font-light relative overflow-hidden w-full bg-black">
       <div className="absolute top-6 left-6 z-10">
         <Link
-          href="/links"
+          href="/"
           className="flex items-center gap-2 text-white/70 hover:text-white transition-colors duration-300"
         >
           <ArrowLeft size={20} />

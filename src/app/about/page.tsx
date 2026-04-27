@@ -96,34 +96,138 @@ export default function AboutPage() {
 
         <div className="w-16 h-px bg-white/20 my-10" />
 
-        <div className="w-full max-w-md space-y-3">
-          {[
-            { label: 'Numerology', value: '33', color: 'from-purple-500 to-violet-600' },
-            { label: 'Myers-Briggs', value: 'INTJ-A', sub: 'Assertive Architect', color: 'from-blue-500 to-cyan-600' },
-            { label: 'Principles You', value: 'The Shaper', color: 'from-amber-500 to-orange-600' },
-            { label: 'Political Compass', value: '+0.63 / -1.74', sub: 'Right-Libertarian', color: 'from-emerald-500 to-green-600' },
-            { label: 'Hogwarts House', value: 'Slytherin', sub: 'though I know nothing about Harry Potter', color: 'from-green-600 to-emerald-800' },
-          ].map((item) => (
-            <div
-              key={item.label}
-              className="flex items-center gap-4 rounded-2xl bg-white/[0.04] border border-white/[0.06] p-4"
-            >
-              <div
-                className={`shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center`}
+        <div className="w-full max-w-md space-y-4">
+
+          {/* Numerology — big glowing number */}
+          <div className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5 text-center">
+            <p className="text-white/40 text-xs uppercase tracking-widest mb-3">numerology</p>
+            <div className="relative inline-block">
+              <span
+                className="text-7xl font-bold tracking-tight"
+                style={{
+                  background: 'linear-gradient(180deg, #c084fc 0%, #7c3aed 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
               >
-                <span className="text-white font-bold text-xs text-center leading-tight px-1">
-                  {item.value.length <= 5 ? item.value : item.value.split(' ')[0]}
-                </span>
-              </div>
-              <div className="min-w-0">
-                <p className="text-white/40 text-xs uppercase tracking-widest">{item.label}</p>
-                <p className="text-white font-medium text-sm">{item.value}</p>
-                {item.sub && (
-                  <p className="text-white/50 text-xs mt-0.5">{item.sub}</p>
-                )}
-              </div>
+                33
+              </span>
+              <div className="absolute inset-0 blur-2xl opacity-30 bg-purple-500 rounded-full" />
             </div>
-          ))}
+            <p className="text-white/50 text-xs mt-2">master number</p>
+          </div>
+
+          {/* Myers-Briggs — dimension sliders */}
+          <div className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5">
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-white/40 text-xs uppercase tracking-widest">myers-briggs</p>
+              <span className="text-blue-400 text-sm font-semibold">INTJ-A</span>
+            </div>
+            <div className="space-y-3">
+              {[
+                { left: 'E', right: 'I', value: 85, label: 'Introverted' },
+                { left: 'S', right: 'N', value: 80, label: 'Intuitive' },
+                { left: 'F', right: 'T', value: 75, label: 'Thinking' },
+                { left: 'P', right: 'J', value: 70, label: 'Judging' },
+              ].map((dim) => (
+                <div key={dim.label}>
+                  <div className="flex items-center gap-2">
+                    <span className="text-white/30 text-[10px] w-3 text-center font-mono">{dim.left}</span>
+                    <div className="flex-1 h-2 bg-white/[0.06] rounded-full overflow-hidden">
+                      <div
+                        className="h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400"
+                        style={{ width: `${dim.value}%` }}
+                      />
+                    </div>
+                    <span className="text-blue-400 text-[10px] w-3 text-center font-mono font-bold">{dim.right}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="text-white/50 text-xs mt-3 text-center">Assertive Architect</p>
+          </div>
+
+          {/* Principles You — The Shaper */}
+          <div className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5">
+            <p className="text-white/40 text-xs uppercase tracking-widest mb-3">principles you</p>
+            <p
+              className="text-3xl font-bold text-center mb-3"
+              style={{
+                background: 'linear-gradient(135deg, #f59e0b 0%, #ef4444 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              The Shaper
+            </p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {['Independent', 'Determined', 'Practical', 'Driven', 'Unconventional'].map((t) => (
+                <span key={t} className="text-[10px] uppercase tracking-wider text-amber-400/70 bg-amber-400/[0.08] rounded-full px-3 py-1">
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Political Compass — actual graph */}
+          <div className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5">
+            <p className="text-white/40 text-xs uppercase tracking-widest mb-4">political compass</p>
+            <div className="relative w-48 h-48 mx-auto">
+              {/* Quadrant backgrounds */}
+              <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-[#7c3aed]/10 rounded-tl-lg" />
+              <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-[#3b82f6]/10 rounded-tr-lg" />
+              <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-[#22c55e]/10 rounded-bl-lg" />
+              <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-[#eab308]/10 rounded-br-lg" />
+              {/* Axes */}
+              <div className="absolute top-0 bottom-0 left-1/2 w-px bg-white/10" />
+              <div className="absolute left-0 right-0 top-1/2 h-px bg-white/10" />
+              {/* Axis labels */}
+              <span className="absolute -left-1 top-1/2 -translate-y-1/2 -translate-x-full text-[9px] text-white/30">Left</span>
+              <span className="absolute -right-1 top-1/2 -translate-y-1/2 translate-x-full text-[9px] text-white/30">Right</span>
+              <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full text-[9px] text-white/30">Auth</span>
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full text-[9px] text-white/30">Lib</span>
+              {/* Dot: economic +0.63 (right of center), social -1.74 (libertarian = below center) */}
+              {/* Scale: -10 to +10 each axis. +0.63/10 = 6.3% right of center. -1.74/10 = 17.4% below center */}
+              <div
+                className="absolute w-3 h-3 rounded-full bg-emerald-400 border-2 border-white"
+                style={{
+                  left: `${50 + (0.63 / 10) * 50}%`,
+                  top: `${50 + (1.74 / 10) * 50}%`,
+                  transform: 'translate(-50%, -50%)',
+                  boxShadow: '0 0 12px rgba(52, 211, 153, 0.6)',
+                }}
+              />
+            </div>
+            <div className="flex items-center justify-center gap-4 mt-4">
+              <span className="text-white/50 text-xs">Economic <span className="text-emerald-400">+0.63</span></span>
+              <span className="text-white/20">·</span>
+              <span className="text-white/50 text-xs">Social <span className="text-emerald-400">-1.74</span></span>
+            </div>
+          </div>
+
+          {/* Hogwarts House — Slytherin */}
+          <div
+            className="rounded-2xl border p-5 text-center"
+            style={{
+              background: 'linear-gradient(135deg, rgba(21,71,52,0.3) 0%, rgba(10,35,25,0.3) 100%)',
+              borderColor: 'rgba(34,197,94,0.15)',
+            }}
+          >
+            <p className="text-white/40 text-xs uppercase tracking-widest mb-2">hogwarts house</p>
+            <p className="text-3xl mb-1">🐍</p>
+            <p
+              className="text-2xl font-bold"
+              style={{
+                background: 'linear-gradient(180deg, #86efac 0%, #166534 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              Slytherin
+            </p>
+            <p className="text-white/40 text-xs mt-2 italic">though I know nothing about Harry Potter</p>
+          </div>
+
         </div>
 
         <div className="w-16 h-px bg-white/20 my-10" />

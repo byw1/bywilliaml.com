@@ -323,25 +323,27 @@ export default function AboutPage() {
 
         <div className="w-16 h-px bg-white/20 my-10" />
 
-        {/* Random */}
-        <h2 className="text-2xl font-bold text-white mb-6 tracking-tight">Random</h2>
+        {/* Random Favorites */}
+        <h2 className="text-2xl font-bold text-white mb-6 tracking-tight">Random Favorites</h2>
         <div className="grid grid-cols-2 gap-3 w-full max-w-lg">
           <AnimatedFolder
-            title="Podcasts"
+            title="YouTube Channels"
             folderColor="#8b5cf6"
+            href="/youtube-channels"
             items={[
-              { id: 'p1', title: 'Joe Rogan', color: 'linear-gradient(135deg, #1a1a2e, #2d1a3e)' },
-              { id: 'p2', title: 'Lex Fridman', color: 'linear-gradient(135deg, #0d1117, #1a1a2e)' },
-              { id: 'p3', title: 'My First Million', color: 'linear-gradient(135deg, #1a2e1a, #2d3a1a)' },
+              { id: 'p1', title: 'All-In Podcast', color: 'linear-gradient(135deg, #1a1a2e, #2d1a3e)' },
+              { id: 'p2', title: 'Harvard Business School', color: 'linear-gradient(135deg, #2d1a1a, #3e1a1a)' },
+              { id: 'p3', title: 'Kurzgesagt', color: 'linear-gradient(135deg, #0d1a2e, #1a2e3e)' },
             ]}
           />
           <AnimatedFolder
             title="Movies & Shows"
             folderColor="#ef4444"
+            href="https://www.imdb.com/user/p.posf2ez26r3fk5jjlduldg7xpe/ratings/?ref_=up_hd_ql_urrat&sort=top_rated%2Cdesc"
             items={[
-              { id: 'm1', title: 'Breaking Bad', color: 'linear-gradient(135deg, #1a2e1a, #0d1a0d)' },
-              { id: 'm2', title: 'Interstellar', color: 'linear-gradient(135deg, #0d1117, #1a1a2e)' },
-              { id: 'm3', title: 'The Social Network', color: 'linear-gradient(135deg, #1a1a2e, #16213e)' },
+              { id: 'm1', title: 'Landman', color: 'linear-gradient(135deg, #2d2a1a, #1a1700)' },
+              { id: 'm2', title: 'Silicon Valley', color: 'linear-gradient(135deg, #0d1117, #1a1a2e)' },
+              { id: 'm3', title: 'In Time', color: 'linear-gradient(135deg, #1a1a2e, #16213e)' },
             ]}
           />
           <AnimatedFolder
@@ -349,17 +351,18 @@ export default function AboutPage() {
             folderColor="#3b82f6"
             items={[
               { id: 'g1', title: 'Minecraft', color: 'linear-gradient(135deg, #1a2e1a, #2d4a1a)' },
-              { id: 'g2', title: 'Valorant', color: 'linear-gradient(135deg, #2d1a1a, #3e1a2a)' },
-              { id: 'g3', title: 'GTA V', color: 'linear-gradient(135deg, #1a2e2e, #0d1a1a)' },
+              { id: 'g2', title: 'Balatro', color: 'linear-gradient(135deg, #2d1a1a, #3e1a2a)' },
+              { id: 'g3', title: 'Satisfactory', color: 'linear-gradient(135deg, #2d2a1a, #1a2e1a)' },
             ]}
           />
           <AnimatedFolder
             title="Music"
             folderColor="#22c55e"
+            href="https://music.apple.com/profile/bywilliaml"
             items={[
-              { id: 'mu1', title: 'Drake', color: 'linear-gradient(135deg, #1a1a1a, #2d2a1a)' },
-              { id: 'mu2', title: 'Travis Scott', color: 'linear-gradient(135deg, #2d1a1a, #1a0d0d)' },
-              { id: 'mu3', title: 'The Weeknd', color: 'linear-gradient(135deg, #1a1a2e, #2d1a3e)' },
+              { id: 'mu1', title: 'Kanye West', color: 'linear-gradient(135deg, #1a1a1a, #2d2a1a)' },
+              { id: 'mu2', title: 'Gorillaz', color: 'linear-gradient(135deg, #1a1a2e, #0d2e1a)' },
+              { id: 'mu3', title: 'Tucker Wetmore', color: 'linear-gradient(135deg, #2d1a1a, #1a2e2e)' },
             ]}
           />
         </div>

@@ -12,6 +12,7 @@ interface AnimatedFolderProps {
   title: string
   items: FolderItem[]
   folderColor?: string
+  href?: string
   className?: string
 }
 
@@ -55,6 +56,7 @@ export function AnimatedFolder({
   title,
   items,
   folderColor = '#f59e0b',
+  href,
   className = '',
 }: AnimatedFolderProps) {
   const [isHovered, setIsHovered] = useState(false)
@@ -171,6 +173,16 @@ export function AnimatedFolder({
       >
         {items.length} items
       </p>
+
+      {href && (
+        <a
+          href={href}
+          target={href.startsWith('http') ? '_blank' : undefined}
+          rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+          className="absolute inset-0 z-40"
+          onClick={(e) => e.stopPropagation()}
+        />
+      )}
     </div>
   )
 }

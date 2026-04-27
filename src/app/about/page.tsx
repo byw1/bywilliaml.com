@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import PolaroidStack, { type PolaroidItem } from '@/components/ui/polaroid-stack'
+import { TiltCard } from '@/components/ui/tilt-card'
 
 const polaroids: PolaroidItem[] = [
   {
@@ -99,7 +100,7 @@ export default function AboutPage() {
         <div className="w-full max-w-md space-y-4">
 
           {/* Numerology — big glowing number */}
-          <div className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5 text-center">
+          <TiltCard className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5 text-center">
             <p className="text-white/40 text-xs uppercase tracking-widest mb-3">numerology</p>
             <div className="relative inline-block">
               <span
@@ -115,10 +116,10 @@ export default function AboutPage() {
               <div className="absolute inset-0 blur-2xl opacity-30 bg-purple-500 rounded-full" />
             </div>
             <p className="text-white/50 text-xs mt-2">master number</p>
-          </div>
+          </TiltCard>
 
           {/* Myers-Briggs — dimension sliders */}
-          <div className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5">
+          <TiltCard className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5">
             <div className="flex items-center justify-between mb-4">
               <p className="text-white/40 text-xs uppercase tracking-widest">myers-briggs</p>
               <span className="text-blue-400 text-sm font-semibold">INTJ-A</span>
@@ -145,10 +146,10 @@ export default function AboutPage() {
               ))}
             </div>
             <p className="text-white/50 text-xs mt-3 text-center">Assertive Architect</p>
-          </div>
+          </TiltCard>
 
           {/* Principles You — The Shaper */}
-          <div className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5">
+          <TiltCard className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5">
             <p className="text-white/40 text-xs uppercase tracking-widest mb-3">principles you</p>
             <p
               className="text-3xl font-bold text-center mb-3"
@@ -167,27 +168,22 @@ export default function AboutPage() {
                 </span>
               ))}
             </div>
-          </div>
+          </TiltCard>
 
           {/* Political Compass — actual graph */}
-          <div className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5">
+          <TiltCard className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5">
             <p className="text-white/40 text-xs uppercase tracking-widest mb-4">political compass</p>
             <div className="relative w-48 h-48 mx-auto">
-              {/* Quadrant backgrounds */}
               <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-[#7c3aed]/10 rounded-tl-lg" />
               <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-[#3b82f6]/10 rounded-tr-lg" />
               <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-[#22c55e]/10 rounded-bl-lg" />
               <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-[#eab308]/10 rounded-br-lg" />
-              {/* Axes */}
               <div className="absolute top-0 bottom-0 left-1/2 w-px bg-white/10" />
               <div className="absolute left-0 right-0 top-1/2 h-px bg-white/10" />
-              {/* Axis labels */}
               <span className="absolute -left-1 top-1/2 -translate-y-1/2 -translate-x-full text-[9px] text-white/30">Left</span>
               <span className="absolute -right-1 top-1/2 -translate-y-1/2 translate-x-full text-[9px] text-white/30">Right</span>
               <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full text-[9px] text-white/30">Auth</span>
               <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full text-[9px] text-white/30">Lib</span>
-              {/* Dot: economic +0.63 (right of center), social -1.74 (libertarian = below center) */}
-              {/* Scale: -10 to +10 each axis. +0.63/10 = 6.3% right of center. -1.74/10 = 17.4% below center */}
               <div
                 className="absolute w-3 h-3 rounded-full bg-emerald-400 border-2 border-white"
                 style={{
@@ -203,10 +199,10 @@ export default function AboutPage() {
               <span className="text-white/20">·</span>
               <span className="text-white/50 text-xs">Social <span className="text-emerald-400">-1.74</span></span>
             </div>
-          </div>
+          </TiltCard>
 
           {/* Hogwarts House — Slytherin */}
-          <div
+          <TiltCard
             className="rounded-2xl border p-5 text-center"
             style={{
               background: 'linear-gradient(135deg, rgba(21,71,52,0.3) 0%, rgba(10,35,25,0.3) 100%)',
@@ -226,7 +222,7 @@ export default function AboutPage() {
               Slytherin
             </p>
             <p className="text-white/40 text-xs mt-2 italic">though I know nothing about Harry Potter</p>
-          </div>
+          </TiltCard>
 
         </div>
 

@@ -174,8 +174,21 @@ export default function ComingSoonPage() {
   const [bigWin, setBigWin] = useState(false)
   const [justWon, setJustWon] = useState(false)
   const [shaking, setShaking] = useState(false)
+  const [firstDeal, setFirstDeal] = useState(true)
 
   const maxBet = Math.max(1, Math.min(25, coins || 1))
+
+  // Auto-deal a free hand on first load
+  useEffect(() => {
+    if (firstDeal) {
+      const timer = setTimeout(() => {
+        setFirstDeal(false)
+        dealFree()
+      }, 600)
+      return () => clearTimeout(timer)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     if (coins > 0 && bet > coins) setBet(Math.min(coins, maxBet))
@@ -223,6 +236,24 @@ export default function ComingSoonPage() {
         resolveGame([p1, p2], [d1, newDeck[3]], newDeck.slice(4))
       }, 600)
     }
+  }
+
+  const dealFree = () => {
+    const newDeck = buildDeck()
+    setDeck(newDeck)
+    setJustWon(false)
+    setBigWin(false)
+
+    const p1 = newDeck[0]
+    const d1 = newDeck[1]
+    const p2 = newDeck[2]
+    const d2 = { ...newDeck[3], hidden: true }
+
+    setPlayerHand([p1, p2])
+    setDealerHand([d1, d2])
+    setDeck(newDeck.slice(4))
+    setGameState('playing')
+    setMessage('first hand is free — hit or stand?')
   }
 
   const hit = () => {
@@ -329,7 +360,20 @@ export default function ComingSoonPage() {
       </AnimatePresence>
 
       <div className="text-center">
-        <h1 className="text-4xl font-bold text-white mb-1">Coming Soon</h1>
+        <motion.h1
+          className="text-5xl sm:text-6xl font-bold tracking-tight mb-2"
+          style={{
+            background: 'linear-gradient(90deg, #ffffff 0%, #facc15 50%, #ffffff 100%)',
+            backgroundSize: '200% auto',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+          }}
+          animate={{ backgroundPosition: ['200% center', '-200% center'] }}
+          transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+        >
+          BLACKJACK
+        </motion.h1>
+        <p className="text-white/40 text-xs tracking-widest uppercase mb-1">coming soon</p>
         <p className="text-white/50 text-sm tracking-wide min-h-[20px]">{message}</p>
       </div>
 

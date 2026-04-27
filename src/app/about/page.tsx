@@ -149,9 +149,9 @@ export default function AboutPage() {
           drag to flip through
         </p>
 
-        <h1 className="text-4xl font-bold text-white mb-4 tracking-tight">About Me</h1>
+        <h1 className="text-2xl sm:text-4xl font-bold text-white mb-4 tracking-tight">About Me</h1>
 
-        <div className="space-y-6 text-white/80 text-lg leading-relaxed text-center">
+        <div className="space-y-6 text-white/80 text-base sm:text-lg leading-relaxed text-center">
           <p>
             I was born in 2000, and honestly, I&apos;m still figuring out my life. I&apos;ve had a
             lot of unique experiences that shaped who I am — and it&apos;s honestly a pretty
@@ -186,7 +186,7 @@ export default function AboutPage() {
 
         <div className="w-16 h-px bg-white/20 my-10" />
 
-        <div className="w-full max-w-lg grid grid-cols-2 gap-3">
+        <div className="w-full max-w-lg grid grid-cols-1 sm:grid-cols-2 gap-3">
 
           {/* Numerology — big glowing number */}
           <TiltCard className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5 text-center">
@@ -283,7 +283,7 @@ export default function AboutPage() {
           </TiltCard>
 
           {/* Political Compass — actual graph (full width) */}
-          <TiltCard className="col-span-2 rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5">
+          <TiltCard className="sm:col-span-2 rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5">
             <p className="text-white/40 text-xs uppercase tracking-widest mb-4">political compass</p>
             <div className="relative w-48 h-48 mx-auto">
               <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-[#7c3aed]/10 rounded-tl-lg" />
@@ -325,7 +325,7 @@ export default function AboutPage() {
 
         {/* Random Favorites */}
         <h2 className="text-2xl font-bold text-white mb-6 tracking-tight">Random Favorites</h2>
-        <div className="grid grid-cols-2 gap-3 w-full max-w-lg">
+        <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 w-full max-w-lg">
           <AnimatedFolder
             title="YouTube Channels"
             folderColor="#8b5cf6"

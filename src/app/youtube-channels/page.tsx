@@ -35,7 +35,7 @@ export default function YoutubeChannelsPage() {
           visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
       >
-        <h1 className="text-4xl font-bold text-white mb-2 tracking-tight">YouTube Channels</h1>
+        <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2 tracking-tight">YouTube Channels</h1>
         <p className="text-white/50 text-sm mb-10">channels i watch and recommend</p>
 
         <div className="w-full space-y-3">

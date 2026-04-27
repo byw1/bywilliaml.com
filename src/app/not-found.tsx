@@ -265,7 +265,7 @@ export default function NotFound() {
       </AnimatePresence>
 
       <div className="text-center">
-        <h1 className="text-6xl font-bold text-white mb-2">404</h1>
+        <h1 className="text-4xl sm:text-6xl font-bold text-white mb-2">404</h1>
         <p className="text-white/50 text-sm tracking-wide min-h-[20px]">{message}</p>
       </div>
 
@@ -274,7 +274,7 @@ export default function NotFound() {
           x: shaking ? [-4, 4, -4, 4, 0] : 0,
         }}
         transition={{ duration: 0.4 }}
-        className="relative bg-gradient-to-b from-neutral-800 to-neutral-900 rounded-3xl p-6 pt-4 border border-white/10 shadow-2xl w-[320px]"
+        className="relative bg-gradient-to-b from-neutral-800 to-neutral-900 rounded-3xl p-6 pt-4 border border-white/10 shadow-2xl w-full max-w-[320px]"
         style={{
           boxShadow: justWon
             ? '0 0 60px rgba(250, 204, 21, 0.5), 0 0 0 1px rgba(250, 204, 21, 0.3)'

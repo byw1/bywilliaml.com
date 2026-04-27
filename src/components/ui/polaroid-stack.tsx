@@ -74,7 +74,7 @@ export default function PolaroidStack({ items, className = '' }: PolaroidStackPr
   }
 
   return (
-    <div className={`relative flex items-center justify-center w-80 h-[420px] ${className}`}>
+    <div className={`relative flex items-center justify-center w-full max-w-80 h-[420px] ${className}`}>
       {cards.map((card, index) => {
         const isTopCard = index === 0
         const cardStyles = getCardStyles(index)

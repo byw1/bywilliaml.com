@@ -140,7 +140,7 @@ export function VerticalImageStack({ cards }: VerticalBookStackProps) {
       <div className="pointer-events-none fixed inset-x-0 top-0 z-30 h-32 bg-gradient-to-b from-black to-transparent" />
       <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 h-40 bg-gradient-to-t from-black to-transparent" />
 
-      <div className="relative flex h-[500px] w-[320px] items-center justify-center" style={{ perspective: "1200px" }}>
+      <div className="relative flex h-[500px] w-full max-w-[320px] items-center justify-center" style={{ perspective: "1200px" }}>
         {cards.map((card, index) => {
           if (!isVisible(index)) return null
           const style = getCardStyle(index)
@@ -190,7 +190,7 @@ export function VerticalImageStack({ cards }: VerticalBookStackProps) {
         })}
       </div>
 
-      <div className="absolute right-8 top-1/2 flex -translate-y-1/2 flex-col gap-2">
+      <div className="absolute right-4 sm:right-8 top-1/2 hidden sm:flex -translate-y-1/2 flex-col gap-2">
         {cards.map((_, index) => (
           <button
             key={index}

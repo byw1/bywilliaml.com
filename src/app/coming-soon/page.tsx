@@ -361,7 +361,7 @@ export default function ComingSoonPage() {
 
       <div className="text-center">
         <motion.h1
-          className="text-5xl sm:text-6xl font-bold tracking-tight mb-2"
+          className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-2"
           style={{
             background: 'linear-gradient(90deg, #ffffff 0%, #facc15 50%, #ffffff 100%)',
             backgroundSize: '200% auto',
@@ -380,7 +380,7 @@ export default function ComingSoonPage() {
       <motion.div
         animate={{ x: shaking ? [-4, 4, -4, 4, 0] : 0 }}
         transition={{ duration: 0.4 }}
-        className="relative bg-gradient-to-b from-neutral-800 to-neutral-900 rounded-3xl p-5 pt-4 border border-white/10 w-[340px]"
+        className="relative bg-gradient-to-b from-neutral-800 to-neutral-900 rounded-3xl p-5 pt-4 border border-white/10 w-full max-w-[340px]"
         style={{
           boxShadow: justWon
             ? '0 0 60px rgba(250, 204, 21, 0.5), 0 0 0 1px rgba(250, 204, 21, 0.3)'

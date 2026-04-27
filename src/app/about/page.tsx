@@ -1,11 +1,98 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { ArrowLeft } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import PolaroidStack, { type PolaroidItem } from '@/components/ui/polaroid-stack'
 import { TiltCard } from '@/components/ui/tilt-card'
 import { PerspectiveBook, BookTitle } from '@/components/ui/perspective-book'
+
+const BOOKS = [
+  { title: '48 Laws of Power', color: 'bg-gradient-to-br from-[#1a1a1a] to-[#2d1a1a] text-red-300' },
+  { title: 'Principles', color: 'bg-gradient-to-br from-[#0d1117] to-[#1a2332] text-blue-300' },
+  { title: 'Zero to One', color: 'bg-gradient-to-br from-[#1a2e1a] to-[#0d1a0d] text-emerald-300' },
+  { title: 'The Almanack of Naval Ravikant', color: 'bg-gradient-to-br from-[#2d2a1a] to-[#1a1700] text-amber-300' },
+  { title: 'Thinking, Fast and Slow', color: 'bg-gradient-to-br from-[#1a1a2e] to-[#0d0d1a] text-violet-300' },
+  { title: 'The Art of War', color: 'bg-gradient-to-br from-[#2d1a1a] to-[#1a0d0d] text-orange-300' },
+  { title: 'Atomic Habits', color: 'bg-gradient-to-br from-[#1a2d2d] to-[#0d1a1a] text-cyan-300' },
+]
+
+function BookCarousel() {
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const [paused, setPaused] = useState(false)
+
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el) return
+
+    let raf: number
+    const speed = 0.5
+
+    const step = () => {
+      if (!paused && el) {
+        el.scrollLeft += speed
+        if (el.scrollLeft >= el.scrollWidth / 2) {
+          el.scrollLeft = 0
+        }
+      }
+      raf = requestAnimationFrame(step)
+    }
+
+    raf = requestAnimationFrame(step)
+    return () => cancelAnimationFrame(raf)
+  }, [paused])
+
+  const scrollBy = (dir: number) => {
+    scrollRef.current?.scrollBy({ left: dir * 180, behavior: 'smooth' })
+  }
+
+  const doubled = [...BOOKS, ...BOOKS]
+
+  return (
+    <div
+      className="relative w-full max-w-2xl"
+      onPointerEnter={() => setPaused(true)}
+      onPointerLeave={() => setPaused(false)}
+    >
+      {/* Fade edges */}
+      <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-12 z-10 bg-gradient-to-r from-black to-transparent" />
+      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 z-10 bg-gradient-to-l from-black to-transparent" />
+
+      {/* Nav buttons */}
+      <button
+        onClick={() => scrollBy(-1)}
+        className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+      >
+        <ChevronLeft className="w-4 h-4 text-white" />
+      </button>
+      <button
+        onClick={() => scrollBy(1)}
+        className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+      >
+        <ChevronRight className="w-4 h-4 text-white" />
+      </button>
+
+      {/* Scroll track */}
+      <div
+        ref={scrollRef}
+        className="overflow-x-auto pb-4 px-10"
+        style={{ scrollbarWidth: 'none' }}
+      >
+        <div className="flex gap-6 w-max">
+          {doubled.map((book, i) => (
+            <div key={`${book.title}-${i}`} className="flex-shrink-0">
+              <PerspectiveBook size="sm" className={book.color}>
+                <div className="flex flex-col h-full justify-end">
+                  <BookTitle className="text-[11px] leading-tight">{book.title}</BookTitle>
+                </div>
+              </PerspectiveBook>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 const polaroids: PolaroidItem[] = [
   {
@@ -231,27 +318,7 @@ export default function AboutPage() {
 
         {/* Favorite Books */}
         <h2 className="text-2xl font-bold text-white mb-6 tracking-tight">Favorite Books</h2>
-        <div className="w-full max-w-2xl overflow-x-auto pb-4 -mx-8 px-8" style={{ scrollbarWidth: 'none' }}>
-          <div className="flex gap-6 w-max">
-            {[
-              { title: '48 Laws of Power', color: 'bg-gradient-to-br from-[#1a1a1a] to-[#2d1a1a] text-red-300' },
-              { title: 'Principles', color: 'bg-gradient-to-br from-[#0d1117] to-[#1a2332] text-blue-300' },
-              { title: 'Zero to One', color: 'bg-gradient-to-br from-[#1a2e1a] to-[#0d1a0d] text-emerald-300' },
-              { title: 'The Almanack of Naval Ravikant', color: 'bg-gradient-to-br from-[#2d2a1a] to-[#1a1700] text-amber-300' },
-              { title: 'Thinking, Fast and Slow', color: 'bg-gradient-to-br from-[#1a1a2e] to-[#0d0d1a] text-violet-300' },
-              { title: 'The Art of War', color: 'bg-gradient-to-br from-[#2d1a1a] to-[#1a0d0d] text-orange-300' },
-              { title: 'Atomic Habits', color: 'bg-gradient-to-br from-[#1a2d2d] to-[#0d1a1a] text-cyan-300' },
-            ].map((book) => (
-              <div key={book.title} className="flex-shrink-0">
-                <PerspectiveBook size="sm" className={book.color}>
-                  <div className="flex flex-col h-full justify-end">
-                    <BookTitle className="text-[11px] leading-tight">{book.title}</BookTitle>
-                  </div>
-                </PerspectiveBook>
-              </div>
-            ))}
-          </div>
-        </div>
+        <BookCarousel />
 
         <div className="w-16 h-px bg-white/20 my-10" />
 

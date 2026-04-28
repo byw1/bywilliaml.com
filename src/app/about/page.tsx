@@ -9,13 +9,12 @@ import { PerspectiveBook, BookTitle } from '@/components/ui/perspective-book'
 import { AnimatedFolder } from '@/components/ui/animated-folder'
 
 const BOOKS = [
-  { title: '48 Laws of Power', color: 'bg-gradient-to-br from-[#1a1a1a] to-[#2d1a1a] text-red-300' },
   { title: 'Principles', color: 'bg-gradient-to-br from-[#0d1117] to-[#1a2332] text-blue-300' },
-  { title: 'Zero to One', color: 'bg-gradient-to-br from-[#1a2e1a] to-[#0d1a0d] text-emerald-300' },
-  { title: 'The Almanack of Naval Ravikant', color: 'bg-gradient-to-br from-[#2d2a1a] to-[#1a1700] text-amber-300' },
-  { title: 'Thinking, Fast and Slow', color: 'bg-gradient-to-br from-[#1a1a2e] to-[#0d0d1a] text-violet-300' },
-  { title: 'The Art of War', color: 'bg-gradient-to-br from-[#2d1a1a] to-[#1a0d0d] text-orange-300' },
-  { title: 'Atomic Habits', color: 'bg-gradient-to-br from-[#1a2d2d] to-[#0d1a1a] text-cyan-300' },
+  { title: 'Steve Jobs', color: 'bg-gradient-to-br from-[#1a1a1a] to-[#2d1a1a] text-white' },
+  { title: 'Elon Musk', color: 'bg-gradient-to-br from-[#1a1a2e] to-[#0d0d1a] text-violet-300' },
+  { title: 'Good to Great', color: 'bg-gradient-to-br from-[#1a2e1a] to-[#0d1a0d] text-emerald-300' },
+  { title: 'The Republic', color: 'bg-gradient-to-br from-[#2d2a1a] to-[#1a1700] text-amber-300' },
+  { title: 'Your Next Five Moves', color: 'bg-gradient-to-br from-[#2d1a1a] to-[#1a0d0d] text-orange-300' },
 ]
 
 function BookCarousel() {

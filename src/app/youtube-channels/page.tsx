@@ -8,6 +8,14 @@ const channels = [
   { name: 'All-In Podcast', description: 'Tech, politics, and business with Chamath, Jason, Sacks & Friedberg', category: 'Business' },
   { name: 'Harvard Business School', description: 'Case studies and leadership insights', category: 'Education' },
   { name: 'Kurzgesagt', description: 'Science and philosophy beautifully animated', category: 'Science' },
+  { name: 'Search Party', description: 'Independent journalism', category: 'Journalism' },
+  { name: 'Chamath Palihapitiya', description: 'Venture capital, tech, and macro takes', category: 'Business' },
+  { name: 'Chris Williamson', description: 'Long-form conversations on life and culture', category: 'Podcast' },
+  { name: 'hoe_math', description: 'Psychology and research through a math lens', category: 'Psychology' },
+  { name: 'Johnny Harris', description: 'Storytelling-driven independent journalism', category: 'Journalism' },
+  { name: 'Veritasium', description: 'Science, engineering, and the unexpected', category: 'Science' },
+  { name: 'Lex Fridman', description: 'Deep conversations with scientists, leaders, and thinkers', category: 'Podcast' },
+  { name: 'SpoonFedStudy', description: 'Mindset, discipline, and self-improvement', category: 'Mindset' },
 ]
 
 export default function YoutubeChannelsPage() {

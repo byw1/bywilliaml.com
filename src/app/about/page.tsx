@@ -9,12 +9,12 @@ import { PerspectiveBook, BookTitle } from '@/components/ui/perspective-book'
 import { AnimatedFolder } from '@/components/ui/animated-folder'
 
 const BOOKS = [
-  { title: 'Principles', color: 'bg-gradient-to-br from-[#0d1117] to-[#1a2332] text-blue-300' },
-  { title: 'Steve Jobs', color: 'bg-gradient-to-br from-[#1a1a1a] to-[#2d1a1a] text-white' },
-  { title: 'Elon Musk', color: 'bg-gradient-to-br from-[#1a1a2e] to-[#0d0d1a] text-violet-300' },
-  { title: 'Good to Great', color: 'bg-gradient-to-br from-[#1a2e1a] to-[#0d1a0d] text-emerald-300' },
-  { title: 'The Republic', color: 'bg-gradient-to-br from-[#2d2a1a] to-[#1a1700] text-amber-300' },
-  { title: 'Your Next Five Moves', color: 'bg-gradient-to-br from-[#2d1a1a] to-[#1a0d0d] text-orange-300' },
+  { title: 'Principles — Ray Dalio', color: 'bg-gradient-to-br from-[#0d1117] to-[#1a2332] text-blue-300' },
+  { title: 'Steve Jobs — Walter Isaacson', color: 'bg-gradient-to-br from-[#1a1a1a] to-[#2d1a1a] text-white' },
+  { title: 'Elon Musk — Walter Isaacson', color: 'bg-gradient-to-br from-[#1a1a2e] to-[#0d0d1a] text-violet-300' },
+  { title: 'Good to Great — Jim Collins', color: 'bg-gradient-to-br from-[#1a2e1a] to-[#0d1a0d] text-emerald-300' },
+  { title: 'The Republic — Plato', color: 'bg-gradient-to-br from-[#2d2a1a] to-[#1a1700] text-amber-300' },
+  { title: 'Your Next Five Moves — Patrick Bet-David', color: 'bg-gradient-to-br from-[#2d1a1a] to-[#1a0d0d] text-orange-300' },
 ]
 
 function BookCarousel() {
@@ -365,10 +365,6 @@ export default function AboutPage() {
             ]}
           />
         </div>
-
-        <div className="w-16 h-px bg-white/20 my-10" />
-
-        <p className="text-white/40 text-sm tracking-widest uppercase">More coming soon</p>
       </div>
     </div>
   )

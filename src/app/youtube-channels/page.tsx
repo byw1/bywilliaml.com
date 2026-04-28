@@ -60,9 +60,6 @@ export default function YoutubeChannelsPage() {
             </div>
           ))}
         </div>
-
-        <div className="w-16 h-px bg-white/20 my-10" />
-        <p className="text-white/40 text-sm tracking-widest uppercase">more coming soon</p>
       </div>
     </div>
   )

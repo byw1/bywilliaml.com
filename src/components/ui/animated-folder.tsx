@@ -167,12 +167,6 @@ export function AnimatedFolder({
         {title}
       </h3>
 
-      <p
-        className="text-xs text-white/40 transition-all duration-300"
-        style={{ opacity: isHovered ? 0.6 : 1 }}
-      >
-        {items.length} items
-      </p>
 
       {href && (
         <a

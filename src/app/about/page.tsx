@@ -96,8 +96,8 @@ function BookCarousel() {
 
 const polaroids: PolaroidItem[] = [
   {
-    src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop',
-    caption: 'somewhere up high',
+    src: '/william.jpg',
+    caption: 'William Lee',
   },
   {
     src: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop',

@@ -96,7 +96,7 @@ function BookCarousel() {
 
 const polaroids: PolaroidItem[] = [
   {
-    src: '/william.jpg',
+    src: 'https://avatars.githubusercontent.com/byw1',
     caption: 'William Lee',
   },
   {

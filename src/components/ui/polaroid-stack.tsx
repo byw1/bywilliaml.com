@@ -119,6 +119,7 @@ export default function PolaroidStack({ items, className = '' }: PolaroidStackPr
                 src={card.src}
                 alt={card.alt || card.caption}
                 fill
+                unoptimized
                 className="object-cover pointer-events-none select-none"
                 sizes="240px"
                 draggable={false}

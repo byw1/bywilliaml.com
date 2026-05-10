@@ -94,7 +94,7 @@ function BookCarousel() {
   )
 }
 
-const polaroids: PolaroidItem[] = [
+const DEFAULT_POLAROIDS: PolaroidItem[] = [
   {
     src: 'https://avatars.githubusercontent.com/byw1',
     caption: 'William Lee',
@@ -119,9 +119,14 @@ const polaroids: PolaroidItem[] = [
 
 export default function AboutPage() {
   const [visible, setVisible] = useState(false)
+  const [polaroids, setPolaroids] = useState(DEFAULT_POLAROIDS)
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 100)
+    const customUrl = localStorage.getItem('bywilliaml-polaroid-url')
+    if (customUrl) {
+      setPolaroids((prev) => [{ ...prev[0], src: customUrl }, ...prev.slice(1)])
+    }
     return () => clearTimeout(timer)
   }, [])
 

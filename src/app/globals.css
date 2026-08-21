@@ -19,6 +19,25 @@ body {
   font-family: 'Poppins', Arial, Helvetica, sans-serif;
 }
 
+@keyframes project-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Scoped to this animation rather than a blanket rule, so existing pages keep
+   their current behaviour until they're audited too. */
+@media (prefers-reduced-motion: reduce) {
+  [style*="project-card-in"] {
+    animation: none !important;
+  }
+}
+
 @keyframes moveBackground {
   from {
     background-position: 0% 0%;

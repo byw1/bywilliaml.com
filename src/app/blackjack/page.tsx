@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Coins } from 'lucide-react'
 import Link from 'next/link'
+import { mulberry32 } from '@/lib/utils'
 
 type Suit = '♠' | '♥' | '♦' | '♣'
 type Rank = 'A' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | 'J' | 'Q' | 'K'
@@ -81,11 +82,17 @@ function Confetti({ burstKey, big }: { burstKey: number; big: boolean }) {
   const count = big ? 40 : 14
   const emojis = big ? ['🃏', '🎉', '✨', '💰', '🎊'] : ['✨', '🪙', '⭐']
 
+  // Seeded by burstKey so a re-render mid-flight recomputes the exact same
+  // trajectories — particles no longer teleport when parent state changes.
+  const rng = mulberry32(burstKey * 7919)
+
   return (
     <div className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center">
       {Array.from({ length: count }).map((_, i) => {
-        const angle = (Math.PI * 2 * i) / count + Math.random() * 0.6
-        const distance = 100 + Math.random() * 160
+        const angle = (Math.PI * 2 * i) / count + rng() * 0.6
+        const distance = 100 + rng() * 160
+        const rotate = rng() * 720 - 360
+        const emoji = emojis[Math.floor(rng() * emojis.length)]
         return (
           <motion.div
             key={`${burstKey}-${i}`}
@@ -95,12 +102,12 @@ function Confetti({ burstKey, big }: { burstKey: number; big: boolean }) {
               y: Math.sin(angle) * distance + 60,
               opacity: 0,
               scale: 1,
-              rotate: Math.random() * 720 - 360,
+              rotate,
             }}
             transition={{ duration: 1.2, ease: 'easeOut' }}
             className="absolute text-xl"
           >
-            {emojis[Math.floor(Math.random() * emojis.length)]}
+            {emoji}
           </motion.div>
         )
       })}
@@ -108,12 +115,16 @@ function Confetti({ burstKey, big }: { burstKey: number; big: boolean }) {
   )
 }
 
-function PlayingCard({ card, index, total }: { card: Card; index: number; total: number }) {
+function PlayingCard({ card, index }: { card: Card; index: number }) {
   const red = isRed(card.suit)
+
+  // Deterministic wobble derived from the card itself — same idiom as the
+  // polaroid caption tilt, and pure during render.
+  const wobble = ((index * 31 + card.rank.charCodeAt(0) + card.suit.charCodeAt(0)) % 11) - 5
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: -30, rotate: Math.random() * 10 - 5 }}
+      initial={{ opacity: 0, y: -30, rotate: wobble }}
       animate={{ opacity: 1, y: 0, rotate: 0 }}
       transition={{ duration: 0.3, delay: index * 0.1 }}
       className="relative flex-shrink-0"
@@ -162,10 +173,12 @@ function PlayingCard({ card, index, total }: { card: Card; index: number; total:
 
 type GameState = 'betting' | 'playing' | 'dealerTurn' | 'result'
 
-export default function ComingSoonPage() {
+export default function BlackjackPage() {
   const [coins, setCoins] = useState(50)
   const [bet, setBet] = useState(5)
-  const [deck, setDeck] = useState<Card[]>(() => buildDeck())
+  // Starts empty — deal()/dealFree() always build a fresh deck, and an
+  // impure buildDeck() in the state initializer would run during render.
+  const [deck, setDeck] = useState<Card[]>([])
   const [playerHand, setPlayerHand] = useState<Card[]>([])
   const [dealerHand, setDealerHand] = useState<Card[]>([])
   const [gameState, setGameState] = useState<GameState>('betting')
@@ -175,6 +188,9 @@ export default function ComingSoonPage() {
   const [justWon, setJustWon] = useState(false)
   const [shaking, setShaking] = useState(false)
   const [firstDeal, setFirstDeal] = useState(true)
+  // True while playing the opening hand, which never collected a stake —
+  // payouts for it are net-only so coins can't be minted from nothing.
+  const [freeHand, setFreeHand] = useState(false)
 
   const maxBet = Math.max(1, Math.min(25, coins || 1))
 
@@ -194,14 +210,6 @@ export default function ComingSoonPage() {
     if (coins > 0 && bet > coins) setBet(Math.min(coins, maxBet))
   }, [coins, bet, maxBet])
 
-  const drawCard = useCallback(
-    (hidden = false): Card => {
-      const card = deck[0]
-      setDeck((d) => d.slice(1))
-      return { ...card, hidden }
-    },
-    [deck],
-  )
 
   const deal = () => {
     if (coins < bet) {
@@ -224,6 +232,7 @@ export default function ComingSoonPage() {
     setDealerHand([d1, d2])
     setDeck(newDeck.slice(4))
     setCoins((c) => c - bet)
+    setFreeHand(false)
     setGameState('playing')
     setMessage('hit or stand?')
 
@@ -252,6 +261,7 @@ export default function ComingSoonPage() {
     setPlayerHand([p1, p2])
     setDealerHand([d1, d2])
     setDeck(newDeck.slice(4))
+    setFreeHand(true)
     setGameState('playing')
     setMessage('first hand is free — hit or stand?')
   }
@@ -309,26 +319,35 @@ export default function ComingSoonPage() {
 
     const isBlackjack = pH.length === 2 && pTotal === 21
 
+    // A paid hand gets its stake back on top of the profit; the free opening
+    // hand never staked anything, so it's paid profit only. Net outcomes are
+    // identical either way — no coins are minted from nothing.
+    const stakeBack = freeHand ? 0 : bet
+
     if (pTotal > 21) {
       setMessage('bust! you lose')
     } else if (dTotal > 21) {
-      const winnings = bet * 2
+      const winnings = bet + stakeBack
       setCoins((c) => c + winnings)
       setMessage(`dealer busts! +${winnings}`)
       triggerWin(false)
     } else if (isBlackjack && !(dH.length === 2 && dTotal === 21)) {
-      const winnings = Math.floor(bet * 2.5)
+      const winnings = Math.floor(bet * 1.5) + stakeBack
       setCoins((c) => c + winnings)
       setMessage(`BLACKJACK! +${winnings}`)
       triggerWin(true)
     } else if (pTotal > dTotal) {
-      const winnings = bet * 2
+      const winnings = bet + stakeBack
       setCoins((c) => c + winnings)
       setMessage(`you win! +${winnings}`)
       triggerWin(false)
     } else if (pTotal === dTotal) {
-      setCoins((c) => c + bet)
-      setMessage('push — bet returned')
+      if (stakeBack > 0) {
+        setCoins((c) => c + stakeBack)
+        setMessage('push — bet returned')
+      } else {
+        setMessage('push')
+      }
     } else {
       setMessage('dealer wins')
     }
@@ -415,7 +434,7 @@ export default function ComingSoonPage() {
             {dealerHand.length > 0 ? (
               <div className="flex">
                 {dealerHand.map((card, i) => (
-                  <PlayingCard key={`d-${i}`} card={card} index={i} total={dealerHand.length} />
+                  <PlayingCard key={`d-${i}`} card={card} index={i} />
                 ))}
               </div>
             ) : (
@@ -446,7 +465,7 @@ export default function ComingSoonPage() {
             {playerHand.length > 0 ? (
               <div className="flex">
                 {playerHand.map((card, i) => (
-                  <PlayingCard key={`p-${i}`} card={card} index={i} total={playerHand.length} />
+                  <PlayingCard key={`p-${i}`} card={card} index={i} />
                 ))}
               </div>
             ) : (

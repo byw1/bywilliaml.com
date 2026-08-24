@@ -67,7 +67,7 @@ export function AnimatedFolder({
 
   return (
     <div
-      className={`relative flex flex-col items-center justify-center p-6 rounded-2xl cursor-pointer bg-white/[0.03] border border-white/[0.06] transition-all duration-500 ease-out hover:border-white/10 group ${className}`}
+      className={`relative flex flex-col items-center justify-center p-6 rounded-2xl ${href ? 'cursor-pointer' : 'cursor-default'} bg-white/[0.03] border border-white/[0.06] transition-all duration-500 ease-out hover:border-white/10 group ${className}`}
       style={{ minWidth: '160px', minHeight: '220px', perspective: '1000px' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -173,6 +173,9 @@ export function AnimatedFolder({
           href={href}
           target={href.startsWith('http') ? '_blank' : undefined}
           rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+          aria-label={
+            href.startsWith('http') ? `${title} — opens in a new tab` : title
+          }
           className="absolute inset-0 z-40"
           onClick={(e) => e.stopPropagation()}
         />

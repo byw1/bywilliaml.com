@@ -13,6 +13,8 @@ const nextConfig: NextConfig = {
       { source: "/blog", destination: BLOG_URL, statusCode: 301 },
       // Catches /blog/anything so deep links land on the archive instead of 404.
       { source: "/blog/:path*", destination: BLOG_URL, statusCode: 301 },
+      // The blackjack game lived at /coming-soon before it got an honest URL.
+      { source: "/coming-soon", destination: "/blackjack", statusCode: 301 },
     ];
   },
   images: {

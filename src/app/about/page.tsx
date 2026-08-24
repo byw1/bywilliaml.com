@@ -20,27 +20,39 @@ const BOOKS = [
 function BookCarousel() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [paused, setPaused] = useState(false)
+  const [inView, setInView] = useState(false)
 
+  // Only observe visibility here — the animation loop below exists solely
+  // while the carousel is actually on screen.
   useEffect(() => {
     const el = scrollRef.current
     if (!el) return
+    const observer = new IntersectionObserver(([entry]) =>
+      setInView(entry.isIntersecting)
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el || paused || !inView) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     let raf: number
     const speed = 0.5
 
     const step = () => {
-      if (!paused && el) {
-        el.scrollLeft += speed
-        if (el.scrollLeft >= el.scrollWidth / 2) {
-          el.scrollLeft = 0
-        }
+      el.scrollLeft += speed
+      if (el.scrollLeft >= el.scrollWidth / 2) {
+        el.scrollLeft = 0
       }
       raf = requestAnimationFrame(step)
     }
 
     raf = requestAnimationFrame(step)
     return () => cancelAnimationFrame(raf)
-  }, [paused])
+  }, [paused, inView])
 
   const scrollBy = (dir: number) => {
     scrollRef.current?.scrollBy({ left: dir * 180, behavior: 'smooth' })
@@ -61,15 +73,17 @@ function BookCarousel() {
       {/* Nav buttons */}
       <button
         onClick={() => scrollBy(-1)}
+        aria-label="Scroll books left"
         className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
       >
-        <ChevronLeft className="w-4 h-4 text-white" />
+        <ChevronLeft className="w-4 h-4 text-white" aria-hidden="true" />
       </button>
       <button
         onClick={() => scrollBy(1)}
+        aria-label="Scroll books right"
         className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
       >
-        <ChevronRight className="w-4 h-4 text-white" />
+        <ChevronRight className="w-4 h-4 text-white" aria-hidden="true" />
       </button>
 
       {/* Scroll track */}
@@ -94,7 +108,7 @@ function BookCarousel() {
   )
 }
 
-const DEFAULT_POLAROIDS: PolaroidItem[] = [
+const POLAROIDS: PolaroidItem[] = [
   {
     src: 'https://avatars.githubusercontent.com/byw1',
     caption: 'William Lee',
@@ -119,14 +133,9 @@ const DEFAULT_POLAROIDS: PolaroidItem[] = [
 
 export default function AboutPage() {
   const [visible, setVisible] = useState(false)
-  const [polaroids, setPolaroids] = useState(DEFAULT_POLAROIDS)
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 100)
-    const customUrl = localStorage.getItem('bywilliaml-polaroid-url')
-    if (customUrl) {
-      setPolaroids((prev) => [{ ...prev[0], src: customUrl }, ...prev.slice(1)])
-    }
     return () => clearTimeout(timer)
   }, [])
 
@@ -147,9 +156,9 @@ export default function AboutPage() {
           visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
       >
-        <PolaroidStack items={polaroids} />
+        <PolaroidStack items={POLAROIDS} />
 
-        <p className="text-white/40 text-xs tracking-widest uppercase mt-2 mb-10">
+        <p className="text-white/50 text-xs tracking-widest uppercase mt-2 mb-10">
           drag to flip through
         </p>
 
@@ -194,7 +203,7 @@ export default function AboutPage() {
 
           {/* Numerology — big glowing number */}
           <TiltCard className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5 text-center">
-            <p className="text-white/40 text-xs uppercase tracking-widest mb-3">numerology</p>
+            <p className="text-white/50 text-xs uppercase tracking-widest mb-3">numerology</p>
             <div className="relative inline-block">
               <span
                 className="text-6xl font-bold tracking-tight"
@@ -214,7 +223,7 @@ export default function AboutPage() {
           {/* Myers-Briggs — dimension sliders */}
           <TiltCard className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5">
             <div className="flex items-center justify-between mb-4">
-              <p className="text-white/40 text-xs uppercase tracking-widest">myers-briggs</p>
+              <p className="text-white/50 text-xs uppercase tracking-widest">myers-briggs</p>
               <span className="text-blue-400 text-sm font-semibold">INTJ-A</span>
             </div>
             <div className="space-y-3">
@@ -226,7 +235,7 @@ export default function AboutPage() {
               ].map((dim) => (
                 <div key={dim.label}>
                   <div className="flex items-center gap-2">
-                    <span className="text-white/30 text-[10px] w-3 text-center font-mono">{dim.left}</span>
+                    <span className="text-white/50 text-[10px] w-3 text-center font-mono">{dim.left}</span>
                     <div className="flex-1 h-2 bg-white/[0.06] rounded-full overflow-hidden">
                       <div
                         className="h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400"
@@ -243,7 +252,7 @@ export default function AboutPage() {
 
           {/* Principles You — The Shaper */}
           <TiltCard className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5">
-            <p className="text-white/40 text-xs uppercase tracking-widest mb-3">principles you</p>
+            <p className="text-white/50 text-xs uppercase tracking-widest mb-3">principles you</p>
             <p
               className="text-3xl font-bold text-center mb-3"
               style={{
@@ -271,7 +280,7 @@ export default function AboutPage() {
               borderColor: 'rgba(34,197,94,0.15)',
             }}
           >
-            <p className="text-white/40 text-xs uppercase tracking-widest mb-2">hogwarts house</p>
+            <p className="text-white/50 text-xs uppercase tracking-widest mb-2">hogwarts house</p>
             <p className="text-3xl mb-1">🐍</p>
             <p
               className="text-2xl font-bold"
@@ -283,12 +292,12 @@ export default function AboutPage() {
             >
               Slytherin
             </p>
-            <p className="text-white/40 text-xs mt-2 italic">though I know nothing about Harry Potter</p>
+            <p className="text-white/50 text-xs mt-2 italic">though I know nothing about Harry Potter</p>
           </TiltCard>
 
           {/* Political Compass — actual graph (full width) */}
           <TiltCard className="sm:col-span-2 rounded-2xl bg-white/[0.04] border border-white/[0.06] p-5">
-            <p className="text-white/40 text-xs uppercase tracking-widest mb-4">political compass</p>
+            <p className="text-white/50 text-xs uppercase tracking-widest mb-4">political compass</p>
             <div className="relative w-40 sm:w-48 h-40 sm:h-48 mx-auto my-4">
               <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-[#7c3aed]/10 rounded-tl-lg" />
               <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-[#3b82f6]/10 rounded-tr-lg" />
@@ -296,10 +305,10 @@ export default function AboutPage() {
               <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-[#eab308]/10 rounded-br-lg" />
               <div className="absolute top-0 bottom-0 left-1/2 w-px bg-white/10" />
               <div className="absolute left-0 right-0 top-1/2 h-px bg-white/10" />
-              <span className="absolute -left-1 top-1/2 -translate-y-1/2 -translate-x-full text-[9px] text-white/30">Left</span>
-              <span className="absolute -right-1 top-1/2 -translate-y-1/2 translate-x-full text-[9px] text-white/30">Right</span>
-              <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full text-[9px] text-white/30">Auth</span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full text-[9px] text-white/30">Lib</span>
+              <span className="absolute -left-1 top-1/2 -translate-y-1/2 -translate-x-full text-[9px] text-white/50">Left</span>
+              <span className="absolute -right-1 top-1/2 -translate-y-1/2 translate-x-full text-[9px] text-white/50">Right</span>
+              <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full text-[9px] text-white/50">Auth</span>
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full text-[9px] text-white/50">Lib</span>
               <div
                 className="absolute w-3 h-3 rounded-full bg-emerald-400 border-2 border-white"
                 style={{

@@ -4,13 +4,14 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion, useAnimation, AnimatePresence } from 'framer-motion'
 import { Coins } from 'lucide-react'
 import Link from 'next/link'
+import { mulberry32 } from '@/lib/utils'
 
 const SYMBOLS = ['🍒', '🍋', '🍊', '🍇', '💎', '7️⃣', '🍀', '⭐']
 const REEL_SIZE = 20
 
-function buildReel() {
+function buildReel(rng: () => number = Math.random) {
   return Array.from({ length: REEL_SIZE }, () =>
-    SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)],
+    SYMBOLS[Math.floor(rng() * SYMBOLS.length)],
   )
 }
 
@@ -63,14 +64,19 @@ function Confetti({ burstKey, jackpot }: { burstKey: number; jackpot: boolean })
   const count = jackpot ? 50 : 18
   const emojis = jackpot ? ['💎', '🎉', '✨', '🎊', '💫', '🪙'] : ['✨', '🪙', '⭐']
 
+  // Seeded by burstKey so a re-render mid-flight recomputes the exact same
+  // trajectories — particles no longer teleport when parent state changes.
+  const rng = mulberry32(burstKey * 7919)
+
   return (
     <div className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center">
       {Array.from({ length: count }).map((_, i) => {
-        const angle = (Math.PI * 2 * i) / count + Math.random() * 0.6
-        const distance = 120 + Math.random() * 180
+        const angle = (Math.PI * 2 * i) / count + rng() * 0.6
+        const distance = 120 + rng() * 180
         const dx = Math.cos(angle) * distance
         const dy = Math.sin(angle) * distance
-        const emoji = emojis[Math.floor(Math.random() * emojis.length)]
+        const emoji = emojis[Math.floor(rng() * emojis.length)]
+        const rotate = rng() * 720 - 360
         return (
           <motion.div
             key={`${burstKey}-${i}`}
@@ -80,7 +86,7 @@ function Confetti({ burstKey, jackpot }: { burstKey: number; jackpot: boolean })
               y: dy + 80,
               opacity: 0,
               scale: 1,
-              rotate: Math.random() * 720 - 360,
+              rotate,
             }}
             transition={{ duration: 1.3, ease: 'easeOut' }}
             className="absolute text-2xl"
@@ -121,9 +127,11 @@ function Reel({
     })
   }, [controls, finalIndex, delay, symbols.length, symbolHeight])
 
-  if (spinning) {
-    startSpin()
-  }
+  // Side effect belongs after render, not during it — each spin remounts the
+  // Reel (keyed on spinKey), so this fires exactly once per spin.
+  useEffect(() => {
+    if (spinning) startSpin()
+  }, [spinning, startSpin])
 
   return (
     <div
@@ -188,7 +196,13 @@ export default function NotFound() {
   const [bet, setBet] = useState(1)
   const [spinning, setSpinning] = useState(false)
   const [message, setMessage] = useState('page not found — try your luck')
-  const [reels, setReels] = useState(() => [buildReel(), buildReel(), buildReel()])
+  // Deterministic first paint: the prerendered HTML and the client's initial
+  // render agree, so hydration never mismatches. Real spins use Math.random
+  // inside the event handler, where impurity is fine.
+  const [reels, setReels] = useState(() => {
+    const rng = mulberry32(404)
+    return [buildReel(rng), buildReel(rng), buildReel(rng)]
+  })
   const [finals, setFinals] = useState([0, 0, 0])
   const [spinKey, setSpinKey] = useState(0)
   const [shaking, setShaking] = useState(false)
@@ -197,21 +211,20 @@ export default function NotFound() {
   const [justWon, setJustWon] = useState(false)
 
   const maxBet = Math.max(1, Math.min(5, coins || 1))
-
-  useEffect(() => {
-    if (coins > 0 && bet > coins) setBet(coins)
-  }, [coins, bet])
+  // Derived, not synced: if coins drop below the chosen bet, play at what's
+  // affordable without a state round-trip in an effect.
+  const currentBet = Math.min(bet, maxBet)
 
   const spin = () => {
     if (spinning) return
-    if (coins < bet) {
+    if (coins < currentBet) {
       setMessage('not enough coins')
       setShaking(true)
       setTimeout(() => setShaking(false), 500)
       return
     }
 
-    setCoins((c) => c - bet)
+    setCoins((c) => c - currentBet)
     setMessage('spinning...')
     setSpinning(true)
     setJustWon(false)
@@ -235,7 +248,7 @@ export default function NotFound() {
       const result = checkWin(a, b, c)
 
       if (result) {
-        const winnings = result.match * bet
+        const winnings = result.match * currentBet
         setCoins((prev) => prev + winnings)
         setMessage(`${result.label} +${winnings} coins!`)
         setJustWon(true)
@@ -322,7 +335,7 @@ export default function NotFound() {
             <span className="text-white/50 text-xs uppercase tracking-widest">bet</span>
             <span className="text-yellow-400 text-xs font-medium tabular-nums flex items-center gap-1">
               <Coins className="h-3 w-3" />
-              {bet} · {bet}x payout
+              {currentBet} · wins pay 3–100x
             </span>
           </div>
           <input
@@ -330,14 +343,14 @@ export default function NotFound() {
             min={1}
             max={maxBet}
             step={1}
-            value={Math.min(bet, maxBet)}
+            value={currentBet}
             onChange={(e) => setBet(Number(e.target.value))}
             disabled={spinning}
             className="w-full accent-yellow-400 cursor-pointer disabled:opacity-40"
           />
           <div className="flex justify-between text-[10px] text-white/30 mt-1">
-            {[1, 2, 3, 4, 5].map((n) => (
-              <span key={n} className={n === bet ? 'text-yellow-400' : ''}>
+            {Array.from({ length: maxBet }, (_, i) => i + 1).map((n) => (
+              <span key={n} className={n === currentBet ? 'text-yellow-400' : ''}>
                 {n}
               </span>
             ))}
@@ -347,11 +360,11 @@ export default function NotFound() {
         <div className="flex flex-col items-center gap-2 mt-1">
           <SpinButton
             onPress={spin}
-            disabled={coins < bet}
+            disabled={coins < currentBet}
             spinning={spinning}
           />
           <span className="text-white/30 text-[10px] uppercase tracking-widest min-h-[14px]">
-            {spinning ? 'spinning...' : coins >= bet ? `tap to spin · ${bet} coin${bet > 1 ? 's' : ''}` : 'out of coins'}
+            {spinning ? 'spinning...' : coins >= currentBet ? `tap to spin · ${currentBet} coin${currentBet > 1 ? 's' : ''}` : 'out of coins'}
           </span>
         </div>
       </motion.div>

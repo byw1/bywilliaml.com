@@ -2,6 +2,12 @@
   "name": "bywilliaml.com",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
+  "homepage": "https://bywilliaml.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/byw1/bywilliaml.com.git"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

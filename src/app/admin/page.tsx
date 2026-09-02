@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { migrate, query } from "@/lib/db";
+import { query } from "@/lib/db";
 import { listConnections } from "@/lib/providers";
 import { listBookingTypes } from "@/lib/scheduling/booking-types";
 import { upcomingBookings } from "@/lib/scheduling/bookings";
@@ -95,10 +95,8 @@ export default async function AdminPage({
     );
   }
 
-  // Applying migrations here means a fresh deploy needs no manual step; it's a
-  // no-op once they've run.
-  await migrate();
-
+  // listBookingTypes() applies any pending migrations, so a fresh deploy
+  // needs no manual step.
   const [connections, types, bookings, calendars] = await Promise.all([
     listConnections(),
     listBookingTypes(),

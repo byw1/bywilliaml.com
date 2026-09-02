@@ -1,7 +1,8 @@
-import { query, queryOne } from "../db";
+import { ensureMigrated, query, queryOne } from "../db";
 import type { BookingType } from "./types";
 
 export async function listBookingTypes(): Promise<BookingType[]> {
+  await ensureMigrated();
   return query<BookingType>(
     "SELECT * FROM booking_types ORDER BY is_active DESC, slug",
   );
@@ -10,6 +11,7 @@ export async function listBookingTypes(): Promise<BookingType[]> {
 export async function getBookingTypeBySlug(
   slug: string,
 ): Promise<BookingType | null> {
+  await ensureMigrated();
   return queryOne<BookingType>("SELECT * FROM booking_types WHERE slug = $1", [
     slug,
   ]);

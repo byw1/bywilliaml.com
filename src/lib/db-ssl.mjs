@@ -19,8 +19,18 @@ export function sslConfigFor(connectionString) {
     return undefined;
   }
 
+  // An explicit sslmode is the operator's decision and outranks every
+  // heuristic below — including the private-network one, which would
+  // otherwise silently ignore a `require` on a *.railway.internal URL.
   const sslmode = url.searchParams.get("sslmode");
   if (sslmode === "disable") return undefined;
+  if (sslmode === "require" || sslmode === "prefer") {
+    return { rejectUnauthorized: false };
+  }
+  if (sslmode === "verify-ca" || sslmode === "verify-full") {
+    return { rejectUnauthorized: true };
+  }
+
   // A `host=` parameter means a Unix socket, which is never TLS.
   if (url.searchParams.has("host")) return undefined;
 

@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { query, queryOne, transaction } from "../db";
+import { ensureMigrated, query, queryOne, transaction } from "../db";
 import { randomToken } from "../crypto";
 import {
   anyGoogleConnection,
@@ -163,6 +163,7 @@ export async function createBooking(request: BookingRequest): Promise<Booking> {
 }
 
 export async function getBooking(id: string): Promise<Booking | null> {
+  await ensureMigrated();
   return queryOne<Booking>("SELECT * FROM bookings WHERE id = $1", [id]);
 }
 

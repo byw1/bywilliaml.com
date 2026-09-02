@@ -4,7 +4,7 @@ import { listConnections } from "@/lib/providers";
 import { listBookingTypes } from "@/lib/scheduling/booking-types";
 import { upcomingBookings } from "@/lib/scheduling/bookings";
 import { readSession } from "@/lib/session";
-import { schedulingConfigured } from "@/lib/env";
+import { missingSchedulingConfig, zohoConfigured } from "@/lib/env";
 import {
   createBookingType,
   disconnectAccount,
@@ -41,17 +41,27 @@ export default async function AdminPage({
 }) {
   const { error, connected } = await searchParams;
 
-  if (!schedulingConfigured()) {
+  const missing = missingSchedulingConfig();
+  if (missing.length > 0) {
     return (
       <Shell>
         <div className={card}>
           <h2 className="text-lg font-medium">Not configured yet</h2>
           <p className="mt-3 text-sm leading-relaxed text-white/60">
-            Set <code className="text-white">DATABASE_URL</code>,{" "}
-            <code className="text-white">SCHEDULING_ENCRYPTION_KEY</code> and{" "}
-            <code className="text-white">SCHEDULING_SESSION_SECRET</code> on the
-            service, then reload. <code className="text-white">DEPLOY.md</code>{" "}
-            has the full list.
+            {missing.length} variable{missing.length === 1 ? " is" : "s are"}{" "}
+            still unset on this service:
+          </p>
+          <ul className="mt-3 space-y-1">
+            {missing.map((name) => (
+              <li key={name}>
+                <code className="text-sm text-amber-300">{name}</code>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-4 text-sm leading-relaxed text-white/60">
+            Set them and redeploy.{" "}
+            <code className="text-white">SCHEDULING.md</code> explains where
+            each one comes from.
           </p>
         </div>
       </Shell>
@@ -192,12 +202,21 @@ export default async function AdminPage({
             >
               + Connect a Google account
             </a>
-            <a
-              href="/api/connect/zoho"
-              className="rounded-lg border border-white/25 px-4 py-2 text-sm transition hover:border-white"
-            >
-              + Connect Zoho
-            </a>
+            {zohoConfigured() ? (
+              <a
+                href="/api/connect/zoho"
+                className="rounded-lg border border-white/25 px-4 py-2 text-sm transition hover:border-white"
+              >
+                + Connect Zoho
+              </a>
+            ) : (
+              <span
+                title="Set ZOHO_CLIENT_ID and ZOHO_CLIENT_SECRET to enable this"
+                className="cursor-not-allowed rounded-lg border border-white/10 px-4 py-2 text-sm text-white/30"
+              >
+                + Connect Zoho — needs ZOHO_CLIENT_ID
+              </span>
+            )}
           </div>
         </div>
       </section>

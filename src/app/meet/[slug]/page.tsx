@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { BookingFlow } from "@/components/booking/booking-flow";
 import { getBookingTypeBySlug } from "@/lib/scheduling/booking-types";
-import { schedulingConfigured } from "@/lib/env";
+import { databaseConfigured } from "@/lib/env";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +12,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  if (!schedulingConfigured()) return { title: "Book a meeting" };
+  if (!databaseConfigured()) return { title: "Book a meeting" };
 
   const type = await getBookingTypeBySlug(slug);
   return {
@@ -27,7 +27,7 @@ export default async function BookingPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  if (!schedulingConfigured()) notFound();
+  if (!databaseConfigured()) notFound();
 
   const type = await getBookingTypeBySlug(slug);
   if (!type || !type.is_active) notFound();

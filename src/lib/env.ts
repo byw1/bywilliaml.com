@@ -59,11 +59,47 @@ export const env = {
   },
 };
 
+/**
+ * Variables the scheduling feature cannot run without.
+ *
+ * Google's client is in here because signing in to /admin is itself a Google
+ * OAuth round trip: without it the dashboard would render a sign-in button
+ * that 500s. Zoho is deliberately absent — the work link needs it, but
+ * everything else works while only Google is connected.
+ */
+const REQUIRED_FOR_SCHEDULING = [
+  "DATABASE_URL",
+  "SCHEDULING_ENCRYPTION_KEY",
+  "SCHEDULING_SESSION_SECRET",
+  "ADMIN_EMAILS",
+  "GOOGLE_CLIENT_ID",
+  "GOOGLE_CLIENT_SECRET",
+] as const;
+
+/** Which required variables are still unset, in the order they're needed. */
+export function missingSchedulingConfig(): string[] {
+  return REQUIRED_FOR_SCHEDULING.filter((name) => !process.env[name]);
+}
+
 /** True when the scheduling feature has enough configuration to run at all. */
 export function schedulingConfigured(): boolean {
+  return missingSchedulingConfig().length === 0;
+}
+
+/**
+ * Enough to read booking types and compute availability. The public /meet
+ * pages need only this — they never touch an OAuth client directly, so a
+ * missing Google credential shouldn't hide a link that already works.
+ */
+export function databaseConfigured(): boolean {
   return Boolean(
     process.env.DATABASE_URL &&
       process.env.SCHEDULING_ENCRYPTION_KEY &&
       process.env.SCHEDULING_SESSION_SECRET,
   );
+}
+
+/** True once Zoho is wired up, which the work booking link needs. */
+export function zohoConfigured(): boolean {
+  return Boolean(process.env.ZOHO_CLIENT_ID && process.env.ZOHO_CLIENT_SECRET);
 }

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CancelButton } from "@/components/booking/cancel-button";
 import { getBooking } from "@/lib/scheduling/bookings";
-import { schedulingConfigured } from "@/lib/env";
+import { databaseConfigured } from "@/lib/env";
 
 export const dynamic = "force-dynamic";
 
@@ -20,7 +20,7 @@ export default async function BookedPage({
   params: Promise<{ id: string }>;
   searchParams: Promise<{ token?: string }>;
 }) {
-  if (!schedulingConfigured()) notFound();
+  if (!databaseConfigured()) notFound();
 
   const { id } = await params;
   const { token } = await searchParams;

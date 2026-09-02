@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { listBookingTypes } from "@/lib/scheduling/booking-types";
-import { schedulingConfigured } from "@/lib/env";
+import { databaseConfigured } from "@/lib/env";
 
 // Availability is live data, so nothing here may be cached at build time.
 export const dynamic = "force-dynamic";
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function MeetIndex() {
-  const types = schedulingConfigured() ? await listBookingTypes() : [];
+  const types = databaseConfigured() ? await listBookingTypes() : [];
   const active = types.filter((type) => type.is_active);
 
   return (

@@ -3,27 +3,94 @@
 import { useState, useEffect } from 'react'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 
-const games = [
+// Icons are official app/store art, saved locally under public/games/
+// (iTunes lookups for the mobile titles, Steam art for Satisfactory).
+interface Game {
+  name: string
+  description: string
+  category: string
+  icon: string
+  modes?: string[]
+}
+
+const CURRENT: Game[] = [
   {
     name: 'Minecraft',
-    description: 'The game behind the Skyblock server days',
+    description: 'The game behind the server days',
     category: 'Sandbox',
-    color: 'linear-gradient(135deg, #1a2e1a, #2d4a1a)',
+    icon: '/games/minecraft.jpg',
+    modes: ['Skyblock', 'Factions', 'Towny'],
   },
   {
     name: 'Balatro',
     description: 'Poker hands warped into a roguelike deckbuilder',
     category: 'Roguelike',
-    color: 'linear-gradient(135deg, #2d1a1a, #3e1a2a)',
+    icon: '/games/balatro.jpg',
   },
   {
     name: 'Satisfactory',
     description: 'First-person factory building on an alien planet',
     category: 'Factory sim',
-    color: 'linear-gradient(135deg, #2d2a1a, #1a2e1a)',
+    icon: '/games/satisfactory.jpg',
+  },
+  {
+    name: 'The Battle of Polytopia',
+    description: 'Bite-size turn-based strategy on a tiny low-poly world',
+    category: 'Strategy',
+    icon: '/games/polytopia.jpg',
   },
 ]
+
+const RETIRED: Game[] = [
+  {
+    name: 'Clash Royale',
+    description:
+      'Founded Abrupt — the #1 clan in the US for about six months of high school',
+    category: 'Card battler',
+    icon: '/games/clash-royale.jpg',
+  },
+]
+
+function GameCard({ game, muted = false }: { game: Game; muted?: boolean }) {
+  return (
+    <div
+      className={`flex items-start gap-4 rounded-2xl bg-white/[0.04] border border-white/[0.06] p-4 sm:p-5 transition-colors hover:bg-white/[0.06] ${
+        muted ? 'opacity-80' : ''
+      }`}
+    >
+      <Image
+        src={game.icon}
+        alt=""
+        width={56}
+        height={56}
+        className={`rounded-xl shrink-0 border border-white/10 ${muted ? 'grayscale-[0.35]' : ''}`}
+      />
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center justify-between gap-3 mb-0.5">
+          <h3 className="text-white font-medium truncate">{game.name}</h3>
+          <span className="text-white/40 text-xs uppercase tracking-widest shrink-0 hidden sm:block">
+            {game.category}
+          </span>
+        </div>
+        <p className="text-white/50 text-sm">{game.description}</p>
+        {game.modes && (
+          <div className="flex flex-wrap gap-1.5 mt-2.5">
+            {game.modes.map((mode) => (
+              <span
+                key={mode}
+                className="text-[10px] uppercase tracking-wider text-white/50 bg-white/[0.06] border border-white/[0.06] rounded-full px-2.5 py-1"
+              >
+                {mode}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
 
 export default function VideogamesPage() {
   const [visible, setVisible] = useState(false)
@@ -54,26 +121,19 @@ export default function VideogamesPage() {
         <p className="text-white/50 text-sm mb-10">what i play when i&apos;m not building</p>
 
         <div className="w-full space-y-3">
-          {games.map((game) => (
-            <div
-              key={game.name}
-              className="flex items-center gap-4 rounded-2xl bg-white/[0.04] border border-white/[0.06] p-4 sm:p-5 transition-colors hover:bg-white/[0.06]"
-            >
-              <div
-                aria-hidden="true"
-                className="h-12 w-12 shrink-0 rounded-xl border border-white/10 flex items-center justify-center text-white font-semibold"
-                style={{ background: game.color }}
-              >
-                {game.name[0]}
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center justify-between gap-3 mb-0.5">
-                  <h3 className="text-white font-medium truncate">{game.name}</h3>
-                  <span className="text-white/40 text-xs uppercase tracking-widest shrink-0">{game.category}</span>
-                </div>
-                <p className="text-white/50 text-sm">{game.description}</p>
-              </div>
-            </div>
+          {CURRENT.map((game) => (
+            <GameCard key={game.name} game={game} />
+          ))}
+        </div>
+
+        <div className="w-16 h-px bg-white/20 my-10" />
+
+        <h2 className="text-xl font-bold text-white mb-1 tracking-tight">The Retired Shelf</h2>
+        <p className="text-white/50 text-sm mb-6">games i don&apos;t play anymore, still worth noting</p>
+
+        <div className="w-full space-y-3">
+          {RETIRED.map((game) => (
+            <GameCard key={game.name} game={game} muted />
           ))}
         </div>
       </div>

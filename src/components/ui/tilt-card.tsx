@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState, useCallback } from "react"
+import { useCallback, useEffect, useRef } from "react"
 import { cn } from "@/lib/utils"
 
 export interface TiltCardProps {
@@ -14,9 +14,15 @@ export interface TiltCardProps {
   children?: React.ReactNode
 }
 
+/**
+ * Pointer-tracked 3-D tilt. Transforms are written straight to the node as
+ * CSS custom properties inside a single rAF, so a pointer sweep never
+ * re-renders React — the jank of the old setState-per-pointermove version.
+ * Honors prefers-reduced-motion by staying flat.
+ */
 export function TiltCard({
-  tiltLimit = 15,
-  scale = 1.05,
+  tiltLimit = 8,
+  scale = 1.02,
   perspective = 1200,
   effect = "evade",
   spotlight = true,
@@ -25,43 +31,62 @@ export function TiltCard({
   children,
 }: TiltCardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
-  const [transform, setTransform] = useState(
-    `perspective(${perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`
-  )
-  const [spotlightPos, setSpotlightPos] = useState({ x: 50, y: 50 })
-  const [isHovered, setIsHovered] = useState(false)
+  const frame = useRef<number | null>(null)
+  const reduced = useRef(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)")
+    reduced.current = mq.matches
+    const onChange = (e: MediaQueryListEvent) => {
+      reduced.current = e.matches
+    }
+    mq.addEventListener("change", onChange)
+    return () => {
+      mq.removeEventListener("change", onChange)
+      if (frame.current !== null) cancelAnimationFrame(frame.current)
+    }
+  }, [])
 
   const dir = effect === "evade" ? -1 : 1
 
   const handlePointerMove = useCallback(
     (e: React.PointerEvent) => {
+      if (reduced.current) return
       const el = cardRef.current
       if (!el) return
       const rect = el.getBoundingClientRect()
       const px = (e.clientX - rect.left) / rect.width
       const py = (e.clientY - rect.top) / rect.height
-      const xRot = (py - 0.5) * (tiltLimit * 2) * dir
-      const yRot = (px - 0.5) * -(tiltLimit * 2) * dir
-      setTransform(
-        `perspective(${perspective}px) rotateX(${xRot}deg) rotateY(${yRot}deg) scale3d(${scale}, ${scale}, ${scale})`
-      )
-      if (spotlight) {
-        setSpotlightPos({ x: px * 100, y: py * 100 })
-      }
+      if (frame.current !== null) cancelAnimationFrame(frame.current)
+      frame.current = requestAnimationFrame(() => {
+        el.style.setProperty("--rx", `${(py - 0.5) * (tiltLimit * 2) * dir}deg`)
+        el.style.setProperty("--ry", `${(px - 0.5) * -(tiltLimit * 2) * dir}deg`)
+        el.style.setProperty("--s", `${scale}`)
+        el.style.setProperty("--gx", `${px * 100}%`)
+        el.style.setProperty("--gy", `${py * 100}%`)
+        frame.current = null
+      })
     },
-    [tiltLimit, scale, perspective, dir, spotlight]
+    [tiltLimit, scale, dir]
   )
 
   const handlePointerEnter = useCallback(() => {
-    setIsHovered(true)
+    if (reduced.current) return
+    cardRef.current?.style.setProperty("--glow", "1")
   }, [])
 
   const handlePointerLeave = useCallback(() => {
-    setTransform(
-      `perspective(${perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`
-    )
-    setIsHovered(false)
-  }, [perspective])
+    if (frame.current !== null) {
+      cancelAnimationFrame(frame.current)
+      frame.current = null
+    }
+    const el = cardRef.current
+    if (!el) return
+    el.style.setProperty("--rx", "0deg")
+    el.style.setProperty("--ry", "0deg")
+    el.style.setProperty("--s", "1")
+    el.style.setProperty("--glow", "0")
+  }, [])
 
   return (
     <div
@@ -70,27 +95,33 @@ export function TiltCard({
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
       className={cn("will-change-transform relative overflow-hidden", className)}
-      style={{
-        transform,
-        transition: "transform 0.2s ease-out",
-        transformStyle: "preserve-3d",
-        ...style,
-      }}
+      style={
+        {
+          "--rx": "0deg",
+          "--ry": "0deg",
+          "--s": "1",
+          "--gx": "50%",
+          "--gy": "50%",
+          "--glow": "0",
+          transform: `perspective(${perspective}px) rotateX(var(--rx)) rotateY(var(--ry)) scale3d(var(--s), var(--s), var(--s))`,
+          transition: "transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
+          transformStyle: "preserve-3d",
+          ...style,
+        } as React.CSSProperties
+      }
     >
       {children}
       {spotlight && (
         <div
-          className="pointer-events-none absolute inset-0 z-10 overflow-hidden"
-          style={{ opacity: isHovered ? 1 : 0, transition: "opacity 0.3s" }}
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-10 overflow-hidden rounded-[inherit]"
+          style={{ opacity: "var(--glow)", transition: "opacity 0.4s ease" }}
         >
           <div
-            className="absolute w-[200%] h-[200%] rounded-full"
+            className="absolute inset-0"
             style={{
-              left: `${spotlightPos.x}%`,
-              top: `${spotlightPos.y}%`,
-              transform: "translate(-50%, -50%)",
               background:
-                "radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 40%)",
+                "radial-gradient(420px circle at var(--gx) var(--gy), rgba(255,255,255,0.10) 0%, transparent 55%)",
             }}
           />
         </div>

@@ -19,6 +19,27 @@ body {
   font-family: 'Poppins', Arial, Helvetica, sans-serif;
 }
 
+/* PerspectiveBook: a light sweep across the cover on hover. */
+.book-sheen {
+  background: linear-gradient(
+    105deg,
+    transparent 42%,
+    rgba(255, 255, 255, 0.09) 50%,
+    transparent 58%
+  );
+  background-size: 300% 100%;
+  background-position: 115% 0;
+  transition: background-position 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.group:hover .book-sheen {
+  background-position: -15% 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .book-sheen {
+    transition: none;
+  }
+}
+
 /* Signature intro: letters start invisible; once the font is ready the
    .signature-ready class starts the staggered outline trace, then the fill. */
 .signature-text {

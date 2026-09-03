@@ -362,6 +362,7 @@ export default function AboutPage() {
           <AnimatedFolder
             title="Videogames"
             folderColor="#3b82f6"
+            href="/videogames"
             items={[
               { id: 'g1', title: 'Minecraft', color: 'linear-gradient(135deg, #1a2e1a, #2d4a1a)' },
               { id: 'g2', title: 'Balatro', color: 'linear-gradient(135deg, #2d1a1a, #3e1a2a)' },

@@ -45,7 +45,8 @@ All content is plain TypeScript data at the top of each page — there's no CMS 
 | `src/app/layout.tsx` | Site title and description |
 | `src/app/about/page.tsx` | Bio, polaroids, infographic cards, books, folders |
 | `src/app/projects-test/page.tsx` | Projects (rank, status, accent colors, links) |
-| `src/app/youtube-channels/page.tsx` | The channel list |
+| `src/app/youtube-channels/page.tsx` | The channel list (avatars live in `public/youtube/`) |
+| `src/app/videogames/page.tsx` | The games list |
 | `src/app/globals.css` | Fonts and the black/white palette |
 | `/admin` (not a file) | Booking links, hours, and which calendars block time |
 | `next.config.ts` | Redirects and the image-host allowlist (`remotePatterns`) — add your own image domains here |

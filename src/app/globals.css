@@ -40,50 +40,6 @@ body {
   }
 }
 
-/* Signature intro: letters start invisible; once the font is ready the
-   .signature-ready class starts the staggered outline trace, then the fill. */
-.signature-text {
-  font-family: 'Caveat', cursive;
-  font-size: 110px;
-  font-weight: 700;
-  fill: #ffffff;
-  stroke: #ffffff;
-  stroke-width: 1.4;
-}
-
-.signature-letter {
-  fill-opacity: 0;
-  stroke-dasharray: 900;
-  stroke-dashoffset: 900;
-}
-
-.signature-ready .signature-letter {
-  animation:
-    signature-trace 0.9s ease-out forwards,
-    signature-fill 0.45s ease-out forwards;
-  animation-delay: var(--sd, 0s), calc(var(--sd, 0s) + 0.55s);
-}
-
-@keyframes signature-trace {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes signature-fill {
-  to {
-    fill-opacity: 1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .signature-ready .signature-letter {
-    animation: none;
-    fill-opacity: 1;
-    stroke-dashoffset: 0;
-  }
-}
-
 @keyframes project-card-in {
   from {
     opacity: 0;

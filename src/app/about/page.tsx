@@ -108,29 +108,14 @@ function BookCarousel() {
   )
 }
 
-// Captionless by request — swap these srcs for the photos in
-// public/polaroids/ once they're uploaded there.
+// William's own photos, served from public/polaroids/. Captionless by
+// request; alt text stays for screen readers. Reorder by moving entries.
 const POLAROIDS: PolaroidItem[] = [
-  {
-    src: 'https://avatars.githubusercontent.com/byw1',
-    alt: 'William Lee',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop',
-    alt: '',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?q=80&w=1200&auto=format&fit=crop',
-    alt: '',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=80&w=1200&auto=format&fit=crop',
-    alt: '',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=1200&auto=format&fit=crop',
-    alt: '',
-  },
+  { src: '/polaroids/1.jpg', alt: 'Portrait of William Lee' },
+  { src: '/polaroids/2.jpg', alt: 'Accepting the Glendale Young Entrepreneur award for Abrupt Collective' },
+  { src: '/polaroids/3.jpg', alt: 'William speaking to a room at a group discussion' },
+  { src: '/polaroids/4.jpg', alt: 'At Glendale Tech Week holding award certificates' },
+  { src: '/polaroids/5.jpg', alt: 'Mirror selfie in the office' },
 ]
 
 export default function AboutPage() {

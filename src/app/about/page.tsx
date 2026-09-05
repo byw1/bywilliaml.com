@@ -108,26 +108,28 @@ function BookCarousel() {
   )
 }
 
+// Captionless by request — swap these srcs for the photos in
+// public/polaroids/ once they're uploaded there.
 const POLAROIDS: PolaroidItem[] = [
   {
     src: 'https://avatars.githubusercontent.com/byw1',
-    caption: 'William Lee',
+    alt: 'William Lee',
   },
   {
     src: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop',
-    caption: 'under the stars',
+    alt: '',
   },
   {
     src: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?q=80&w=1200&auto=format&fit=crop',
-    caption: 'golden hour',
+    alt: '',
   },
   {
     src: 'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=80&w=1200&auto=format&fit=crop',
-    caption: 'lost in the woods',
+    alt: '',
   },
   {
     src: 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=1200&auto=format&fit=crop',
-    caption: 'sunday walks',
+    alt: '',
   },
 ]
 

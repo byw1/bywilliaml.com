@@ -6,7 +6,7 @@ import { motion, type PanInfo } from 'framer-motion'
 
 export interface PolaroidItem {
   src: string
-  caption: string
+  caption?: string
   alt?: string
 }
 
@@ -117,7 +117,7 @@ export default function PolaroidStack({ items, className = '' }: PolaroidStackPr
             <div className="relative w-full aspect-square bg-neutral-200 flex-shrink-0">
               <Image
                 src={card.src}
-                alt={card.alt || card.caption}
+                alt={card.alt || card.caption || ''}
                 fill
                 className="object-cover pointer-events-none select-none"
                 sizes="240px"
@@ -129,18 +129,21 @@ export default function PolaroidStack({ items, className = '' }: PolaroidStackPr
               />
             </div>
 
+            {/* The classic blank polaroid chin — caption only if one is given */}
             <div className="flex-1 flex items-center justify-center px-2 py-2">
-              <span
-                className="text-neutral-700 leading-tight text-center"
-                style={{
-                  fontFamily: "'Fuzzy Bubbles', cursive",
-                  fontSize: '20px',
-                  fontWeight: 700,
-                  transform: `rotate(${captionTilt}deg)`,
-                }}
-              >
-                {card.caption}
-              </span>
+              {card.caption && (
+                <span
+                  className="text-neutral-700 leading-tight text-center"
+                  style={{
+                    fontFamily: "'Fuzzy Bubbles', cursive",
+                    fontSize: '20px',
+                    fontWeight: 700,
+                    transform: `rotate(${captionTilt}deg)`,
+                  }}
+                >
+                  {card.caption}
+                </span>
+              )}
             </div>
           </motion.div>
         )

@@ -1,3 +1,4 @@
+import { TiltCard } from "@/components/ui/tilt-card";
 import type { PublicRsvp } from "@/lib/birthday/rsvps";
 import { headcount } from "@/lib/birthday/rsvps";
 
@@ -46,36 +47,43 @@ export function GuestWall({ guests }: { guests: PublicRsvp[] }) {
             return (
               <li
                 key={guest.id}
-                className="guest-card flex gap-3.5 rounded-2xl border border-white/12 bg-white/[0.025] p-4 transition hover:border-white/30 hover:bg-white/[0.05]"
+                className="guest-card"
                 // Capped so a long list doesn't leave the last names waiting.
                 style={{ animationDelay: `${Math.min(index, 12) * 55}ms` }}
               >
-                <span
-                  aria-hidden
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-medium"
-                  style={{
-                    background: `hsl(${hue} 70% 58% / 0.16)`,
-                    color: `hsl(${hue} 80% 72%)`,
-                  }}
+                <TiltCard
+                  tiltLimit={6}
+                  scale={1.03}
+                  effect="gravitate"
+                  className="flex h-full gap-3.5 rounded-2xl border border-white/12 bg-white/[0.045] p-4 backdrop-blur-md transition-colors hover:border-white/30"
                 >
-                  {initial(guest.name)}
-                </span>
+                  <span
+                    aria-hidden
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-medium"
+                    style={{
+                      background: `hsl(${hue} 70% 58% / 0.16)`,
+                      color: `hsl(${hue} 80% 72%)`,
+                    }}
+                  >
+                    {initial(guest.name)}
+                  </span>
 
-                <div className="min-w-0">
-                  <p className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                    <span className="truncate font-medium">{guest.name}</span>
-                    {guest.plus_one ? (
-                      <span className="rounded-full border border-[#f0b357]/40 px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] text-[#f0b357]">
-                        +1
-                      </span>
-                    ) : null}
-                  </p>
-                  {guest.message ? (
-                    <p className="mt-1.5 text-sm leading-relaxed text-white/55 [overflow-wrap:anywhere]">
-                      {guest.message}
+                  <div className="min-w-0">
+                    <p className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                      <span className="truncate font-medium">{guest.name}</span>
+                      {guest.plus_one ? (
+                        <span className="rounded-full border border-[#f0b357]/40 px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] text-[#f0b357]">
+                          +1
+                        </span>
+                      ) : null}
                     </p>
-                  ) : null}
-                </div>
+                    {guest.message ? (
+                      <p className="mt-1.5 text-sm leading-relaxed text-white/55 [overflow-wrap:anywhere]">
+                        {guest.message}
+                      </p>
+                    ) : null}
+                  </div>
+                </TiltCard>
               </li>
             );
           })}

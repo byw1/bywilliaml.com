@@ -1,7 +1,14 @@
 "use client";
 
 import * as THREE from "three";
-import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import {
+  Suspense,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type RefObject,
+} from "react";
 import {
   Canvas,
   extend,
@@ -30,6 +37,7 @@ import {
   createCardTexture,
   repaintWithWebFont,
 } from "./invite-textures";
+import { ConfettiField } from "./confetti-field";
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 
@@ -81,7 +89,48 @@ const SEGMENT = {
 const MIN_FOLLOW = 10;
 const MAX_FOLLOW = 50;
 
-function Lanyard() {
+/** tan(25° / 2): world units visible per unit of camera distance, halved. */
+const TAN_HALF_FOV = 0.2217;
+
+/** Tailwind's `lg`, where the page stops stacking and puts the copy on the left. */
+const STACK_BREAKPOINT = 1024;
+
+/**
+ * Where the strap is pinned and how far back the camera sits.
+ *
+ * The scene spans the whole viewport now rather than a column sized to fit it,
+ * so both have to be derived rather than fixed. A stacked layout hangs the
+ * badge high and centred with the copy beneath it; a wide one moves it over the
+ * right-hand third, clear of the headline. The camera then backs off only as
+ * far as whichever axis runs out first, which keeps the badge about the same
+ * share of the frame on a phone and on a desktop.
+ */
+function rigFor(width: number, height: number) {
+  const aspect = width / Math.max(height, 1);
+  const stacked = width < STACK_BREAKPOINT;
+  const anchor: [number, number, number] = stacked
+    ? [0, 6, 0]
+    : [Math.min(2.6, 0.85 + aspect * 0.78), 4.3, 0];
+
+  // Half-extents the rig needs to sit inside, with clearance. Stacked layouts
+  // ask for more width than the badge strictly needs, which is what shrinks it
+  // enough to leave the copy below it a clear gap.
+  const halfWidth = Math.abs(anchor[0]) + (stacked ? 1.75 : 1.5);
+  const halfHeight = 2.7;
+  const distance = Math.max(
+    halfHeight / TAN_HALF_FOV,
+    halfWidth / (TAN_HALF_FOV * aspect),
+  );
+
+  return { anchor, distance: THREE.MathUtils.clamp(distance, 9, 26) };
+}
+
+function useRig() {
+  const { width, height } = useThree((state) => state.size);
+  return useMemo(() => rigFor(width, height), [width, height]);
+}
+
+function Lanyard({ onHeldChange }: { onHeldChange: (held: boolean) => void }) {
   // The joint hooks want settled refs, and every read below is guarded, so the
   // refs are declared non-null and checked at use.
   const fixed = useRef<RapierRigidBody>(null!);
@@ -96,6 +145,7 @@ function Lanyard() {
 
   const { nodes, materials } = useGLTF(TAG_MODEL) as unknown as TagModel;
   const { width, height } = useThree((state) => state.size);
+  const { anchor } = useRig();
 
   const { cardTexture, bandTexture } = useMemo(
     () => ({ cardTexture: createCardTexture(), bandTexture: createBandTexture() }),
@@ -182,6 +232,11 @@ function Lanyard() {
     [0, 1.45, 0],
   ]);
 
+  const release = (event: ThreeEvent<PointerEvent>) => {
+    (event.target as Element)?.releasePointerCapture?.(event.pointerId);
+    setGrab(null);
+  };
+
   useEffect(() => {
     if (!hovered) return;
     document.body.style.cursor = grab ? "grabbing" : "grab";
@@ -189,6 +244,18 @@ function Lanyard() {
       document.body.style.cursor = "auto";
     };
   }, [hovered, grab]);
+
+  useEffect(() => {
+    const held = Boolean(grab);
+    onHeldChange(held);
+    if (!held) return;
+    // A drag across the page is a drag across live text, and the browser would
+    // otherwise read it as a selection and leave half the hero highlighted.
+    document.body.style.userSelect = "none";
+    return () => {
+      document.body.style.userSelect = "";
+    };
+  }, [grab, onHeldChange]);
 
   useFrame((state, delta) => {
     if (!fixed.current || !j1.current || !j2.current || !j3.current || !card.current) {
@@ -260,7 +327,7 @@ function Lanyard() {
 
   return (
     <>
-      <group position={[0, 4, 0]}>
+      <group position={anchor}>
         <RigidBody ref={fixed} {...SEGMENT} type="fixed" />
         <RigidBody position={[0.5, 0, 0]} ref={j1} {...SEGMENT}>
           <BallCollider args={[0.1]} />
@@ -283,11 +350,15 @@ function Lanyard() {
             position={[0, -1.2, -0.05]}
             onPointerOver={() => setHovered(true)}
             onPointerOut={() => setHovered(false)}
-            onPointerUp={(event: ThreeEvent<PointerEvent>) => {
-              (event.target as Element)?.releasePointerCapture?.(event.pointerId);
-              setGrab(null);
-            }}
+            onPointerUp={release}
+            // A touch that turns into a page scroll is cancelled by the
+            // browser mid-gesture. Without this the card would stay stuck to a
+            // finger that has already moved on.
+            onPointerCancel={release}
             onPointerDown={(event: ThreeEvent<PointerEvent>) => {
+              // Capture on the element the event actually landed on. The canvas
+              // no longer takes pointer events itself, so that is whatever page
+              // content sits under the badge.
               (event.target as Element)?.setPointerCapture?.(event.pointerId);
               setGrab(
                 new THREE.Vector3()
@@ -344,53 +415,88 @@ function Lanyard() {
   );
 }
 
-/** How much room the card and its strap need, in world units. */
-const CARD_FRAME = { width: 2.7, height: 3.7 };
-
 /**
- * Pulls the camera back only as far as the frame needs.
+ * Places the camera, and drifts it with the page.
  *
- * The card is a fixed size in world units, so a tall narrow column and a short
- * wide one would otherwise show it at wildly different sizes. Solving for the
- * dimension that runs out first keeps it filling roughly the same share of the
- * frame at every shape.
+ * The canvas is fixed to the viewport, so without the scroll term the badge
+ * would hang in one spot forever while the page slid past it. Moving the camera
+ * rather than the rig keeps the physics in an inertial frame: a jerked anchor
+ * would set the strap swinging on every scroll.
  */
-function FramingCamera() {
+function CameraRig() {
   const camera = useThree((state) => state.camera);
-  const { width, height } = useThree((state) => state.size);
+  const viewportHeight = useThree((state) => state.size.height);
+  const { distance } = useRig();
+  const drift = useRef(0);
 
   useEffect(() => {
-    const aspect = width / Math.max(height, 1);
-    // 0.4434 = 2 · tan(25° / 2): world units visible per unit of distance.
-    const forHeight = CARD_FRAME.height / 0.4434;
-    const forWidth = CARD_FRAME.width / (0.4434 * aspect);
-    camera.position.setZ(THREE.MathUtils.clamp(Math.max(forHeight, forWidth), 8, 20));
+    camera.position.setZ(distance);
     camera.updateProjectionMatrix();
-  }, [camera, width, height]);
+  }, [camera, distance]);
+
+  useEffect(() => {
+    const visibleHeight = 2 * distance * TAN_HALF_FOV;
+    const read = () => {
+      // Two thirds of the page's own speed: enough separation to read as depth
+      // without the badge looking pinned to the glass.
+      drift.current =
+        (window.scrollY / Math.max(viewportHeight, 1)) * visibleHeight * 0.66;
+    };
+    read();
+    window.addEventListener("scroll", read, { passive: true });
+    return () => window.removeEventListener("scroll", read);
+  }, [distance, viewportHeight]);
+
+  useFrame(() => {
+    camera.position.setY(-drift.current);
+    camera.updateMatrixWorld();
+  });
 
   return null;
 }
 
+export interface InviteLanyardProps {
+  /**
+   * The element pointer events are read from. Everything the badge reacts to
+   * arrives through here, since the canvas itself is inert.
+   */
+  eventSource: RefObject<HTMLElement | null>;
+  /** Called as the badge is picked up and put down. */
+  onHeldChange: (held: boolean) => void;
+}
+
 /**
- * The hanging invite. Purely decorative to assistive tech — every word printed
- * on the card is also on the page as real text.
+ * The hanging invite, spanning the viewport behind the page.
+ *
+ * Purely decorative to assistive tech — every word printed on the card is also
+ * on the page as real text.
  */
-export default function InviteLanyard() {
+export default function InviteLanyard({
+  eventSource,
+  onHeldChange,
+}: InviteLanyardProps) {
   return (
     <Canvas
       camera={{ position: [0, 0, 13], fov: 25 }}
       dpr={[1, 2]}
       gl={{ alpha: true, antialias: true }}
-      // Vertical scrolling still belongs to the page; a sideways drag swings
-      // the card.
-      style={{ touchAction: "pan-y" }}
+      // The scene is scenery: it spans the whole viewport behind the page, and
+      // taking pointer events here would swallow every click meant for the
+      // content on top. Events are read from the page element instead, which
+      // leaves links and inputs working while the badge stays draggable.
+      // Cast because the ref is genuinely null until the page mounts, which is
+      // before this ever renders; the prop type does not allow for that.
+      eventSource={eventSource as RefObject<HTMLElement>}
+      eventPrefix="client"
+      style={{ pointerEvents: "none" }}
       aria-hidden
     >
-      <FramingCamera />
+      <CameraRig />
       <ambientLight intensity={Math.PI * 0.9} />
       <Suspense fallback={null}>
+        <ConfettiField />
         <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
-          <Lanyard />
+          <Lanyard onHeldChange={onHeldChange} />
         </Physics>
         <Environment blur={0.75}>
           <color attach="background" args={["black"]} />

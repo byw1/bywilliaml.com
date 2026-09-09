@@ -1,6 +1,12 @@
 "use client";
 
-import { Component, useEffect, useState, type ReactNode } from "react";
+import {
+  Component,
+  useEffect,
+  useState,
+  type ReactNode,
+  type RefObject,
+} from "react";
 import dynamic from "next/dynamic";
 import { StaticInvite } from "./static-invite";
 
@@ -9,7 +15,7 @@ import { StaticInvite } from "./static-invite";
 // once the page has decided it wants motion.
 const InviteLanyard = dynamic(() => import("./invite-lanyard"), {
   ssr: false,
-  loading: () => <StaticInvite />,
+  loading: () => <PinnedFallback />,
 });
 
 /**
@@ -32,11 +38,18 @@ class SceneBoundary extends Component<
   }
 
   render() {
-    return this.state.failed ? <StaticInvite /> : this.props.children;
+    return this.state.failed ? <PinnedFallback /> : this.props.children;
   }
 }
 
-export function InviteStage() {
+export interface InviteStageProps {
+  /** The page element the scene reads pointer events from. */
+  eventSource: RefObject<HTMLElement | null>;
+  /** Called as the badge is picked up and put down. */
+  onHeldChange: (held: boolean) => void;
+}
+
+export function InviteStage({ eventSource, onHeldChange }: InviteStageProps) {
   // Server-render the flat card so the invite is in the HTML, then upgrade.
   const [animated, setAnimated] = useState(false);
 
@@ -48,11 +61,26 @@ export function InviteStage() {
     return () => media.removeEventListener("change", sync);
   }, []);
 
-  if (!animated) return <StaticInvite />;
+  if (!animated) return <PinnedFallback />;
 
   return (
     <SceneBoundary>
-      <InviteLanyard />
+      <InviteLanyard eventSource={eventSource} onHeldChange={onHeldChange} />
     </SceneBoundary>
+  );
+}
+
+/**
+ * The flat card, sitting roughly where the hanging one would.
+ *
+ * It shares the backdrop layer with the scene, so it has to land in the gap the
+ * page leaves for the badge: high and centred while the layout is stacked, over
+ * on the right once the copy moves left.
+ */
+function PinnedFallback() {
+  return (
+    <div className="absolute inset-x-0 top-0 flex justify-center px-6 pt-16 lg:justify-end lg:pr-[10vw] lg:pt-28">
+      <StaticInvite />
+    </div>
   );
 }

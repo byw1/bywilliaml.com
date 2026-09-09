@@ -8,8 +8,7 @@ import { EVENT } from "@/lib/birthday/event";
  */
 export function StaticInvite() {
   return (
-    <div className="flex h-full w-full items-center justify-center p-6">
-      <div className="relative w-full max-w-[280px] overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-[#14101a] via-[#0c0a10] to-[#08070b] px-7 pb-8 pt-9 shadow-[0_40px_80px_-40px_rgba(0,0,0,0.9)]">
+    <div className="relative w-full max-w-[280px] overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-[#14101a] via-[#0c0a10] to-[#08070b] px-7 pb-8 pt-9 shadow-[0_40px_80px_-40px_rgba(0,0,0,0.9)]">
         <div
           aria-hidden
           className="pointer-events-none absolute -left-16 -top-16 h-56 w-56 rounded-full bg-[#f0b357]/20 blur-3xl"
@@ -39,10 +38,9 @@ export function StaticInvite() {
           ))}
         </dl>
 
-        <p className="relative mt-6 border-t border-dashed border-white/20 pt-4 text-[10px] font-semibold uppercase tracking-[0.24em] text-[#f0b357]">
-          Admit one
-        </p>
-      </div>
+      <p className="relative mt-6 border-t border-dashed border-white/20 pt-4 text-[10px] font-semibold uppercase tracking-[0.24em] text-[#f0b357]">
+        Admit one
+      </p>
     </div>
   );
 }

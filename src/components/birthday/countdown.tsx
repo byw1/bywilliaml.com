@@ -50,12 +50,19 @@ export function Countdown() {
       {UNITS.map(([label], index) => (
         <div
           key={label}
-          className="flex min-w-[62px] flex-1 flex-col items-center rounded-xl border border-white/12 bg-white/[0.03] px-2 py-3 sm:min-w-[76px]"
+          className="flex min-w-[62px] flex-1 flex-col items-center rounded-xl border border-white/12 bg-white/[0.045] px-2 py-3 backdrop-blur-md sm:min-w-[76px]"
         >
-          <span className="font-mono text-2xl tabular-nums sm:text-3xl">
-            {parts === null
-              ? "––"
-              : String(parts[index]).padStart(index === 0 ? 1 : 2, "0")}
+          <span className="block h-[1.15em] overflow-hidden font-mono text-2xl tabular-nums sm:text-3xl">
+            {parts === null ? (
+              "––"
+            ) : (
+              <span
+                key={parts[index]}
+                className="countdown-tick block leading-[1.15]"
+              >
+                {String(parts[index]).padStart(index === 0 ? 1 : 2, "0")}
+              </span>
+            )}
           </span>
           <span className="mt-1 text-[9px] uppercase tracking-[0.2em] text-white/40 sm:text-[10px]">
             {label}

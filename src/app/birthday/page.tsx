@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Countdown } from "@/components/birthday/countdown";
 import { GuestWall } from "@/components/birthday/guest-wall";
-import { InviteStage } from "@/components/birthday/invite-stage";
+import { InviteBackdrop } from "@/components/birthday/invite-backdrop";
+import { Reveal } from "@/components/birthday/reveal";
 import { RsvpForm } from "@/components/birthday/rsvp-form";
+import { SignatureIntro } from "@/components/ui/signature-intro";
+import { TiltCard } from "@/components/ui/tilt-card";
 import { EVENT } from "@/lib/birthday/event";
 import { listPublicRsvps, type PublicRsvp } from "@/lib/birthday/rsvps";
 import { databaseConfigured } from "@/lib/env";
@@ -53,23 +56,14 @@ export default async function BirthdayPage() {
   }
 
   return (
-    <main className="relative overflow-hidden">
-      {/* One warm light source behind the whole page, to keep the black from
-          reading as flat. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-40 left-1/2 h-[560px] w-[900px] -translate-x-1/2 rounded-full bg-[#f0b357]/10 blur-[140px]"
-      />
+    <>
+      <SignatureIntro />
 
-      <div className="relative mx-auto w-full max-w-6xl px-5 sm:px-8">
-        <section className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,440px)] lg:gap-10">
-          {/* The strap runs off the top of its box, so the scene column starts
-              flush with the top of the page and looks hung from off-screen. */}
-          <div className="order-1 h-[440px] w-full sm:h-[520px] lg:order-2 lg:h-[620px]">
-            <InviteStage />
-          </div>
-
-          <div className="invite-rise order-2 pb-6 lg:order-1 lg:pt-24">
+      <InviteBackdrop>
+        <main className="mx-auto w-full max-w-6xl px-5 sm:px-8">
+          {/* Stacked, the copy starts below where the badge hangs. Wide, it
+              takes the left half and the badge has the right to itself. */}
+          <section className="invite-rise pb-20 pt-[52vh] lg:max-w-xl lg:pb-28 lg:pt-40">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#f0b357]">
               You&apos;re invited
             </p>
@@ -90,61 +84,74 @@ export default async function BirthdayPage() {
 
             <a
               href="#rsvp"
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-medium text-black transition hover:bg-white/85"
+              className="group mt-8 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-medium text-black transition hover:bg-white/85"
             >
               RSVP
-              <span aria-hidden>↓</span>
+              <span
+                aria-hidden
+                className="transition-transform duration-300 group-hover:translate-y-0.5"
+              >
+                ↓
+              </span>
             </a>
-          </div>
-        </section>
+          </section>
 
-        <section className="mt-16 grid gap-3 sm:grid-cols-3">
-          {DETAILS.map((item) => (
-            <div
-              key={item.label}
-              className="rounded-2xl border border-white/12 bg-white/[0.025] p-6"
-            >
-              <p className="text-[10px] uppercase tracking-[0.24em] text-white/40">
-                {item.label}
+          <section className="grid gap-3 sm:grid-cols-3">
+            {DETAILS.map((item, index) => (
+              <Reveal key={item.label} delay={index * 90}>
+                <TiltCard
+                  tiltLimit={7}
+                  scale={1.03}
+                  effect="gravitate"
+                  className="h-full rounded-2xl border border-white/12 bg-white/[0.045] p-6 backdrop-blur-md"
+                >
+                  <p className="text-[10px] uppercase tracking-[0.24em] text-white/40">
+                    {item.label}
+                  </p>
+                  <p className="mt-3 text-lg font-medium">{item.value}</p>
+                  <p className="mt-1.5 text-sm leading-relaxed text-white/45">
+                    {item.detail}
+                  </p>
+                </TiltCard>
+              </Reveal>
+            ))}
+          </section>
+
+          <section
+            id="rsvp"
+            className="mt-24 grid scroll-mt-12 gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,520px)] lg:gap-16"
+          >
+            <Reveal className="lg:pt-2">
+              <h2 className="text-3xl font-medium sm:text-4xl">Are you in?</h2>
+              <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/50">
+                Name and note go on the wall below. Phone and email stay with me
+                — they&apos;re how you get the address and any change of plan.
               </p>
-              <p className="mt-3 text-lg font-medium">{item.value}</p>
-              <p className="mt-1.5 text-sm leading-relaxed text-white/45">
-                {item.detail}
+              <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/35">
+                Changed your mind, or bringing someone after all? Send it again
+                with the same email and it replaces your first answer.
               </p>
-            </div>
-          ))}
-        </section>
+            </Reveal>
+            <Reveal delay={120}>
+              <div className="rounded-3xl border border-white/10 bg-black/40 p-6 backdrop-blur-md sm:p-8">
+                <RsvpForm />
+              </div>
+            </Reveal>
+          </section>
 
-        <section
-          id="rsvp"
-          className="mt-20 grid scroll-mt-12 gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,520px)] lg:gap-16"
-        >
-          <div className="lg:pt-2">
-            <h2 className="text-3xl font-medium sm:text-4xl">Are you in?</h2>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/50">
-              Name and note go on the wall below. Phone and email stay with me —
-              they&apos;re how you get the address and any change of plan.
-            </p>
-            <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/35">
-              Changed your mind, or bringing someone after all? Send it again
-              with the same email and it replaces your first answer.
-            </p>
-          </div>
-          <RsvpForm />
-        </section>
+          {wallReady ? (
+            <Reveal className="mt-28 block">
+              <GuestWall guests={guests} />
+            </Reveal>
+          ) : null}
 
-        {wallReady ? (
-          <div className="mt-24">
-            <GuestWall guests={guests} />
-          </div>
-        ) : null}
-
-        <footer className="mt-24 border-t border-white/10 py-10 text-sm text-white/35">
-          <Link href="/" className="transition hover:text-white">
-            bywilliaml.com
-          </Link>
-        </footer>
-      </div>
-    </main>
+          <footer className="mt-28 border-t border-white/10 py-10 text-sm text-white/35">
+            <Link href="/" className="transition hover:text-white">
+              bywilliaml.com
+            </Link>
+          </footer>
+        </main>
+      </InviteBackdrop>
+    </>
   );
 }

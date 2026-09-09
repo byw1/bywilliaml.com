@@ -67,3 +67,41 @@ body {
     background-position: 0% -1000%;
   }
 }
+
+/* Guest wall: each new name rises into place, staggered by its position. The
+   delay is set inline on the element. */
+@keyframes guest-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.guest-card {
+  animation: guest-card-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Birthday page: the invite copy settles in on load. */
+@keyframes invite-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.invite-rise {
+  animation: invite-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guest-card,
+  .invite-rise {
+    animation: none;
+  }
+}

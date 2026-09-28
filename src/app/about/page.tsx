@@ -331,9 +331,9 @@ export default function AboutPage() {
             folderColor="#8b5cf6"
             href="/youtube-channels"
             items={[
-              { id: 'p1', title: 'All-In Podcast', color: 'linear-gradient(135deg, #1a1a2e, #2d1a3e)' },
-              { id: 'p2', title: 'Harvard Business School', color: 'linear-gradient(135deg, #2d1a1a, #3e1a1a)' },
-              { id: 'p3', title: 'Kurzgesagt', color: 'linear-gradient(135deg, #0d1a2e, #1a2e3e)' },
+              { id: 'p1', title: 'All-In Podcast', color: '#1a1a2e', image: '/youtube/all-in.jpg' },
+              { id: 'p2', title: 'Harvard Business School', color: '#2d1a1a', image: '/youtube/harvard-business-school.jpg' },
+              { id: 'p3', title: 'Kurzgesagt', color: '#0d1a2e', image: '/youtube/kurzgesagt.jpg' },
             ]}
           />
           <AnimatedFolder
@@ -341,9 +341,9 @@ export default function AboutPage() {
             folderColor="#ef4444"
             href="https://www.imdb.com/user/p.posf2ez26r3fk5jjlduldg7xpe/ratings/?ref_=up_hd_ql_urrat&sort=top_rated%2Cdesc"
             items={[
-              { id: 'm1', title: 'Landman', color: 'linear-gradient(135deg, #2d2a1a, #1a1700)' },
-              { id: 'm2', title: 'Silicon Valley', color: 'linear-gradient(135deg, #0d1117, #1a1a2e)' },
-              { id: 'm3', title: 'In Time', color: 'linear-gradient(135deg, #1a1a2e, #16213e)' },
+              { id: 'm1', title: 'Landman', color: '#3a2812', image: '/favorites/landman.jpg' },
+              { id: 'm2', title: 'Altered Carbon', color: '#140404', image: '/favorites/altered-carbon.jpg' },
+              { id: 'm3', title: 'Good Will Hunting', color: '#1a1a2e', image: '/favorites/good-will-hunting.jpg' },
             ]}
           />
           <AnimatedFolder
@@ -351,9 +351,9 @@ export default function AboutPage() {
             folderColor="#3b82f6"
             href="/videogames"
             items={[
-              { id: 'g1', title: 'Minecraft', color: 'linear-gradient(135deg, #1a2e1a, #2d4a1a)' },
-              { id: 'g2', title: 'Balatro', color: 'linear-gradient(135deg, #2d1a1a, #3e1a2a)' },
-              { id: 'g3', title: 'Satisfactory', color: 'linear-gradient(135deg, #2d2a1a, #1a2e1a)' },
+              { id: 'g1', title: 'Minecraft', color: '#1a2e1a', image: '/games/minecraft.jpg' },
+              { id: 'g2', title: 'Balatro', color: '#2d1a1a', image: '/games/balatro.jpg' },
+              { id: 'g3', title: 'Satisfactory', color: '#2d2a1a', image: '/games/satisfactory.jpg' },
             ]}
           />
           <AnimatedFolder
@@ -361,9 +361,7 @@ export default function AboutPage() {
             folderColor="#22c55e"
             href="https://music.apple.com/profile/bywilliaml"
             items={[
-              { id: 'mu1', title: 'Kanye West', color: 'linear-gradient(135deg, #1a1a1a, #2d2a1a)' },
-              { id: 'mu2', title: 'Gorillaz', color: 'linear-gradient(135deg, #1a1a2e, #0d2e1a)' },
-              { id: 'mu3', title: 'Tucker Wetmore', color: 'linear-gradient(135deg, #2d1a1a, #1a2e2e)' },
+              { id: 'mu1', title: 'Kanye West', color: '#1a1a1a', image: '/favorites/kanye-west.jpg' },
             ]}
           />
         </div>

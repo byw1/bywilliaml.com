@@ -1,11 +1,14 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 
 interface FolderItem {
   id: string
   title: string
   color: string
+  /** Optional art for the paper; `color` stays as the backdrop while it loads. */
+  image?: string
 }
 
 interface AnimatedFolderProps {
@@ -39,11 +42,22 @@ export function AnimatedFolder({
   const mid = `color-mix(in srgb, ${folderColor} 78%, #000)`
   const lit = `color-mix(in srgb, ${folderColor} 88%, #fff 4%)`
 
-  const fan = [
-    { x: -46, r: -11, d: 0 },
-    { x: 0, r: 0, d: 60 },
-    { x: 46, r: 11, d: 120 },
+  const papers = items.slice(0, 3)
+  // Fan positions for however many papers there are, so one or two stay
+  // centered instead of leaving gaps where the missing ones would sit.
+  const fanLayouts = [
+    [{ x: 0, r: 0, d: 0 }],
+    [
+      { x: -24, r: -6, d: 0 },
+      { x: 24, r: 6, d: 60 },
+    ],
+    [
+      { x: -46, r: -11, d: 0 },
+      { x: 0, r: 0, d: 60 },
+      { x: 46, r: 11, d: 120 },
+    ],
   ]
+  const fan = fanLayouts[Math.max(0, papers.length - 1)]
 
   return (
     <div
@@ -125,7 +139,7 @@ export function AnimatedFolder({
           </div>
 
           {/* Documents — real depths between back and front */}
-          {items.slice(0, 3).map((item, i) => (
+          {papers.map((item, i) => (
             <div
               key={item.id}
               className="absolute rounded-md overflow-hidden border border-white/10"
@@ -139,13 +153,23 @@ export function AnimatedFolder({
                 transform: open
                   ? `translateZ(${6 + i * 5}px) translateY(-66px) translateX(${fan[i].x}px) rotate(${fan[i].r}deg)`
                   : `translateZ(${3 + i * 2}px) translateY(${-6 - i * 3}px) scale(0.96)`,
-                transition: `transform 600ms ${EASE_SPRING} ${open ? fan[i].d : (2 - i) * 40}ms`,
+                transition: `transform 600ms ${EASE_SPRING} ${open ? fan[i].d : (papers.length - 1 - i) * 40}ms`,
                 boxShadow: open
                   ? '0 14px 28px rgba(0,0,0,0.55)'
                   : '0 2px 6px rgba(0,0,0,0.4)',
                 zIndex: 5 + i,
               }}
             >
+              {item.image && (
+                <Image
+                  src={item.image}
+                  alt=""
+                  fill
+                  sizes="58px"
+                  className="object-cover pointer-events-none select-none"
+                  draggable={false}
+                />
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
               <div
                 className="absolute inset-x-0 top-0 h-px"

@@ -361,7 +361,9 @@ export default function AboutPage() {
             folderColor="#22c55e"
             href="https://music.apple.com/profile/bywilliaml"
             items={[
-              { id: 'mu1', title: 'Kanye West', color: '#1a1a1a', image: '/favorites/kanye-west.jpg' },
+              { id: 'mu1', title: 'Ye', color: '#1a1a1a', image: '/favorites/ye.jpg' },
+              { id: 'mu2', title: 'Morgan Wallen', color: '#1a1414', image: '/favorites/morgan-wallen.jpg' },
+              { id: 'mu3', title: 'Akon', color: '#1f1a14', image: '/favorites/akon.jpg' },
             ]}
           />
         </div>

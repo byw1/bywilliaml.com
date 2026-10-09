@@ -3,11 +3,11 @@
 import { useState, useEffect, useRef } from 'react'
 import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
-import PolaroidStack, { type PolaroidItem } from '@/components/ui/polaroid-stack'
 import { TiltCard } from '@/components/ui/tilt-card'
 import { PerspectiveBook, BookTitle } from '@/components/ui/perspective-book'
 import { AnimatedFolder } from '@/components/ui/animated-folder'
 import { ParchmentLetter } from '@/components/ui/parchment-letter'
+import { RoomPortal } from '@/components/setup/room-portal'
 
 const BOOKS = [
   { title: 'Principles — Ray Dalio', color: 'bg-gradient-to-br from-[#0d1117] to-[#1a2332] text-blue-300' },
@@ -109,16 +109,6 @@ function BookCarousel() {
   )
 }
 
-// William's own photos, served from public/polaroids/. Captionless by
-// request; alt text stays for screen readers. Reorder by moving entries.
-const POLAROIDS: PolaroidItem[] = [
-  { src: '/polaroids/1.jpg', alt: 'Portrait of William Lee' },
-  { src: '/polaroids/2.jpg', alt: 'Accepting the Glendale Young Entrepreneur award for Abrupt Collective' },
-  { src: '/polaroids/3.jpg', alt: 'William speaking to a room at a group discussion' },
-  { src: '/polaroids/4.jpg', alt: 'At Glendale Tech Week holding award certificates' },
-  { src: '/polaroids/5.jpg', alt: 'Mirror selfie in the office' },
-]
-
 export default function AboutPage() {
   const [visible, setVisible] = useState(false)
 
@@ -144,12 +134,6 @@ export default function AboutPage() {
           visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
       >
-        <PolaroidStack items={POLAROIDS} />
-
-        <p className="text-white/50 text-xs tracking-widest uppercase mt-2 mb-10">
-          drag to flip through
-        </p>
-
         <h1 className="text-2xl sm:text-4xl font-bold text-white mb-4 tracking-tight">About Me</h1>
 
         <ParchmentLetter>
@@ -186,6 +170,10 @@ export default function AboutPage() {
             </p>
           </div>
         </ParchmentLetter>
+
+        <div className="w-16 h-px bg-white/20 my-10" />
+
+        <RoomPortal />
 
         <div className="w-16 h-px bg-white/20 my-10" />
 

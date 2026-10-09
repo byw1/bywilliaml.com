@@ -281,7 +281,7 @@ function Room() {
       {/* rug */}
       <mesh position={[0.1, 0.004, -0.75]} rotation={[-Math.PI / 2, 0, 0]}>
         <circleGeometry args={[1.05, 48]} />
-        <meshStandardMaterial color="#26221d" roughness={1} />
+        <meshStandardMaterial color="#3a3446" roughness={1} />
       </mesh>
     </group>
   )
@@ -333,7 +333,16 @@ function Chair() {
   )
 }
 
-function Scene({ active, onSelect }: { active: GearId | null; onSelect: (id: GearId) => void }) {
+/** The desk and everything on it. `room` swaps the surrounding shell (the full room or the diorama's cutaway). */
+export function Scene({
+  active,
+  onSelect,
+  room = <Room />,
+}: {
+  active: GearId | null
+  onSelect: (id: GearId) => void
+  room?: ReactNode
+}) {
   const tex = useMemo(
     () => ({
       code: codeScreen(),
@@ -348,7 +357,7 @@ function Scene({ active, onSelect }: { active: GearId | null; onSelect: (id: Gea
 
   return (
     <group>
-      <Room />
+      {room}
       <Desk />
 
       <Selectable id="monitors" active={active} onSelect={onSelect}>
@@ -552,6 +561,66 @@ function CameraRig({ active, intro }: { active: GearId | null; intro: boolean })
   return null
 }
 
+/** Desk lamp warmth, violet bias glow from the monitors, and a soft studio environment. */
+export function SceneLights() {
+  return (
+    <>
+      <ambientLight intensity={0.25} />
+      <pointLight position={[0, 1.25, -1.5]} intensity={1.6} distance={2.6} color="#a78bfa" />
+      <spotLight position={[-1.6, 2.6, 0.6]} angle={0.55} penumbra={0.8} intensity={14} color="#fff3e0" />
+      <Environment resolution={256} frames={1}>
+        <Lightformer form="rect" intensity={2} position={[0, 3, 1]} scale={[4, 1, 1]} rotation={[Math.PI / 2, 0, 0]} />
+        <Lightformer form="rect" intensity={1.2} color="#8b5cf6" position={[-3, 1, -1]} scale={[2, 2, 1]} rotation={[0, Math.PI / 2, 0]} />
+        <Lightformer form="rect" intensity={0.8} position={[3, 1.5, 1]} scale={[2, 2, 1]} rotation={[0, -Math.PI / 2, 0]} />
+      </Environment>
+    </>
+  )
+}
+
+/**
+ * A floating cut-away of the room for the About page: a floor slab with two
+ * walls, open on the viewer's sides like a dollhouse, so the desk reads at a
+ * glance from a three-quarter angle.
+ */
+export function DioramaRoom() {
+  const wall = <meshStandardMaterial color="#2c2a36" roughness={0.95} />
+  return (
+    <group>
+      {/* wood floor on a dark plinth, so it reads as a model */}
+      <mesh position={[0, -0.03, -0.85]}>
+        <boxGeometry args={[3.0, 0.06, 2.6]} />
+        <meshStandardMaterial color="#4a3524" roughness={0.7} />
+      </mesh>
+      <mesh position={[0, -0.16, -0.85]}>
+        <boxGeometry args={[3.08, 0.2, 2.68]} />
+        <meshStandardMaterial color="#0d0c10" roughness={0.6} metalness={0.2} />
+      </mesh>
+      <mesh position={[0, 1.05, -2.1]}>
+        <boxGeometry args={[3.0, 2.24, 0.1]} />
+        {wall}
+      </mesh>
+      <mesh position={[-1.55, 1.05, -0.85]}>
+        <boxGeometry args={[0.1, 2.24, 2.6]} />
+        {wall}
+      </mesh>
+      {/* bias lighting behind the monitors */}
+      <mesh position={[0, 1.18, -2.044]}>
+        <planeGeometry args={[1.7, 0.6]} />
+        <meshBasicMaterial color="#7c3aed" transparent opacity={0.22} toneMapped={false} />
+      </mesh>
+      {/* a framed print on the side wall */}
+      <mesh position={[-1.497, 1.45, -1.0]} rotation={[0, Math.PI / 2, 0]}>
+        <planeGeometry args={[0.55, 0.38]} />
+        <meshStandardMaterial color="#2a2340" emissive="#4c1d95" emissiveIntensity={0.35} />
+      </mesh>
+      <mesh position={[0.1, 0.004, -0.75]} rotation={[-Math.PI / 2, 0, 0]}>
+        <circleGeometry args={[0.95, 48]} />
+        <meshStandardMaterial color="#3a3446" roughness={1} />
+      </mesh>
+    </group>
+  )
+}
+
 export default function DeskScene({ active, onSelect }: { active: GearId | null; onSelect: (id: GearId | null) => void }) {
   const [intro, setIntro] = useState(true)
   useEffect(() => {
@@ -568,14 +637,7 @@ export default function DeskScene({ active, onSelect }: { active: GearId | null;
     >
       <color attach="background" args={["#060608"]} />
       <fog attach="fog" args={["#060608", 4.5, 9]} />
-      <ambientLight intensity={0.25} />
-      <pointLight position={[0, 1.25, -1.5]} intensity={1.6} distance={2.6} color="#a78bfa" />
-      <spotLight position={[-1.6, 2.6, 0.6]} angle={0.55} penumbra={0.8} intensity={14} color="#fff3e0" />
-      <Environment resolution={256} frames={1}>
-        <Lightformer form="rect" intensity={2} position={[0, 3, 1]} scale={[4, 1, 1]} rotation={[Math.PI / 2, 0, 0]} />
-        <Lightformer form="rect" intensity={1.2} color="#8b5cf6" position={[-3, 1, -1]} scale={[2, 2, 1]} rotation={[0, Math.PI / 2, 0]} />
-        <Lightformer form="rect" intensity={0.8} position={[3, 1.5, 1]} scale={[2, 2, 1]} rotation={[0, -Math.PI / 2, 0]} />
-      </Environment>
+      <SceneLights />
 
       <Scene active={active} onSelect={onSelect} />
       <Hotspots active={active} onSelect={onSelect} />

@@ -7,7 +7,7 @@ import PolaroidStack, { type PolaroidItem } from '@/components/ui/polaroid-stack
 import { TiltCard } from '@/components/ui/tilt-card'
 import { PerspectiveBook, BookTitle } from '@/components/ui/perspective-book'
 import { AnimatedFolder } from '@/components/ui/animated-folder'
-import { Reveal, SetupCard, StatStrip, Timeline } from '@/components/about/about-sections'
+import { ParchmentLetter } from '@/components/ui/parchment-letter'
 
 const BOOKS = [
   { title: 'Principles — Ray Dalio', color: 'bg-gradient-to-br from-[#0d1117] to-[#1a2332] text-blue-300' },
@@ -150,68 +150,42 @@ export default function AboutPage() {
           drag to flip through
         </p>
 
-        <p className="invite-rise text-[11px] uppercase tracking-[0.3em] text-white/40">about me</p>
-        <h1
-          className="invite-rise mt-2 mb-8 text-center text-5xl font-bold tracking-tight sm:text-7xl"
-          style={{
-            animationDelay: '120ms',
-            background: 'linear-gradient(180deg, #ffffff 30%, #71717a 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-          }}
-        >
-          William Lee
-        </h1>
+        <h1 className="text-2xl sm:text-4xl font-bold text-white mb-4 tracking-tight">About Me</h1>
 
-        <Reveal className="mb-10 w-full">
-          <StatStrip />
-        </Reveal>
-
-        <div className="space-y-5 text-white/80 text-sm sm:text-lg leading-relaxed text-left sm:text-center">
+        <ParchmentLetter>
+          <div className="space-y-4 text-[22px] leading-[1.45] sm:text-[26px]">
           <p>
-            I was born in 2000, and honestly, I&apos;m still figuring out my life. I&apos;ve had a
-            lot of unique experiences that shaped who I am — and it&apos;s honestly a pretty
-            wild ride.
-          </p>
-          <p>
-            It&apos;s everything from being 13 years old and running the largest Skyblock server,
-            to something as rough as getting expelled from middle school, to leaving high school
-            and graduating a year early.
-          </p>
-          <p>
-            I ran a business networking club that interviewed leaders at companies like
-            Dave&apos;s Hot Chicken and grew to over 100,000 members on Clubhouse. I launched my
-            first real successful business at 19 years old, surpassing $100,000 in the first 16
-            days. I&apos;ve helped a multitude of friends in varying capacities launch multi-six
-            and even a few multi-seven figure businesses.
-          </p>
-          <p>
-            To get a better understanding of who I am, I&apos;d definitely recommend reading
-            my{' '}
-            <a
-              href="https://bywilliaml.substack.com/archive"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white underline underline-offset-4 hover:text-white/60 transition-colors"
-            >
-              blog
-            </a>
-            . But here&apos;s some more things about me.
-          </p>
-        </div>
-
-        <div className="w-16 h-px bg-white/20 my-10" />
-
-        <Reveal className="w-full">
-          <h2 className="mb-8 text-center text-2xl font-bold tracking-tight text-white">The Story So Far</h2>
-        </Reveal>
-        <Timeline />
-
-        <div className="w-16 h-px bg-white/20 my-10" />
-
-        <Reveal className="w-full">
-          <SetupCard />
-        </Reveal>
+              I was born in 2000, and honestly, I&apos;m still figuring out my life. I&apos;ve had a
+              lot of unique experiences that shaped who I am — and it&apos;s honestly a pretty
+              wild ride.
+            </p>
+            <p>
+              It&apos;s everything from being 13 years old and running the largest Skyblock server,
+              to something as rough as getting expelled from middle school, to leaving high school
+              and graduating a year early.
+            </p>
+            <p>
+              I ran a business networking club that interviewed leaders at companies like
+              Dave&apos;s Hot Chicken and grew to over 100,000 members on Clubhouse. I launched my
+              first real successful business at 19 years old, surpassing $100,000 in the first 16
+              days. I&apos;ve helped a multitude of friends in varying capacities launch multi-six
+              and even a few multi-seven figure businesses.
+            </p>
+            <p>
+              To get a better understanding of who I am, I&apos;d definitely recommend reading
+              my{' '}
+              <a
+                href="https://bywilliaml.substack.com/archive"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-[#2b1b0c]/50 decoration-2 underline-offset-4 hover:text-[#7a4a1c] transition-colors"
+              >
+                blog
+              </a>
+              . But here&apos;s some more things about me.
+            </p>
+          </div>
+        </ParchmentLetter>
 
         <div className="w-16 h-px bg-white/20 my-10" />
 

@@ -26,7 +26,7 @@ const linkCards: CardItem[] = [
   {
     id: 2,
     label: "Projects",
-    href: "/blackjack",
+    href: "/projects",
     description: "things i've built",
     bookClassName: "bg-gradient-to-br from-[#0d1117] to-[#161b22] text-white",
     icon: <Code className="size-5 text-white/60" />,

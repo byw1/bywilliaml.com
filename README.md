@@ -11,9 +11,9 @@ It's open source under the [MIT license](LICENSE): fork it, gut the content, and
 - **`/`** — the link hub: a draggable stack of 3-D hardcover books (real spines, page edges, perspective), a profile card, and a macOS-style dock with cosine magnification for socials.
 - **`/about`** — a drag-to-flip polaroid stack, bio, 3-D tilt cards with a pointer-tracked spotlight, an auto-scrolling book carousel, and manila folders that hinge open on hover.
 - **`/projects-test`** — 3-D tilt project cards with a pointer-tracked glare, staggered entrances, and a live/building status that turns a card into a real link when the project ships.
-- **`/builds`** — side projects, unlinked from the homepage on purpose. Charades leads, with the in-progress domains below it.
+- **`/projects`** — side projects, behind the homepage's Projects card. Charades leads, with the in-progress domains below it. `/builds` 301s here.
 - **`/charades`** — the landing page for Charades: Make Your Own Decks (the iPhone party game, source at [byw1/Deckhead](https://github.com/byw1/Deckhead)). A 3-D Dex built from three.js primitives with real deck cards floating around him, a playable tilt demo, the deck wall and the app's own type and colours. `/charades/privacy` is the App Store privacy policy, and `/charades/decks` hands out the Claude skill and runs a deck maker that turns any AI's JSON into a QR code and a `.charades` file, entirely in the browser.
-- **`/blackjack`** — a complete single-deck blackjack game (dealer AI, betting, confetti). It's the placeholder behind the "Projects" card until the real page takes over.
+- **`/blackjack`** — a complete single-deck blackjack game (dealer AI, betting, confetti). It used to sit behind the "Projects" card and still lives at its own URL.
 - **`404`** — a playable emoji slot machine with coins, a bet slider, and a jackpot screen flash. Try any bad URL.
 - **`/birthday`** — a party invite on a physics lanyard you can grab and fling across the whole screen (three.js, Rapier), with confetti drifting behind the page. The scene is a fixed backdrop that takes no pointer events of its own, so the badge is never boxed into a column and every link on top of it still works; it reads pointer events from the page element instead. Opens on the same signature intro as the homepage, then an RSVP form and a live guest wall. The card face and the strap webbing are drawn into 2-D canvases at runtime from the event details, so there is no artwork to keep in sync. Names, notes and plus-ones go on the wall; phone numbers and email addresses never leave the server. Noindexed — it's for people with the link.
 - **`/meet`** — a self-hosted Calendly. Public booking links (`/meet/personal`, `/meet/work`) that write to different calendars — Gmail and Zoho — while checking **all** connected calendars for conflicts, so the two can never collide. Every booking gets a Google Meet link, including the Zoho-hosted ones. See [`SCHEDULING.md`](SCHEDULING.md).
@@ -50,7 +50,7 @@ All content is plain TypeScript data at the top of each page — there's no CMS 
 | `src/app/layout.tsx` | Site title and description |
 | `src/app/about/page.tsx` | Bio, polaroids, infographic cards, books, folders |
 | `src/app/projects-test/page.tsx` | Projects (rank, status, accent colors, links) |
-| `src/app/builds/page.tsx` | The build projects list |
+| `src/app/projects/page.tsx` | The projects list behind the homepage card |
 | `src/components/charades/data.ts` | Charades links (GitHub, App Store once live), deck names and sample cards |
 | `src/app/charades/privacy/page.tsx` | The Charades privacy policy; keep it in step with `PRIVACY.md` in byw1/Deckhead |
 | `public/charades/charades-deck-maker.zip` | The Claude skill, zipped from `skill/charades-deck-maker` in byw1/Deckhead |

@@ -11,11 +11,8 @@ const IN_PROGRESS: Project[] = [
   { rank: 4, name: 'comms.support', status: 'building', accent: ['#38bdf8', '#0284c7'] },
 ]
 
-/**
- * Build projects. Deliberately not linked from the homepage: it is a place to
- * send people to, not a section of the site.
- */
-export default function BuildsPage() {
+/** Side projects, behind the homepage's Projects card. */
+export default function ProjectsPage() {
   return (
     <div className="relative min-h-[100dvh] w-full overflow-x-hidden bg-black">
       <div className="absolute left-6 top-6 z-10">
@@ -26,7 +23,7 @@ export default function BuildsPage() {
       </div>
 
       <main className="mx-auto flex w-full max-w-4xl flex-col px-6 py-20 sm:px-8">
-        <h1 className="text-3xl font-bold tracking-tight text-white sm:text-5xl">Builds</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-white sm:text-5xl">Projects</h1>
         <p className="mt-3 text-sm text-white/50">side projects i&apos;m building</p>
 
         <div className="my-10 h-px w-16 bg-white/20" />

@@ -15,6 +15,8 @@ const nextConfig: NextConfig = {
       { source: "/blog/:path*", destination: BLOG_URL, statusCode: 301 },
       // The blackjack game lived at /coming-soon before it got an honest URL.
       { source: "/coming-soon", destination: "/blackjack", statusCode: 301 },
+      // Projects lived at /builds for a day before it moved behind the homepage card.
+      { source: "/builds", destination: "/projects", statusCode: 301 },
     ];
   },
   images: {

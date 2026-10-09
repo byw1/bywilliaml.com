@@ -25,7 +25,7 @@ const DESK_Y = 0.74
 /** Where each item's hotspot floats and where the camera flies to inspect it. */
 const FOCUS: Record<GearId, { hotspot: [number, number, number]; target: [number, number, number]; camera: [number, number, number] }> = {
   monitors: { hotspot: [0, 1.42, -1.72], target: [0, 1.1, -1.75], camera: [0.35, 1.3, -0.15] },
-  macbook: { hotspot: [0.98, 1.08, -1.38], target: [0.95, 0.88, -1.4], camera: [1.45, 1.15, -0.65] },
+  macbook: { hotspot: [0.74, 1.02, -1.46], target: [0.7, 0.82, -1.4], camera: [1.25, 1.1, -0.7] },
   keyboard: { hotspot: [-0.05, 0.86, -1.23], target: [-0.05, 0.77, -1.25], camera: [0.0, 1.25, -0.55] },
   mouse: { hotspot: [0.34, 0.86, -1.2], target: [0.34, 0.78, -1.22], camera: [0.6, 1.15, -0.65] },
   streamdeck: { hotspot: [-0.48, 0.88, -1.27], target: [-0.48, 0.79, -1.3], camera: [-0.75, 1.15, -0.7] },
@@ -366,24 +366,29 @@ export function Scene({
       </Selectable>
 
       <Selectable id="macbook" active={active} onSelect={onSelect}>
-        <group position={[0.95, DESK_Y, -1.42]} rotation={[0, -0.45, 0]}>
-          <mesh position={[0, 0.05, 0]} rotation={[-0.35, 0, 0]}>
-            <boxGeometry args={[0.2, 0.1, 0.012]} />
-            {metal}
+        {/* open on the desk to the right of the keyboard, angled toward the chair */}
+        <group position={[0.7, DESK_Y + 0.006, -1.38]} rotation={[0, -0.42, 0]}>
+          <RoundedBox args={[0.31, 0.012, 0.22]} radius={0.004}>
+            <meshStandardMaterial color="#3a3a40" metalness={0.85} roughness={0.3} />
+          </RoundedBox>
+          {/* keyboard well and trackpad */}
+          <mesh position={[0, 0.0062, -0.03]} rotation={[-Math.PI / 2, 0, 0]}>
+            <planeGeometry args={[0.27, 0.1]} />
+            <meshStandardMaterial color="#141416" roughness={0.8} />
           </mesh>
-          <group position={[0, 0.09, 0.03]} rotation={[-0.35, 0, 0]}>
-            <RoundedBox args={[0.31, 0.012, 0.22]} radius={0.004}>
+          <mesh position={[0, 0.0062, 0.068]} rotation={[-Math.PI / 2, 0, 0]}>
+            <planeGeometry args={[0.12, 0.07]} />
+            <meshStandardMaterial color="#2e2e33" metalness={0.6} roughness={0.35} />
+          </mesh>
+          {/* lid, hinged at the back edge and tipped back a little past upright */}
+          <group position={[0, 0.006, -0.108]} rotation={[-0.3, 0, 0]}>
+            <RoundedBox args={[0.31, 0.21, 0.008]} radius={0.004} position={[0, 0.105, -0.004]}>
               <meshStandardMaterial color="#3a3a40" metalness={0.85} roughness={0.3} />
             </RoundedBox>
-            <group position={[0, 0.006, -0.11]} rotation={[-1.2, 0, 0]}>
-              <RoundedBox args={[0.31, 0.21, 0.008]} radius={0.004} position={[0, 0.105, 0]}>
-                <meshStandardMaterial color="#3a3a40" metalness={0.85} roughness={0.3} />
-              </RoundedBox>
-              <mesh position={[0, 0.105, 0.0045]}>
-                <planeGeometry args={[0.29, 0.19]} />
-                <meshBasicMaterial map={tex.laptop} toneMapped={false} />
-              </mesh>
-            </group>
+            <mesh position={[0, 0.105, 0.0005]}>
+              <planeGeometry args={[0.29, 0.19]} />
+              <meshBasicMaterial map={tex.laptop} toneMapped={false} />
+            </mesh>
           </group>
         </group>
       </Selectable>
@@ -471,7 +476,7 @@ export function Scene({
             key={i}
             args={[0.06, 0.024, 0.048]}
             radius={0.011}
-            position={[0.6 + i * 0.075, DESK_Y + 0.012, -1.18 - i * 0.03]}
+            position={[0.48 + i * 0.07, DESK_Y + 0.012, -1.08 - i * 0.03]}
             rotation={[0, 0.3 + i * 0.4, 0]}
           >
             <meshStandardMaterial color="#f4f4f5" roughness={0.25} />

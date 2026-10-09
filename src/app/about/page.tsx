@@ -7,6 +7,7 @@ import PolaroidStack, { type PolaroidItem } from '@/components/ui/polaroid-stack
 import { TiltCard } from '@/components/ui/tilt-card'
 import { PerspectiveBook, BookTitle } from '@/components/ui/perspective-book'
 import { AnimatedFolder } from '@/components/ui/animated-folder'
+import { Reveal, SetupCard, StatStrip, Timeline } from '@/components/about/about-sections'
 
 const BOOKS = [
   { title: 'Principles — Ray Dalio', color: 'bg-gradient-to-br from-[#0d1117] to-[#1a2332] text-blue-300' },
@@ -149,7 +150,22 @@ export default function AboutPage() {
           drag to flip through
         </p>
 
-        <h1 className="text-2xl sm:text-4xl font-bold text-white mb-4 tracking-tight">About Me</h1>
+        <p className="invite-rise text-[11px] uppercase tracking-[0.3em] text-white/40">about me</p>
+        <h1
+          className="invite-rise mt-2 mb-8 text-center text-5xl font-bold tracking-tight sm:text-7xl"
+          style={{
+            animationDelay: '120ms',
+            background: 'linear-gradient(180deg, #ffffff 30%, #71717a 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+          }}
+        >
+          William Lee
+        </h1>
+
+        <Reveal className="mb-10 w-full">
+          <StatStrip />
+        </Reveal>
 
         <div className="space-y-5 text-white/80 text-sm sm:text-lg leading-relaxed text-left sm:text-center">
           <p>
@@ -183,6 +199,19 @@ export default function AboutPage() {
             . But here&apos;s some more things about me.
           </p>
         </div>
+
+        <div className="w-16 h-px bg-white/20 my-10" />
+
+        <Reveal className="w-full">
+          <h2 className="mb-8 text-center text-2xl font-bold tracking-tight text-white">The Story So Far</h2>
+        </Reveal>
+        <Timeline />
+
+        <div className="w-16 h-px bg-white/20 my-10" />
+
+        <Reveal className="w-full">
+          <SetupCard />
+        </Reveal>
 
         <div className="w-16 h-px bg-white/20 my-10" />
 

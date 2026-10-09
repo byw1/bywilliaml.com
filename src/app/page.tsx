@@ -2,7 +2,7 @@
 
 import { GlassFilter } from '@/components/ui/liquid-glass'
 import MacOSDock, { type DockApp } from '@/components/ui/mac-os-dock'
-import ProfileCard from '@/components/ui/profile-card'
+import { IdentityBar } from '@/components/ui/identity-bar'
 import { SignatureIntro } from '@/components/ui/signature-intro'
 import {
   GithubAppIcon,
@@ -82,12 +82,13 @@ export default function LinksPage() {
       <GlassFilter />
       <VerticalImageStack cards={linkCards} />
 
-      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-[340px]">
-        <ProfileCard
+      <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] max-w-[440px]">
+        <IdentityBar
           name="William Lee"
-          role="@bywilliaml"
+          handle="@bywilliaml"
+          status="code maxxing"
+          email="william@bywilliaml.com"
           avatarSrc="https://avatars.githubusercontent.com/byw1"
-          statusText="currently code maxxing"
         />
       </div>
 

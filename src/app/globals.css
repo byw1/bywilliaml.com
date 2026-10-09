@@ -40,6 +40,34 @@ body {
   }
 }
 
+/* Project cards: the border light orbits, the icon floats. */
+@keyframes project-border-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.project-border-light {
+  animation: project-border-spin 6s linear infinite;
+}
+@keyframes project-icon-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(-1.5deg);
+  }
+}
+.project-icon-float {
+  animation: project-icon-float 5.5s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-border-light,
+  .project-icon-float {
+    animation: none;
+  }
+}
+
 @keyframes project-card-in {
   from {
     opacity: 0;

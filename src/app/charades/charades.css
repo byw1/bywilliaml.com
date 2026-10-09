@@ -1,0 +1,447 @@
+/*
+ * Charades. The app's grammar on a web page: a near-black canvas so the cards
+ * are the only colour, sticker borders, fat pill buttons and one electric
+ * yellow that means "do the thing". Tokens from byw1/Deckhead src/ui/tokens.ts.
+ */
+
+.charades {
+  --cr-bg: #0a0a0d;
+  --cr-surface: #16161b;
+  --cr-raised: #202028;
+  --cr-line: #2a2a33;
+  --cr-ink: #0a0a0d;
+  --cr-yellow: #ffe500;
+  --cr-green: #2ee86f;
+  --cr-orange: #ff6b2c;
+  --cr-blue: #2ea8ff;
+  --cr-pink: #ff3d8b;
+  --cr-purple: #9b5cff;
+  --cr-red: #ff3b47;
+  --cr-teal: #00c2b2;
+
+  min-height: 100dvh;
+  background: var(--cr-bg);
+  color: #fff;
+  font-family: var(--font-body), system-ui, sans-serif;
+  overflow-x: clip;
+}
+
+.charades ::selection {
+  background: var(--cr-yellow);
+  color: var(--cr-ink);
+}
+
+.cr-display {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 800;
+}
+
+.cr-kicker {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cr-yellow);
+}
+
+/* The headline word that looks like a sticker slapped on the page. */
+.cr-sticker-text {
+  display: inline-block;
+  padding: 0 0.18em 0.06em;
+  background: var(--cr-yellow);
+  color: var(--cr-ink);
+  border-radius: 0.18em;
+  box-shadow:
+    0 0 0 0.07em var(--cr-ink),
+    0 0 0 0.14em #fff,
+    0 0.25em 0.6em rgba(0, 0, 0, 0.5);
+  transform: rotate(-3deg);
+  margin-top: 0.12em;
+}
+
+.cr-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+}
+
+/* ---- buttons ----------------------------------------------------------- */
+
+.cr-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0.7rem 1.35rem;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  transition:
+    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.2s,
+    box-shadow 0.2s;
+  user-select: none;
+}
+.cr-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+}
+.cr-btn:active {
+  transform: translateY(1px) scale(0.97);
+}
+.cr-btn:focus-visible {
+  outline: 3px solid var(--cr-blue);
+  outline-offset: 3px;
+}
+.cr-btn-primary {
+  background: var(--cr-yellow);
+  color: var(--cr-ink);
+  box-shadow: 0 5px 0 #b8a400, 0 10px 30px rgba(255, 229, 0, 0.25);
+}
+.cr-btn-glass {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(12px);
+}
+.cr-btn-glass:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+.cr-btn-correct {
+  background: var(--cr-green);
+  color: var(--cr-ink);
+  box-shadow: 0 5px 0 #1fb855;
+}
+.cr-btn-pass {
+  background: var(--cr-orange);
+  color: var(--cr-ink);
+  box-shadow: 0 5px 0 #e0541a;
+}
+
+/* ---- nav --------------------------------------------------------------- */
+
+.cr-nav {
+  padding: 0.5rem 0.5rem 0.5rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(10, 10, 13, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(18px) saturate(1.4);
+}
+
+/* ---- hero -------------------------------------------------------------- */
+
+.cr-hero-glow {
+  background:
+    radial-gradient(40% 35% at 50% 55%, rgba(155, 92, 255, 0.38), transparent 70%),
+    radial-gradient(30% 30% at 20% 30%, rgba(255, 61, 139, 0.18), transparent 70%),
+    radial-gradient(30% 30% at 85% 25%, rgba(46, 168, 255, 0.16), transparent 70%);
+}
+.cr-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(60% 55% at 50% 45%, #000, transparent);
+}
+
+.cr-shout {
+  position: absolute;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(0.8rem, 1.8vw, 1.05rem);
+  color: var(--cr-ink);
+  background: #fff;
+  box-shadow: 0 0 0 3px var(--cr-ink), 0 10px 24px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  animation: cr-shout 9s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+  animation-delay: calc(var(--i) * 1.5s);
+}
+.cr-shout:nth-child(1) { left: 6%; top: 22%; background: var(--cr-green); }
+.cr-shout:nth-child(2) { right: 7%; top: 30%; background: var(--cr-orange); }
+.cr-shout:nth-child(3) { left: 11%; bottom: 22%; }
+.cr-shout:nth-child(4) { right: 10%; bottom: 18%; background: var(--cr-pink); }
+.cr-shout:nth-child(5) { left: 22%; top: 6%; background: var(--cr-blue); }
+.cr-shout:nth-child(6) { right: 20%; top: 8%; background: var(--cr-yellow); }
+
+@keyframes cr-shout {
+  0% { opacity: 0; transform: scale(0.4) rotate(-12deg); }
+  4% { opacity: 1; transform: scale(1.08) rotate(-4deg); }
+  8%, 22% { opacity: 1; transform: scale(1) rotate(-6deg); }
+  28%, 100% { opacity: 0; transform: scale(0.9) translateY(-14px) rotate(-6deg); }
+}
+
+/* ---- the phone --------------------------------------------------------- */
+
+.cr-phone {
+  border-radius: 9% / 19%;
+  background: linear-gradient(145deg, #2b2b33, #0d0d10 40%, #1c1c22);
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.08),
+    0 0 0 1px #000,
+    0 40px 80px -20px rgba(0, 0, 0, 0.8),
+    0 0 120px -30px rgba(155, 92, 255, 0.5);
+  transform-style: preserve-3d;
+}
+
+/* ---- story ------------------------------------------------------------- */
+
+.cr-ticket {
+  width: min(320px, 78vw);
+  padding: 1.6rem 1.5rem 1.4rem;
+  border-radius: 22px;
+  background: var(--cr-yellow);
+  box-shadow: 0 0 0 4px var(--cr-ink), 0 0 0 10px #fff, 0 30px 60px rgba(0, 0, 0, 0.5);
+  -webkit-mask: radial-gradient(14px at 0 62%, #0000 98%, #000) left / 51% 100% no-repeat,
+    radial-gradient(14px at 100% 62%, #0000 98%, #000) right / 51% 100% no-repeat;
+}
+
+/* ---- deck wall --------------------------------------------------------- */
+
+.cr-marquee {
+  display: flex;
+  gap: 1.25rem;
+  width: max-content;
+  padding: 1rem 0;
+  animation: cr-marquee var(--dur) linear infinite;
+  animation-direction: var(--dir);
+}
+.cr-marquee:hover {
+  animation-play-state: paused;
+}
+@keyframes cr-marquee {
+  to { transform: translateX(-50%); }
+}
+
+.cr-deck {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 210px;
+  height: 270px;
+  flex: none;
+  padding: 1.2rem;
+  border-radius: 26px;
+  box-shadow: 0 0 0 4px var(--cr-ink), 0 0 0 9px #fff, 0 22px 40px rgba(0, 0, 0, 0.45);
+  transform: rotate(var(--tilt));
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  margin: 10px 4px;
+}
+.cr-deck:hover {
+  transform: rotate(0deg) translateY(-10px) scale(1.05);
+  z-index: 2;
+}
+.cr-deck-emoji {
+  font-size: 2.6rem;
+  line-height: 1;
+  filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.18));
+}
+.cr-deck-peek {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  max-width: 55%;
+  padding: 0.3rem 0.6rem;
+  border-radius: 10px;
+  background: #fff;
+  font-weight: 800;
+  font-size: 0.75rem;
+  transform: rotate(6deg);
+  opacity: 0;
+  transition: opacity 0.25s, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.cr-deck:hover .cr-deck-peek {
+  opacity: 1;
+  transform: rotate(3deg) translateY(-4px);
+}
+
+/* ---- modes, tiles ------------------------------------------------------ */
+
+.cr-mode,
+.cr-tile {
+  padding: 1.5rem;
+  border-radius: 28px;
+  background: var(--cr-surface);
+  border: 1px solid var(--cr-line);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s;
+}
+.cr-mode:hover,
+.cr-tile:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+.cr-mode-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 10;
+  border-radius: 20px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15), 0 16px 30px rgba(0, 0, 0, 0.35);
+}
+.cr-tile-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  box-shadow: 0 0 0 3px var(--cr-ink), 0 0 0 6px rgba(255, 255, 255, 0.9);
+}
+
+/* ---- AI decks ---------------------------------------------------------- */
+
+.cr-ai-glow {
+  background: radial-gradient(45% 55% at 75% 50%, rgba(0, 194, 178, 0.18), transparent 70%);
+}
+.cr-chat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.25rem;
+  border-radius: 30px;
+  background: var(--cr-surface);
+  border: 1px solid var(--cr-line);
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.8);
+}
+.cr-bubble {
+  max-width: 88%;
+  padding: 0.85rem 1rem;
+  border-radius: 22px;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+.cr-bubble-me {
+  align-self: flex-end;
+  background: var(--cr-blue);
+  color: #fff;
+  border-bottom-right-radius: 6px;
+}
+.cr-bubble-ai {
+  align-self: flex-start;
+  background: var(--cr-raised);
+  border-bottom-left-radius: 6px;
+}
+
+/* ---- privacy, repo ----------------------------------------------------- */
+
+.cr-privacy {
+  padding: clamp(2.5rem, 6vw, 4.5rem) 1.5rem;
+  border-radius: 40px;
+  background:
+    radial-gradient(60% 80% at 50% 0%, rgba(46, 232, 111, 0.14), transparent 70%),
+    var(--cr-surface);
+  border: 1px solid var(--cr-line);
+}
+.cr-repo {
+  display: block;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border-radius: 32px;
+  background: linear-gradient(135deg, rgba(155, 92, 255, 0.18), rgba(255, 61, 139, 0.08) 50%, transparent), var(--cr-surface);
+  border: 1px solid var(--cr-line);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s;
+}
+.cr-repo:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* ---- prose (privacy policy, deck page) --------------------------------- */
+
+.cr-prose h2 {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.6rem;
+  letter-spacing: -0.02em;
+  margin-top: 2.5rem;
+  color: #fff;
+}
+.cr-prose p,
+.cr-prose li {
+  color: rgba(255, 255, 255, 0.68);
+  line-height: 1.7;
+  margin-top: 0.75rem;
+}
+.cr-prose ul {
+  list-style: none;
+  padding: 0;
+}
+.cr-prose li {
+  padding-left: 1.4rem;
+  position: relative;
+}
+.cr-prose li::before {
+  content: '';
+  position: absolute;
+  left: 0.2rem;
+  top: 0.7em;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 3px;
+  background: var(--cr-yellow);
+  transform: rotate(12deg);
+}
+.cr-prose strong {
+  color: #fff;
+}
+.cr-prose a {
+  color: var(--cr-yellow);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: rgba(255, 229, 0, 0.35);
+}
+
+.cr-code {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ---- Dex, the flat sticker -------------------------------------------- */
+
+.dex-bob {
+  animation: dex-bob 1.7s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+.dex-blink {
+  animation: dex-blink 4.2s infinite;
+}
+.dex-card {
+  animation: dex-card 4.6s infinite;
+}
+@keyframes dex-bob {
+  0%, 100% { transform: translateY(0) scale(1.03, 0.97); }
+  50% { transform: translateY(-6%) scale(0.985, 1.015); }
+}
+@keyframes dex-blink {
+  0%, 94%, 100% { transform: scaleY(1); }
+  96% { transform: scaleY(0.1); }
+}
+@keyframes dex-card {
+  0%, 84%, 100% { transform: rotate(0); }
+  87% { transform: rotate(7deg); }
+  90% { transform: rotate(-5deg); }
+  93% { transform: rotate(3deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .charades *,
+  .charades *::before,
+  .charades *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .cr-shout {
+    display: none;
+  }
+}

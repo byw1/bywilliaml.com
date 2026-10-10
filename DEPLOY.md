@@ -7,7 +7,7 @@ Production runs on [Railway](https://railway.com). This file describes that setu
 - **Source**: GitHub repo `byw1/bywilliaml.com`, branch `main`. Every push to `main` triggers a build and deploy automatically.
 - **Builder**: Railpack (Railway's auto-detection — no Dockerfile, no `railway.json`). It resolves Node from its current default (22.x today), runs `npm install`, then `npm run build`, and starts the app with `npm run start`.
 - **Port**: Railway injects `PORT`; `next start` reads it. Don't hardcode a port anywhere.
-- **Environment variables**: none were needed until the booking system landed. `/meet` and `/admin` need a Postgres service and the variables listed in `SCHEDULING.md`; everything else still runs without them. Set them on the `bywilliaml.com` service, and reference the database as `${{Postgres.DATABASE_URL}}` so it resolves over the private network.
+- **Environment variables**: none were needed until the booking system landed. `/meet` and `/admin` need a Postgres service and the variables listed in `SCHEDULING.md`; everything else still runs without them. `/date` emails each answer through Resend with `RESEND_API_KEY` (a send-only key for the verified `hired.tools` domain), `DATE_NOTIFY_EMAIL` (where it goes) and `DATE_EMAIL_FROM`, and also saves it to the `date_requests` table when the database is configured. Set them on the `bywilliaml.com` service, and reference the database as `${{Postgres.DATABASE_URL}}` so it resolves over the private network.
 - **Domains**: `bywilliaml.com` (custom, CNAME → Railway) plus the generated `*.up.railway.app` hostname. Certificates are automatic.
 
 ## Things the config actually does

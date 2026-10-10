@@ -820,7 +820,7 @@ function Agreement({ answers, noCount, note, onNext }: { answers: Answers; noCou
           >
             <span className="block h-12">
               {signed ? (
-                <span className="date-sign block text-[34px] leading-[48px] text-[#2b1720]" style={{ fontFamily: "'Caveat', cursive" }}>
+                <span className="date-sign block truncate whitespace-nowrap text-[34px] leading-[48px] text-[#2b1720]" style={{ fontFamily: "'Caveat', cursive" }}>
                   {name}
                 </span>
               ) : (

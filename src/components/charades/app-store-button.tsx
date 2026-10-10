@@ -8,7 +8,10 @@ function AppleMark() {
   )
 }
 
-/** A real App Store link once the listing is live, an honest "coming soon" until then. */
+/** The public TestFlight link. Anyone with an iPhone can join until the listing is live. */
+const BETA_URL = 'https://testflight.apple.com/join/vkRTAMK8'
+
+/** A real App Store link once the listing is live, the TestFlight beta until then. */
 export function AppStoreButton() {
   if (APP_STORE_URL) {
     return (
@@ -19,9 +22,9 @@ export function AppStoreButton() {
     )
   }
   return (
-    <span className="cr-btn cr-btn-primary cursor-default" aria-label="Coming soon to the App Store">
+    <a href={BETA_URL} target="_blank" rel="noreferrer" className="cr-btn cr-btn-primary">
       <AppleMark />
-      Coming soon to iPhone
-    </span>
+      Join the iPhone beta
+    </a>
   )
 }

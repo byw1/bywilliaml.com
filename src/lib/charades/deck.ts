@@ -1,7 +1,7 @@
 /**
  * Charades deck format, for the web deck maker.
  *
- * Mirrors the app's own rules (byw1/Deckhead: src/decks/types.ts, validate.ts
+ * Mirrors the app's own rules (byw1/charades: src/decks/types.ts, validate.ts
  * and share.ts) so a deck made here imports cleanly on the phone. Everything
  * runs in the browser: nothing typed into the deck maker is sent anywhere.
  *

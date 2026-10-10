@@ -22,7 +22,7 @@ const AT_A_GLANCE = [
 
 /**
  * The App Store privacy policy for Charades: Make Your Own Decks. Kept in
- * step with PRIVACY.md in byw1/Deckhead; change both together.
+ * step with PRIVACY.md in byw1/charades; change both together.
  */
 export default function CharadesPrivacyPage() {
   return (
@@ -112,8 +112,8 @@ export default function CharadesPrivacyPage() {
 
           <h2>Contact</h2>
           <p>
-            Questions: open an issue at <a href={ISSUES_URL}>github.com/byw1/Deckhead/issues</a>. The app&apos;s
-            source code is public at <a href={GITHUB_URL}>github.com/byw1/Deckhead</a>, so anyone can check
+            Questions: open an issue at <a href={ISSUES_URL}>github.com/byw1/charades/issues</a>. The app&apos;s
+            source code is public at <a href={GITHUB_URL}>github.com/byw1/charades</a>, so anyone can check
             all of the above.
           </p>
         </div>

@@ -71,7 +71,7 @@ export function Footer() {
         </div>
       </div>
       <p className="mx-auto mt-10 max-w-6xl text-xs text-white/30">
-        © 2026 William L. Charades: Make Your Own Decks is an independent app and isn&apos;t affiliated
+        © 2026 William Lee. Charades: Make Your Own Decks is an independent app and isn&apos;t affiliated
         with any theme park or other party game.
       </p>
     </footer>

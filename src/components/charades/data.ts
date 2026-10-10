@@ -1,10 +1,10 @@
 /**
  * Shared facts for the Charades pages. Deck names, colours and sample cards
- * come straight from the app's bundled decks (byw1/Deckhead: assets/decks).
+ * come straight from the app's bundled decks (byw1/charades: assets/decks).
  */
 
-export const GITHUB_URL = 'https://github.com/byw1/Deckhead'
-export const ISSUES_URL = 'https://github.com/byw1/Deckhead/issues'
+export const GITHUB_URL = 'https://github.com/byw1/charades'
+export const ISSUES_URL = 'https://github.com/byw1/charades/issues'
 /** Set once the listing is live; until then the button reads "Coming soon". */
 export const APP_STORE_URL: string | null = null
 export const SKILL_ZIP = '/charades/charades-deck-maker.zip'

@@ -5,7 +5,7 @@ export type DexMood = 'happy' | 'excited' | 'wow'
 
 /**
  * Dex as a flat sticker, drawn from the same geometry as the app's mascot
- * (byw1/Deckhead: src/ui/Mascot.tsx). Used where the 3D Dex would be too
+ * (byw1/charades: src/ui/Mascot.tsx). Used where the 3D Dex would be too
  * much: the nav, fallbacks, reduced motion, small inline moments.
  */
 export function DexSticker({

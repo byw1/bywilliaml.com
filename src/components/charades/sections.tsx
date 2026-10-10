@@ -281,7 +281,7 @@ export function OpenSource() {
               <GithubMark size={30} />
             </span>
             <div>
-              <p className="text-sm font-semibold text-white/50">byw1 / Deckhead</p>
+              <p className="text-sm font-semibold text-white/50">byw1 / charades</p>
               <p className="cr-display text-2xl tracking-[-0.02em] sm:text-3xl">The whole app is open source.</p>
             </div>
           </div>

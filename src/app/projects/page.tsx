@@ -21,6 +21,18 @@ const PROJECTS: Project[] = [
   },
   {
     rank: 2,
+    name: 'Imposter',
+    href: '/imposter',
+    status: 'soon',
+    statusLabel: 'iPhone · soon',
+    tagline:
+      'The party game where everyone knows the secret word, except one of you. Offline, no ads, no accounts.',
+    accent: ['#FF4560', '#C8FF2E'],
+    icon: '/projects/imposter.png',
+    tags: ['iOS', 'offline'],
+  },
+  {
+    rank: 3,
     name: 'Hired',
     href: 'https://hired.tools',
     status: 'live',
@@ -31,7 +43,7 @@ const PROJECTS: Project[] = [
     tags: ['web', 'self-host'],
   },
   {
-    rank: 3,
+    rank: 4,
     name: 'Comms',
     href: 'https://comms.support',
     status: 'live',
@@ -42,7 +54,7 @@ const PROJECTS: Project[] = [
     tags: ['web', 'open source'],
   },
   {
-    rank: 4,
+    rank: 5,
     name: 'strats.info',
     status: 'building',
     tagline: 'In the works.',

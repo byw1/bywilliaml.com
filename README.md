@@ -13,6 +13,7 @@ It's open source under the [MIT license](LICENSE): fork it, gut the content, and
 - **`/projects-test`** — 3-D tilt project cards with a pointer-tracked glare, staggered entrances, and a live/building status that turns a card into a real link when the project ships.
 - **`/projects`** — side projects, behind the homepage's Projects card. Charades leads, with the in-progress domains below it. `/builds` 301s here.
 - **`/charades`** — the landing page for Charades: Make Your Own Decks (the iPhone party game, source at [byw1/Deckhead](https://github.com/byw1/Deckhead)). A 3-D Dex built from three.js primitives with real deck cards floating around him, a playable tilt demo, the deck wall and the app's own type and colours. `/charades/privacy` is the App Store privacy policy, and `/charades/decks` hands out the Claude skill and runs a deck maker that turns any AI's JSON into a QR code and a `.charades` file, entirely in the browser.
+- **`/imposter`** — the landing page for Imposter, Charades' sibling (the hidden-word party game, source at [byw1/imposter](https://github.com/byw1/imposter)). Shade, the red sticker mascot drawn from the app's own face data, a playable pass-the-phone round (peek, clues, vote, the steal), the topic wall and the app's lime/red/blue palette. `/imposter/privacy` is the App Store privacy policy.
 - **`/blackjack`** — a complete single-deck blackjack game (dealer AI, betting, confetti). It used to sit behind the "Projects" card and still lives at its own URL.
 - **`404`** — a playable emoji slot machine with coins, a bet slider, and a jackpot screen flash. Try any bad URL.
 - **`/birthday`** — a party invite on a physics lanyard you can grab and fling across the whole screen (three.js, Rapier), with confetti drifting behind the page. The scene is a fixed backdrop that takes no pointer events of its own, so the badge is never boxed into a column and every link on top of it still works; it reads pointer events from the page element instead. Opens on the same signature intro as the homepage, then an RSVP form and a live guest wall. The card face and the strap webbing are drawn into 2-D canvases at runtime from the event details, so there is no artwork to keep in sync. Names, notes and plus-ones go on the wall; phone numbers and email addresses never leave the server. Noindexed — it's for people with the link.
@@ -52,6 +53,8 @@ All content is plain TypeScript data at the top of each page — there's no CMS 
 | `src/app/projects-test/page.tsx` | Projects (rank, status, accent colors, links) |
 | `src/app/projects/page.tsx` | The projects list behind the homepage card |
 | `src/components/charades/data.ts` | Charades links (GitHub, App Store once live), deck names and sample cards |
+| `src/components/imposter/data.ts` | Imposter links (GitHub, App Store or TestFlight once there is one), topic names and sample words |
+| `src/app/imposter/privacy/page.tsx` | The Imposter privacy policy; keep it in step with `PRIVACY.md` in byw1/imposter |
 | `src/app/charades/privacy/page.tsx` | The Charades privacy policy; keep it in step with `PRIVACY.md` in byw1/Deckhead |
 | `public/charades/charades-deck-maker.zip` | The Claude skill, zipped from `skill/charades-deck-maker` in byw1/Deckhead |
 | `src/app/youtube-channels/page.tsx` | The channel list (avatars live in `public/youtube/`) |

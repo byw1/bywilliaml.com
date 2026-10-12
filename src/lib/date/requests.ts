@@ -32,7 +32,7 @@ async function email(input: DateRequest): Promise<void> {
   const key = process.env.RESEND_API_KEY;
   if (!key) throw new Error("RESEND_API_KEY is not set");
   const to = process.env.DATE_NOTIFY_EMAIL ?? "william@bywilliaml.com";
-  const from = process.env.DATE_EMAIL_FROM ?? "bywilliaml.com <date@hired.tools>";
+  const from = process.env.DATE_EMAIL_FROM ?? "William <date@bywilliaml.com>";
 
   const rows: [string, string][] = [
     ["Name", input.name],

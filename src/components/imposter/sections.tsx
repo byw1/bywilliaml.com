@@ -18,11 +18,11 @@ export function SectionHead({ kicker, title, children }: { kicker: string; title
 /* ------------------------------------------------------------ the round -- */
 
 const STEPS = [
-  { title: 'Set up once', body: 'Add everyone in the order you’re sitting. Pick topics and house rules.', color: palette.purple },
-  { title: 'Pass and peek', body: 'Each player holds to see their card: the word, or “Imposter”. Let go and it’s face down.', color: palette.teal },
-  { title: 'Clues', body: 'The phone sits in the middle and calls each player in turn: “Maya, one word.”', color: palette.yellow },
-  { title: 'Talk it out', body: 'A quiet timer and a nudge now and then: “Who was too vague?” +30 seconds if it’s getting good.', color: palette.orange },
-  { title: 'Vote', body: 'Everyone points on 3, 2, 1, or a secret vote counted out one dot at a time. Ties revote.', color: palette.indigo },
+  { title: 'Start in one tap', body: 'Pick how many are playing and hit Start: you’re Player 1, 2, 3. Add names if you like; they’re saved.', color: palette.purple },
+  { title: 'Pass and peek', body: 'Hold to see your card: the word, or “Imposter”. Let go and it’s face down, already showing the next name.', color: palette.teal },
+  { title: 'Clues', body: 'The phone goes in the middle: “Maya starts.” Go round the table, one word each, out loud.', color: palette.yellow },
+  { title: 'Talk it out', body: 'Who was too vague? Who copied? Argue it out. A timer is one tap away if your table likes pressure.', color: palette.orange },
+  { title: 'Vote', body: 'The phone counts you in: 3, 2, 1, Point! Or a secret vote, counted out one dot at a time. Ties revote.', color: palette.indigo },
   { title: 'Reveal', body: 'Drumroll. Shade trembles. The censor bar slides off: in, or the imposter.', color: palette.magenta },
   { title: 'The steal', body: 'A caught imposter picks the word from a handful in the same topic. Right, and they steal the win.', color: palette.red },
   { title: 'Verdict', body: 'Blue for “Caught!”, Shade’s red for “Got away”. Then the word, who scored, and tonight’s table.', color: palette.blue },
@@ -177,11 +177,11 @@ export function FairPlay() {
 
 const FEATURES = [
   { icon: WifiOff, title: 'Works with no signal', body: 'Nothing to download after install. No Wi-Fi needed, ever.', color: palette.blue, span: 'md:col-span-2' },
-  { icon: Users, title: '3 to 12 players', body: 'One phone, passed round. Friends and family.', color: palette.purple, span: '' },
+  { icon: Users, title: '3 to 12 players', body: 'One phone, passed round. No names needed to start.', color: palette.purple, span: '' },
   { icon: PenLine, title: 'Your own topics', body: 'Paste a list from anywhere.', color: palette.yellow, span: '' },
   { icon: Trophy, title: 'Bragging rights', body: 'Tonight’s table after every round, and all-time: best liar, best detective, word thief.', color: palette.orange, span: 'md:col-span-2' },
   { icon: RotateCcw, title: 'Resume anything', body: 'Close it mid-vote. It picks up on the same screen.', color: palette.teal, span: '' },
-  { icon: Timer, title: 'Talk timer', body: 'Off to 3 minutes, and +30 seconds when it’s good.', color: palette.magenta, span: '' },
+  { icon: Timer, title: 'Talk timer', body: 'Optional, 1 to 3 minutes. Start it with a tap.', color: palette.magenta, span: '' },
   { icon: Dices, title: 'Random start seat', body: 'A different player goes first every round.', color: palette.lime, span: '' },
   { icon: Moon, title: 'Day or night', body: 'Dark and light themes, and reduced motion respected.', color: palette.indigo, span: '' },
 ]

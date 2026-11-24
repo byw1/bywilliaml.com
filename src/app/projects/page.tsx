@@ -9,6 +9,39 @@ import { ProjectCard, ProjectCardPlaceholder, type Project } from '@/components/
 const PROJECTS: Project[] = [
   {
     rank: 1,
+    name: 'Hired',
+    href: 'https://hired.tools',
+    status: 'live',
+    tagline:
+      'The ATS for applicants. Theirs keeps a record on you; this one keeps the record on them.',
+    accent: ['#e4e4e7', '#71717a'],
+    icon: '/projects/hired.png',
+    tags: ['web', 'self-host'],
+  },
+  {
+    rank: 2,
+    name: 'Recruited',
+    href: 'https://recruited.tools',
+    status: 'live',
+    tagline:
+      'Post one role to every job board, split-test it, and see which brings people worth hiring.',
+    accent: ['#e7dcc8', '#b08d57'],
+    icon: '/projects/recruited.png',
+    tags: ['web', 'open source'],
+  },
+  {
+    rank: 3,
+    name: 'Comms',
+    href: 'https://comms.support',
+    status: 'live',
+    tagline:
+      'A shared team inbox for iMessage, with a help desk built in — tickets, macros, replying together.',
+    accent: ['#60a5fa', '#818cf8'],
+    icon: '/projects/comms.png',
+    tags: ['web', 'open source'],
+  },
+  {
+    rank: 4,
     name: 'Charades',
     href: '/charades',
     status: 'soon',
@@ -20,7 +53,7 @@ const PROJECTS: Project[] = [
     tags: ['iOS', 'open source'],
   },
   {
-    rank: 2,
+    rank: 5,
     name: 'Imposter',
     href: '/imposter',
     status: 'soon',
@@ -30,35 +63,6 @@ const PROJECTS: Project[] = [
     accent: ['#FF4560', '#C8FF2E'],
     icon: '/projects/imposter.png',
     tags: ['iOS', 'offline'],
-  },
-  {
-    rank: 3,
-    name: 'Hired',
-    href: 'https://hired.tools',
-    status: 'live',
-    tagline:
-      'The ATS for applicants. Theirs keeps a record on you; this one keeps the record on them.',
-    accent: ['#e4e4e7', '#71717a'],
-    icon: '/projects/hired.png',
-    tags: ['web', 'self-host'],
-  },
-  {
-    rank: 4,
-    name: 'Comms',
-    href: 'https://comms.support',
-    status: 'live',
-    tagline:
-      'A shared team inbox for iMessage, with a help desk built in — tickets, macros, replying together.',
-    accent: ['#60a5fa', '#818cf8'],
-    icon: '/projects/comms.png',
-    tags: ['web', 'open source'],
-  },
-  {
-    rank: 5,
-    name: 'strats.info',
-    status: 'building',
-    tagline: 'In the works.',
-    accent: ['#8b5cf6', '#6366f1'],
   },
 ]
 

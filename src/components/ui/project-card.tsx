@@ -7,7 +7,7 @@ import { ArrowUpRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export interface Project {
-  /** Display order. 1 is the headline project. */
+  /** Display order. 1 is the headline project. Not shown on the card. */
   rank: number
   /** Product name or domain, used as the card's wordmark. */
   name: string
@@ -18,7 +18,7 @@ export interface Project {
   status: 'live' | 'building' | 'soon'
   /** Short label overriding the default status pill text, e.g. "iPhone · soon". */
   statusLabel?: string
-  /** [from, to] accent stops for the glow, border light and numeral. */
+  /** [from, to] accent stops for the glow and border light. */
   accent: [string, string]
   /** Square app icon. Falls back to a monogram. */
   icon?: string
@@ -147,17 +147,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
 
       {/* Content, layered at depth */}
       <div className="relative flex h-full flex-col p-6 sm:p-7" style={{ transformStyle: 'preserve-3d' }}>
-        <div className="flex items-start justify-between" style={{ transform: 'translateZ(30px)' }}>
-          <span
-            className="text-sm font-semibold tabular-nums"
-            style={{
-              background: `linear-gradient(135deg, ${from}, ${to})`,
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            {String(project.rank).padStart(2, '0')}
-          </span>
+        <div className="flex items-start justify-end" style={{ transform: 'translateZ(30px)' }}>
           <span
             className={cn(
               'rounded-full border px-2.5 py-1 text-[10px] uppercase tracking-widest backdrop-blur-sm',
